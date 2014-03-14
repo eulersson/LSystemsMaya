@@ -14,4 +14,4 @@ You will be asked to point the location where all the scripts are. You should se
 ##Usage
 Yet to be written.
 
-Ramon Blanquer @ NCCA (C)
+*Ramon Blanquer (NCCA) ®*
