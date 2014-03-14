@@ -1,11 +1,24 @@
 #!/usr/bin/env python
-# DISCLAIMER: I took the idea of asking the paths where the python files are through a GUI in Maya
-# from Jared Auty, a previous student at the NCCA.
-'''
-   Start up Script
+
+''' DISCLAIMER: This startScript.py file is adapted from Jared Auty's scripting project "L-System Plant Generator". All the
+    copyrights belongs him, just on this file, of course.
+	 
+	 You can access his source code here: 
+
+                    https://docs.google.com/file/d/0B75Ij6W0fkuidkxhY1ozanFzVEU/
+
+   I recommend checking Jared Auty's webpage (jaredauty.com), he has been working in many
+   interesting projects.
+
+	// 
+
+   Start Up Script   <startScript.py>
 
 Select everything and paste it into a new maya python scripting window. Then run it and follow the instructions
 '''
+
+import maya.cmds as cmds
+
 
 class findPathWindow:
    '''
@@ -23,7 +36,7 @@ class findPathWindow:
      self.loadDirWin = cmds.window(title='L-System Interpreter', sizeable=False)
      self.loadDirForm = cmds.formLayout(numberOfDivisions=100)
      self.loadDirColumns = cmds.columnLayout(parent=self.loadDirForm, adjustableColumn=True, rowSpacing=5)
-     self.loadDirText = cmds.text(parent=self.loadDirColumns, font='boldLabelFont', label='Welcome to Ramon\'s L-Sytstem Interpreter\n\nTo start using the script simply browse to the directory containing the modules and then press \'Continue\'\n\n|\n|\nv')
+     self.loadDirText = cmds.text(parent=self.loadDirColumns, font='boldLabelFont', label='Welcome to Ramon\'s L-System Interpreter\n\nTo start using the script simply browse to the directory containing the modules and then press \'Continue\'\n\n|\n|\nv')
      self.loadDirPath = cmds.textField(parent = self.loadDirColumns)
      self.loadDirBrowse= cmds.button(parent = self.loadDirColumns, label='Browse', command=self.openFile)
      self.loadDirLoad = cmds.button(parent = self.loadDirColumns, label ='Continue', command=self.appendPath)
@@ -55,7 +68,7 @@ class findPathWindow:
       This function closes the window and starts up the main GUI. This is run when the Continue button is pressed.
       '''
       cmds.deleteUI(self.loadDirWin, window=True)  #close window
-      startUI(self.fileName)  #start UI
+      gui.createUI()  #start UI
 
 
 class errorWindow:
@@ -97,7 +110,6 @@ try:  #try to import all the modules and then start the UI
    reload(LS_interpreter)
    import gui
    reload(gui)
-
    gui.createUI()
 except:  #if the above fails create an instance of the findPathWindow to try to find the modules
    import sys

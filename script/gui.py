@@ -3,6 +3,8 @@
    GUI module
 '''
 
+import maya.cmds as cmds
+
 __author__ = "Ramon Blanquer Ruiz"
 __license__ = "GPL"
 __version__ = "1.0.0"
