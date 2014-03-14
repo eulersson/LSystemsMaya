@@ -3,8 +3,8 @@ LSystemsMaya
 
 Basic L-System rewriting with geometric interpretation in Maya.
 
-#Installation
+##Installation
 Yet to be written.
 
-#Usage
+##Usage
 Yet to be written.
