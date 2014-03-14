@@ -4,6 +4,9 @@
 '''
 
 import maya.cmds as cmds
+from LS_string_rewriting import *
+from LS_interpreter import *
+
 
 __author__ = "Ramon Blanquer Ruiz"
 __license__ = "GPL"

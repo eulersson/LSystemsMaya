@@ -2,6 +2,14 @@
 '''
     L-System String Rewriting Module:    "LS_string_rewriting.py"
 '''
+
+import maya.cmds as cmds
+import random
+import math
+import copy
+import LS_interpreter
+reload(LS_interpreter)
+
 def writeLS(pW, pP, pDepth, replacingDone):
 
     """ Iterates through the string. It will create a global string variable called "result" which is a

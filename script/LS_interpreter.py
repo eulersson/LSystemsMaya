@@ -2,6 +2,14 @@
 '''
     L-System Geometric Interpretation Module:    "LS_interpreter.py"
 '''
+
+import maya.cmds as cmds
+import random
+import math
+import copy
+import LS_string_rewriting
+reload(LS_string_rewriting)
+
 def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, atenuation, indexBranch):
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
 
