@@ -8,3 +8,5 @@ Yet to be written.
 
 ##Usage
 Yet to be written.
+
+Ramon Blanquer @ NCCA (C)
