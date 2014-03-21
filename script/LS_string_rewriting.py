@@ -36,12 +36,11 @@ def writeLS(pW, pP, pDepth):
 
         For example:
             >>> W = 'F'                            # The initial word. It is properly called Axiom
-            >>> pPNum = 1                          # We will have just one production rule
             >>> P = [100, 'F', 'F[+F]F[-F]F']      # Means: ALWAYS when you find 'F', replace it with ~
             >>> depth = 1                          # Depth of the procedure, number of iterations
-            >>> variable1 = writeLS(W, pPNum, P, depth) 
+            >>> string = writeLS(W, pPNum, P, depth) 
                                                    # Binds the return value to a variable...
-            >>> print variable1                    # ... which now is printed
+            >>> print string                       # ... which now is printed
             F[+F]F[-F]F
             >>>
 
@@ -50,57 +49,65 @@ def writeLS(pW, pP, pDepth):
 
         If the depth increases we carry the recursion one step further:
             >>> W = 'F'
-            >>> pPNum = 1
             >>> P = [100, 'F', 'F[+F]F[-F]F']
             >>> depth = 2
-            >>> variable2 = writeLS(W, pPNum, P, depth)
-            >>> print variable2
+            >>> string = writeLS(W, pPNum, P, depth)
+            >>> print string
             F[+F]F[-F]F[+F[+F]F[-F]F]F[+F]F[-F]F[-F[+F]F[-F]F]F[+F]F[-F]F
             >>>
 
         This last example would be the same as we run writeLS(variable1, pPNum, P, depth), that is to say,
         it is the same as running again the procedure over the generated string in the previous example.
+
+        This script also accepts more than one rule. Let's see an example if we had 2 rules.
+            >>> W = 'F+X-FF'
+            >>> P = [[100, 'F', 'ff'], [100, 'X', 'xx']]
+            >>> depth = 1
+            >>> string = writeLS(W, pPNum, P, depth)
+            >>> print string
+            ff+xx-ffff
+            >>>
+
+        The way I worked out the probabilities is quite odd. We know a rule is specified X --> YY,
+        so what I did is I appended in a list the right hand side of the rule TIMED by the
+        percentage number the user wrote. For instance if we had [70, 'X', 'YY'] (70% chance for X
+        to be replaced with YY) and [30, 'X', 'ZZ'] (30% chance for X to be replaced with ZZ),
+        I collect in the "choiceList" a bunch of 'ZZ' items and 'YY' items. In this particular case I
+        would have seventy 'YY's and thirty 'ZZ's. Now If I pick an random value between 0-100 I
+        can access randomly an element in this list. So as we have many more 'YY's we will have
+        more possibility to pick one. The bad things of this method are two:
+
+            - Performancewise it takes quite a lot of memory.
+            - I cannot work with floating point values given that array index must be integers. I
+            could get more precise results if I make the list instead of being 100 items long, 1000.
     '''
+
     if pDepth == 0:
         return pW
 
     else:
         tempList = ''
-        coincidence = []
-        for i in range(0, len(pW)):    # Search for coincidences in the string
+        for i in range(0, len(pW)): # Search for coincidences in the string
+            coincidence = []
             for j in range(0, len(pP)):
-                if pW[i] == pP[j]:
-                    coincidence.append([i,j])    # Appends the index of the string in which the rule applies and the rule index
+                if pW[i] == pP[j][1]: # IF the current letter matches any of the rule cases...
+                    coincidence.append([i,j]) # Appends the index of the string in which the rule
+                                              # satisfies and the rule index
 
-            if len(coincidence) == 0:    # If coincidence is empty
-                pass
-            elif len(coincidence) == 1:
-                pW.replace(coincidence[0][0],pP[coincidence[0][1])
+            if len(coincidence) == 0: # IF coincidence is empty
+                tempList += pW[i] # Just add the current character
+            elif len(coincidence) == 1: # ELSE IF it finds just one coincidence
+                tempList += pP[coincidence[0][1]][2] # Add the right hand side content of the rule.
             else:
-                tempList += pW[:coincidence[0][0]] # Add tp the temp list what we have before the 1st coincidence
+            #--- Working out the probabilities ---#
                 choiceList = []
                 for item in coincidence:
-                    choiceList.append(int(pP[0])*[pP[j][1],pP[j][2]])
-                pickedRule = random.choice(choiceList)
-                tempList += pickedRule[1]
+                    choiceList.append(int(pP[item[j]][0]) * [pP[item[j]][2]])
+                flattenedList = [] # As we get a multidimensional array I must flatten it to 1D in
+                                   # order to pick an item just using one single index
+                for item in choiceList:
+                    flattenedList.extend(item)
+                randomIndex = random.randint(0, len(flattenedList))
+                tempList += flattenedList[randomIndex]
         pW = tempList
-        return writeLS(pW, pP, pDepth-1)
-
-
-'''
-    if pDepth == 0:
-        return pW
-    else:
-        tempList = ''
-        for i in range(0,len(pW)):
-            for j in range(0,len(pP)):
-                if pW[i] == pP[j][1]:
-                    tempList += pP[j][2]
-                    replacingDone = True
-                    break
-            if replacingDone == False:
-                tempList += pW[i]
-            replacingDone = False
-        pW = tempList
-        return 'writeLS(pW, pPNum, pP, pDepth-1, replacingDone)'
-'''
+        return writeLS(pW, pP, pDepth-1) # Recursive call
