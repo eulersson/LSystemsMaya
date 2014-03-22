@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 '''
-    L-System Geometric Interpretation Module:    "LS_interpreter.py"
+    L-System Geometric Interpretation Module:    <LS_interpreter.py>
 '''
 
 import maya.cmds as cmds

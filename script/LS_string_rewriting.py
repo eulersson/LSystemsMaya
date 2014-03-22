@@ -38,7 +38,7 @@ def writeLS(pW, pP, pDepth):
             >>> W = 'F'                            # The initial word. It is properly called Axiom
             >>> P = [100, 'F', 'F[+F]F[-F]F']      # Means: ALWAYS when you find 'F', replace it with ~
             >>> depth = 1                          # Depth of the procedure, number of iterations
-            >>> string = writeLS(W, pPNum, P, depth) 
+            >>> string = writeLS(W, P, depth) 
                                                    # Binds the return value to a variable...
             >>> print string                       # ... which now is printed
             F[+F]F[-F]F
@@ -51,7 +51,7 @@ def writeLS(pW, pP, pDepth):
             >>> W = 'F'
             >>> P = [100, 'F', 'F[+F]F[-F]F']
             >>> depth = 2
-            >>> string = writeLS(W, pPNum, P, depth)
+            >>> string = writeLS(W, P, depth)
             >>> print string
             F[+F]F[-F]F[+F[+F]F[-F]F]F[+F]F[-F]F[-F[+F]F[-F]F]F[+F]F[-F]F
             >>>
@@ -63,7 +63,7 @@ def writeLS(pW, pP, pDepth):
             >>> W = 'F+X-FF'
             >>> P = [[100, 'F', 'ff'], [100, 'X', 'xx']]
             >>> depth = 1
-            >>> string = writeLS(W, pPNum, P, depth)
+            >>> string = writeLS(W, P, depth)
             >>> print string
             ff+xx-ffff
             >>>
