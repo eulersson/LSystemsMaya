@@ -7,7 +7,6 @@ import maya.cmds as cmds
 from LS_string_rewriting import *
 from LS_interpreter import *
 
-
 __author__ = "Ramon Blanquer Ruiz"
 __license__ = "GPL"
 __version__ = "1.0.0"
@@ -161,7 +160,7 @@ def createUI():
     cmds.separator(h=5, st='none')
 
     #--- GEOMETRIC INTERPRETATION LAYOUT ---#
-    mInterpret = cmds.frameLayout(label = "Geometric Interpretation", collapsable=True, cl=False, mw = 10, mh = 10)
+    mInterpret = cmds.frameLayout(label = "Geometric Interpretation", collapsable=True, cl=True, mw = 10, mh = 10)
  
         #--- Set of geometry parameters ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1,406)], parent=mInterpret)
@@ -169,7 +168,16 @@ def createUI():
     cmds.floatSliderGrp("length", l="Segment Length: ", pre=2, v=1.2, cw3=[92,40,788], min=0, max=10, fmx=100, f=True)
     cmds.floatSliderGrp("radius", l="Segment Radius: ", pre=2, v=0.2, cw3=[92,40,788], min=0, max=0.5, fmx=2, f=True)
     cmds.intSliderGrp("cylSubdivs", l="Cylinder Subdivs: ", v=8, cw3=[92,40,788], min=4, max=20, fmx=20, f=True)
-    cmds.floatSliderGrp("length_atenuation", l="length_atenuation: ", v=1, cw3=[92,40,788], min=0, max=1, fmx=1, f=True, pre=2, ann='This number will multiply the length of the next segment, recursively')
+    cmds.floatSliderGrp("length_atenuation", l="Length Atenuation: ", v=1, cw3=[92,40,788], min=0, max=1, fmx=1, f=True, pre=2, ann='This number will multiply the length of the next segment, recursively')
+    cmds.floatSliderGrp("radius_atenuation", l="Radius Atenuation: ", v=1, cw3=[92,40,788], min=0, max=1, fmx=1, f=True, pre=2, ann='This number will multiply the length of the next segment, recursively')
+
+    global rgb_branchField, rgb_leafField, rgb_branchField
+    cmds.colorSliderGrp('rgb_branchField', label='Branches', rgb=(0.43, 0.23, 0.11) )
+    cmds.colorSliderGrp('rgb_leafField', label='Leaves', rgb=(0, 1, 0) )
+    cmds.colorSliderGrp('rgb_blossomField',  label='Blossoms', rgb=(1, 0, 0) )
+
+    #cmds.floatSliderGrp("Radius Atenuation", l="radius_atenuation: ", v=1, cw3=[92,40,788], min=0, max=1, fmx=1, f=True, pre=2, ann='This number will multiply the length of the next segment, recursively')
+
 
         #--- Create Geometry / Clean Scene ---#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,196), (2,10), (3,196)], parent=mInterpret)
@@ -207,55 +215,64 @@ def createUI():
     # Show Window
     cmds.showWindow(window)
 
+#--- GENERATE STRING ---#
 def generateStringButtonAction(*pArgs):
     pAxiom = cmds.textField('axiomTextField', q=True, tx=True)
+
     pP = []
-
     pP.append([str(cmds.intField('prodRuleProb1', q=True, v=True)),str(cmds.textField('prodRulePred1', q=True, tx=True)),str(cmds.textField('prodRuleSucc1', q=True, tx=True))])
-
     if cmds.checkBox('prodRuleCheckBox2', q=True, value=True) == True:
         pP.append([str(cmds.intField('prodRuleProb2', q=True, v=True)),str(cmds.textField('prodRulePred2', q=True, tx=True)),str(cmds.textField('prodRuleSucc2', q=True, tx=True))])
-
     if cmds.checkBox('prodRuleCheckBox3', q=True, value=True) == True:
         pP.append([str(cmds.intField('prodRuleProb3', q=True, v=True)),str(cmds.textField('prodRulePred3', q=True, tx=True)),str(cmds.textField('prodRuleSucc3', q=True, tx=True))])
-    
     if cmds.checkBox('prodRuleCheckBox4', q=True, value=True) == True:
         pP.append([str(cmds.intField('prodRuleProb4', q=True, v=True)),str(cmds.textField('prodRulePred4', q=True, tx=True)),str(cmds.textField('prodRuleSucc4', q=True, tx=True))])
-    
+
     pDepth = cmds.intSliderGrp('depthIntField', q=True, v=True)
 
     global LStringVar
     LStringVar = writeLS(pAxiom, pP, pDepth)
-    
     cmds.textField('output', edit=True, tx=LStringVar)
 
+#--- CLEAR BUTTON ACTION ---#
 def clearStringButtonAction(*pArgs):
     cmds.textField('output', edit=True, tx='')
 
+#--- GENERATE GEOMETRY ACTION ---#
 def createGeometryButtonAction(*pArgs):
-
     pAngle = cmds.floatSliderGrp("angle", q=True, v=True)
     pStep = cmds.floatSliderGrp("length", q=True, v=True)
     pRad = cmds.floatSliderGrp("radius", q=True, v=True)
     subDivs = cmds.intSliderGrp("cylSubdivs", q=True, v=True)
-    length_atenuation = cmds.floatSliderGrp("length_atenuation", q=True, v=True)
-
+    length_atenuation = cmds.floatSliderGrp( "length_atenuation", q=True, v=True )
+    radius_atenuation = cmds.floatSliderGrp( "radius_atenuation", q=True, v=True )
+    rgb_blossom = cmds.colorSliderGrp( 'rgb_blossomField', q=True, rgb=True )
+    rgb_leaf = cmds.colorSliderGrp( 'rgb_leafField', q=True, rgb=True )
+    rgb_branch = cmds.colorSliderGrp( 'rgb_branchField', q=True, rgb=True )
     if pAngle == 0 or pStep == 0 or pRad == 0 or subDivs == 0 or LStringVar == '':
         cmds.textField('warningsTextField', edit=True, tx='Please, revise all the fields again')  
     else:
-        cmds.textField('warningsTextField', edit=True, tx='None.') 
-        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation)
+        cmds.textField('warningsTextField', edit=True, tx='None.')
+        createBranchShader(rgb_branch)
+        createLeafShader(rgb_leaf)
+        createBlossomShader(rgb_blossom)
+        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, rgb_blossom, rgb_leaf, rgb_branch)
 
+#--- CLEAN ACTION ---#
 def cleanSceneButtonAction(*pArgs):
-    cmds.select('segment*')
+    cmds.select('plant')
+    cmds.select(branchMat, add=True)
+    cmds.select(branchSG, add=True)
+    cmds.select(fractalMap, add=True)
+    cmds.select(placeTexture, add=True)
+    cmds.select(bumpUtility, add=True)
+    cmds.select(leafMat, add=True)
+    cmds.select(leafSG, add=True)
+    cmds.select(blossomMat, add=True)
+    cmds.select(blossomSG, add=True)
     cmds.delete()
 
+#--- NEW SCENE ---#
 def newScene( *pArgs ):
-    '''Clears the scene file.
-
-    On Exit  : returns an empty scene file
-       
-    '''
     cmds.file(f=True, new=True)
-    # END #
     return 

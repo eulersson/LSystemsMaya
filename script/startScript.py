@@ -109,6 +109,8 @@ try:    # Try to import all the modules and then start the UI
     reload(LS_interpreter)
     import gui
     reload(gui)
+    global plantNumber
+    plantNumber = 1
     gui.createUI()
 
 except:    # If the above fails create an instance of the findPathWindow to try to find the modules
