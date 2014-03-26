@@ -7,6 +7,7 @@ import maya.cmds as cmds
 import random
 import math
 import copy
+import time
 import LS_string_rewriting
 reload(LS_string_rewriting)
 
@@ -101,25 +102,25 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
     for i in range(0,len(LStringVar)):
         if LStringVar[i] == chr(43):     # chr(43) is +
             ROT.x += pAngle
-            ROT.x += (5*random.random())
+            #ROT.x += (5*random.random())
         elif LStringVar[i] == chr(45):   # chr(43) is -
             ROT.x -= pAngle
-            ROT.x += (5*random.random())
+            #ROT.x += (5*random.random())
         elif LStringVar[i] == chr(38):   # chr(38) is &
             ROT.z += pAngle
-            ROT.z += (5*random.random())
+            #ROT.z += (5*random.random())
         elif LStringVar[i] == chr(94):   # chr(94) is ^
             ROT.z -= pAngle
-            ROT.z += (5*random.random())
+            #ROT.z += (5*random.random())
         elif LStringVar[i] == chr(60):   # chr(47) is <
             ROT.y += pAngle
-            ROT.y += (5*random.random())
+            #ROT.y += (5*random.random())
         elif LStringVar[i] == chr(62):   # chr(92) is >
             ROT.y -= pAngle
-            ROT.y += (5*random.random())
+            #ROT.y += (5*random.random())
         elif LStringVar[i] == chr(124):  # chr(124) is |
             ROT.x += 180
-            ROT.x += (5*random.random())
+            #ROT.x += (5*random.random())
         elif LStringVar[i] == chr(91):   # chr(93) is [
             exec "storedPOS_%s = copy.copy(POS)" % (indexBranch)
             exec "storedROT_%s = copy.copy(ROT)" % (indexBranch)
@@ -134,4 +135,6 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             POS.y = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[1]
             POS.z = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[2]
             segment += 1
+            time.sleep(1)
+            cmds.refresh(force=True)
             # atenuation -= 0.05

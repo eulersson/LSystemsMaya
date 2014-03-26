@@ -69,7 +69,7 @@ def createUI():
     cmds.text(l='Rule 1: ', en=True)
     cmds.textField('prodRulePred1', en=True, tx='F', ann='Enter predecessor string for production rule 1')
     cmds.text(l='->', en=True)
-    cmds.textField('prodRuleSucc1', en=True, tx='F[&+F]F[->F][->F][&F]', ann='Enter successor string for production rule 1')
+    cmds.textField('prodRuleSucc1', en=True, tx='F[&+F]F[->F][&F]', ann='Enter successor string for production rule 1')
     cmds.intField('prodRuleProb1', minValue=0, maxValue=100, value=100, ann='Enter the probability (in percentage %) in which you want this rule to be executed')
     cmds.separator(st='none')
     cmds.separator(st='none')
