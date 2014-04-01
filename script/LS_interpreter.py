@@ -1,7 +1,35 @@
 #!/usr/bin/env python
 '''
     L-System Geometric Interpretation Module:    <LS_interpreter.py>
+
+    This module reads a string of characters and performs actions in function of what they are. This will follow the turtle
+    method as it's the best way to represent a bunch of characters as geometric objects, therefore characters are treated as
+    commands.
+    
+    The turtle can be considered as an object or instance which moves in the three-dimensional space according to the 
+    executed commands. I will write below the interpretation which is given to any of the possible characters we have
+    enerated in the previous string (the one generated in LS_string_rewriting).
+
+        F    Move forward
+        f    Move forward
+        L    Leaf
+        B    Blossom
+        +    Rotate +X (yaw right)
+        -    Rotate -X (yaw left)
+        ^    Rotate +Y (roll right)
+        &    Rotate -Y (roll left)
+        <    Rotate +Z (pitch down)
+        >    Rotate -Z (pitch up)
+        [    Push current turtle state on the stack
+        ]    Pop the current turtlestate from the stack
+
+        The rest of letters (AaCcDdEeGgHhIiJjKkMmNnOoPpQqRrSsTtUuVvXxYyZz) will be interpreted as move forward as well.
+    
+    The position and rotation are stored as parameters of the object instance, so that it is easily accessible. Both position
+    and rotation will be updated each time a character is read. 
 '''
+
+
 
 import maya.cmds as cmds
 import random
@@ -10,6 +38,7 @@ import copy
 import time
 import LS_string_rewriting
 reload(LS_string_rewriting)
+
 
 #--- SHADER AND MATERIALS DEFINITIONS ---#
 def createBranchShader(rgb_branch): # It creates a shading network for the branch material.
@@ -74,7 +103,7 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
     cmds.parent(branchGeo, 'plant')
     return cmds.polyEvaluate(v = True)
 
-def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, rgb_flowers, rgb_leaves, rgb_branch):
+def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed, rgb_flowers, rgb_leaves, rgb_branch):
     """ Translates the string into maya commands in order to generate the final LSystem plant.
     
     pStep :   Axiom, the initial state.
@@ -135,6 +164,6 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             POS.y = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[1]
             POS.z = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[2]
             segment += 1
-            time.sleep(1)
+            time.sleep(turtleSpeed)
             cmds.refresh(force=True)
             # atenuation -= 0.05

@@ -14,8 +14,18 @@
 
     Start Up Script    <startScript.py>
 
-Select everything and paste it into a new maya python scripting window.
-Then run it and follow the instructions.
+In order to get it running easily I suggest following these simple steps:
+
+        1. Copy all the text inside startScript.py and paste it to Maya's Script Editor, a window will pop up asking you 
+            to select the folder which the script files are. Hit accept.
+        2. Set an axiom (or initial word), depth and rules.
+        3. Click Generate String. Then you will see the result in the text field below. 
+        4. Set all the “Geometric Interpretation” attributes (Angle, Segment Length...). You will get a short explanation
+            in the Help line below when you put your mourse over the parameter.
+        5. Click Create Geometry. You will see the result in your scene. If you want to clean the last plant click Clean
+            Plant button. If you click Create Geometry again you will get another plant.
+        6. If you want you can set animation parameters under the tab Animation  Settings, they are self-explanatory.
+
 '''
 
 import maya.cmds as cmds
