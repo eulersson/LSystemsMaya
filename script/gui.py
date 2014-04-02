@@ -186,11 +186,11 @@ def createUI():
     cmds.floatSliderGrp( "radius", l="Segment Radius: ", pre=2, v=0.2, cw3=[92,40,788], min=0, max=0.5, fmx=2, f=True,
         ann="The radius of each cylinder that will be placed." )
     cmds.intSliderGrp( "cylSubdivs", l="Cylinder Subdivs: ", v=8, cw3=[92,40,788], min=4, max=20, fmx=20, f=True,
-    ann="No. of subdivisions for each cylinder." )
-    cmds.floatSliderGrp( "length_atenuation", l="Len. Atenuation: ", v=100, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
-        pre=2, ann="Next's segment's length will be (this field) percent the length of the previous one." )
-    cmds.floatSliderGrp( "radius_atenuation", l="Rad. Atenuation: ", v=1, cw3=[92,40,788], min=0, max=1, fmx=1, f=True,
-        pre=2, ann="Next's radius's will be (this field) percent the radius of the previous one." )
+        ann="No. of subdivisions for each cylinder." )
+    cmds.intSliderGrp( "length_atenuation", l="Len. Atenuation: ", v=100, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
+        ann="Next's segment's length will be (this field) percent the length of the previous one." )
+    cmds.intSliderGrp( "radius_atenuation", l="Rad. Atenuation: ", v=100, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
+        ann="Next's radius's will be (this field) percent the radius of the previous one." )
     cmds.floatSliderGrp( "turtleSpeed", l="Turtle speed: ", v=0, cw3=[92,30,278], min=0, max=2, fmx=5, f=True,
         ann="Before proceeding to the next turtle command it will be frozen for this amount of time (in seconds)." )
     cmds.separator( h=2, st="none" )
@@ -276,8 +276,8 @@ def createGeometryButtonAction(*pArgs):
     pStep = cmds.floatSliderGrp("length", q=True, v=True)
     pRad = cmds.floatSliderGrp("radius", q=True, v=True)
     subDivs = cmds.intSliderGrp("cylSubdivs", q=True, v=True)
-    length_atenuation = cmds.floatSliderGrp( "length_atenuation", q=True, v=True )
-    radius_atenuation = cmds.floatSliderGrp( "radius_atenuation", q=True, v=True )
+    length_atenuation = cmds.intSliderGrp( "length_atenuation", q=True, v=True )
+    radius_atenuation = cmds.intSliderGrp( "radius_atenuation", q=True, v=True )
     turtleSpeed = cmds.floatSliderGrp("turtleSpeed", q=True, v=True)
     rgb_blossom = cmds.colorSliderGrp( 'rgb_blossomField', q=True, rgb=True )
     rgb_leaf = cmds.colorSliderGrp( 'rgb_leafField', q=True, rgb=True )
@@ -290,7 +290,7 @@ def createGeometryButtonAction(*pArgs):
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
         createBlossomShader(rgb_blossom)
-        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation,
+        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
             rgb_branch, rgb_leaf, rgb_blossom)
 
 #--- CLEAN ACTION ---#

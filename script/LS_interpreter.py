@@ -107,8 +107,8 @@ def applyShader(geometricObj, materialType):
     if materialType == 'blossom':
         cmds.sets( geometricObj, fe='blossomSG'+str(globalVar.plantNumber) )
     
-def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation, radius_atenuation,
-    rgb_branch):
+def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation /= 100,
+    radius_atenuation /= 100, rgb_branch):
 
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
 
@@ -134,23 +134,27 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
         On Exit : Will return a result string. Thus it is recommendable binding the call to a variable.
     """
 
-    branchGeo = cmds.polyCylinder (n='segment#',r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0])[0]
-    cmds.xform(piv=[0,-pStep/2, 0], r=True, os=True)
+    branchGeo = cmds.polyCylinder ( n='segment#',r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
+    cmds.xform( piv=[0,-pStep/2, 0], r=True, os=True )
     for i in range(0,indexBranch+1):
-        cmds.xform(scale=[length_atenuation,length_atenuation,length_atenuation], r=True)
+        cmds.xform( scale=[length_atenuation,length_atenuation,length_atenuation], r=True )
+
+    queryVar = cmds.xform( q=True, scale=True )
+    print queryVar
+
     cmds.move(0, pStep/2, 0)
-    cmds.makeIdentity(apply=True, t=1, r=1, s=1, n=0)
-    cmds.move(posX, posY, posZ)  
-    cmds.xform(ro=[rotX, rotY, rotZ], os=True)
+    cmds.makeIdentity( apply=True, t=1, r=1, s=1, n=0 )
+    cmds.move( posX, posY, posZ )  
+    cmds.xform( ro=[rotX, rotY, rotZ], os=True )
 
     #--- Apply shader to the branch ---#
     applyShader(branchGeo, 'branch')
 
     # TO DO: PARENT THIS BRANCH TO ITS DAD
-    cmds.parent(branchGeo, 'plant' + str(globalVar.plantNumber))
-    return cmds.polyEvaluate(v = True)
+    cmds.parent( branchGeo, 'plant' + str(globalVar.plantNumber ))
+    return cmds.polyEvaluate( v = True )
 
-def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation,
+def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
     rgb_branch, rgb_leaf, rgb_blossom):
     """ Translates the string into maya commands in order to generate the final LSystem plant.
 
@@ -165,6 +169,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
     radius_atenuation :    Next's segment's radius will be 'this value' percent the radius of the previous one. But if the
                            segment is located in the same branch level as the previous one it will have the dimensions of
                            the previous one. This scales depending on which branch level you are.
+    turtleSpeed :   (in seconds) Is the time Maya will wait until placing the next segment.
     rgb_branch :    RGB values for the diffuse colour of the branches.
     rgb_leaf :      RGB values for the diffuse colour of the leaves.
     rgb_blossom :   RGB values for the diffuse colour of blossoms.
@@ -221,15 +226,19 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             exec "ROT = copy.copy(storedROT_%s)" % (indexBranch)
         else:
             lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch, length_atenuation, radius_atenuation, rgb_branch)
-            POS.x = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[0]
-            POS.y = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[1]
-            POS.z = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[2]
+            POS.x = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[0]
+            POS.y = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[1]
+            POS.z = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[2]
             segment += 1
             if turtleSpeed != 0:
-                print turtleSpeed
-                time.sleep(turtleSpeed)
-                cmds.refresh(force=True)
-            # atenuation -= 0.05
+                time.sleep( turtleSpeed )
+                cmds.refresh( force=True )
+            print "POS.x =", POS.x
+            print "POS.y =", POS.y
+            print "POS.z =", POS.z
+            print "ROT.x =", ROT.x
+            print "ROT.y =", ROT.y
+            print "ROT.z =", ROT.z
     globalVar.plantNumber += 1
 
 def createAnimation(keyEvery, angleVar):
