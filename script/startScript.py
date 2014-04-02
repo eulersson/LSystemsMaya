@@ -12,17 +12,17 @@
 
     // 
 
-    Start Up Script    <startScript.py>
+    Start Up Script                              <startScript.py>
 
 In order to get it running easily I suggest following these simple steps:
 
-        1. Copy all the text inside startScript.py and paste it to Maya's Script Editor, a window will pop up asking you 
-            to select the folder which the script files are. Hit accept.
+        1. Copy all the text inside startScript.py and paste it to Maya's Script Editor, a window will pop up asking you to
+            select the folder which the script files are. Hit accept.
         2. Set an axiom (or initial word), depth and rules.
         3. Click Generate String. Then you will see the result in the text field below. 
-        4. Set all the “Geometric Interpretation” attributes (Angle, Segment Length...). You will get a short explanation
-            in the Help line below when you put your mourse over the parameter.
-        5. Click Create Geometry. You will see the result in your scene. If you want to clean the last plant click Clean
+        4. Set all the “Geometric Interpretation” attributes (Angle, Segment Length...). You will get a short explanation in
+            the Help line below when you put your mourse over the parameter.
+        5. Click Create Geometry. You will see the result in your scene. If you want to clean the last plant click Clean 
             Plant button. If you click Create Geometry again you will get another plant.
         6. If you want you can set animation parameters under the tab Animation  Settings, they are self-explanatory.
 
@@ -49,7 +49,8 @@ class findPathWindow:
         self.loadDirForm = cmds.formLayout(numberOfDivisions=100)
         self.loadDirColumns = cmds.columnLayout(parent=self.loadDirForm, adjustableColumn=True, rowSpacing=5)
         self.loadDirText = cmds.text(parent=self.loadDirColumns, font='boldLabelFont',
-            label='Welcome to Ramon\'s L-System Interpreter\n\nTo start using the script simply browse tothe directory containing the modules and then press \'Continue\'\n\n|\n|\nv')
+            label="""Welcome to Ramon\'s L-System Interpreter\n\nTo start using the script simply browse the directory
+            containing the modules and then press \'Continue\'\n\n|\n|\nv""")
         self.loadDirPath = cmds.textField(parent = self.loadDirColumns)
         self.loadDirBrowse= cmds.button(parent = self.loadDirColumns, label='Browse',
             command=self.openFile)
@@ -64,29 +65,29 @@ class findPathWindow:
             ])
     def appendPath(self, *args):
         '''
-        This function queries the text field and puts the path in the system paths.
-        It then runs the 'closeAll' function
+        This function queries the text field and puts the path in the system paths. It then runs the 'closeAll' function.
         '''
         # Query textfield and save in self.fileName
-        self.fileName = cmds.textField(self.loadDirPath, query=True, text=True) 
+        self.fileName = cmds.textField(self.loadDirPath, query=True, text=True)
+        print self.fileName
         sys.path.append(self.fileName) # Append to system paths
         if self.fileName: # If the fileName is not empty
             self.closeAll()
       
     def openFile(self, *args):
         '''
-        This opens the file browser and takes the path and puts it in the text field.
-        This is run when the Browse button is pressed.
+        This opens the file browser and takes the path and puts it in the text field. This is run when the Browse button is
+        pressed.
         '''
         self.fileName = cmds.fileDialog2(fileMode=2, caption="Import Image") # Open the file browser
         cmds.textField(self.loadDirPath, edit=True, text=str(self.fileName[0])) # Put path in text field
       
     def closeAll(self, *args):
         '''
-        This function closes the window and starts up the main GUI.
-        This is run when the Continue button is pressed.
+        This function closes the window and starts up the main GUI. This is run when the Continue button is pressed.
         '''
         cmds.deleteUI(self.loadDirWin, window=True) # Close window
+        import gui
         gui.createUI() # Start UI
 
 
@@ -96,9 +97,8 @@ class errorWindow:
     '''
     def __init__(self, message):
         '''
-        This function creates the window. This is run when a new instance of the class is created.
-        When creating a new instance a string called message is passed in, this is then displayed on the
-        window
+        This function creates the window. This is run when a new instance of the class is created. When creating a new
+        instance a string called message is passed in, this is then displayed on the window.
         '''
         self.win = cmds.window(title='Error')
         self.form = cmds.formLayout(numberOfDivisions=100, w=300, h=100)
@@ -133,8 +133,8 @@ try: # Try to import all the modules and then start the UI
     reload(LS_interpreter)
     import gui
     reload(gui)
-    global plantNumber
-    plantNumber = 1
+    import globalVar
+    reload(globalVar)
     gui.createUI()
 
 except: # If the above fails create an instance of the findPathWindow to try to find the modules

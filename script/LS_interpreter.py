@@ -38,29 +38,33 @@ import copy
 import time
 import LS_string_rewriting
 reload(LS_string_rewriting)
-
+import globalVar
+reload(globalVar)
 
 #--- SHADER AND MATERIALS DEFINITIONS ---#
 def createBranchShader(rgb_branch): # It creates a shading network for the branch material.
     global branchMat, branchSG, fractalMap, placeTexture, bumpUtility
-    branchMat = cmds.shadingNode( 'lambert', asShader=True, name='branchMat' ) # lambert node (branch)
+    # Creating Lambert Node (branch)
+    branchMat = cmds.shadingNode( 'lambert', asShader=True, name='branchMat'+str(globalVar.plantNumber) ) 
     cmds.setAttr( branchMat + '.color', rgb_branch[0], rgb_branch[1], rgb_branch[2] ) 
-    branchSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='branchSG' ) # shading net (branch)
+    # Creating Shading Group (branch)
+    branchSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='branchSG'+str(globalVar.plantNumber) )
+    # Connecting the Lambert colour to the Shading Group's surface colour.
     cmds.connectAttr( branchMat + '.outColor', branchSG + '.surfaceShader', f=True )
-    fractalMap = cmds.shadingNode( 'fractal', asTexture=True ) # fractal map
-    placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True ) # place texture
-    cmds.connectAttr( placeTexture + '.outUV', fractalMap + '.uv', force=True )
+    fractalMap = cmds.shadingNode( 'fractal', asTexture=True, n='fractalMap'+str(globalVar.plantNumber) ) # Fractal Map
+    placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True, n='P2DTEX'+str(globalVar.plantNumber) ) # Place 2DText
+    cmds.connectAttr( placeTexture + '.outUV', fractalMap + '.uv', force=True ) # Connecting the UVs to the Texture
     cmds.connectAttr (placeTexture + '.outUvFilterSize', fractalMap + '.uvFilterSize', force=True)
-    cmds.setAttr ( 'fractal1.alphaIsLuminance', True)
-    bumpUtility = cmds.shadingNode( 'bump2d', asUtility=True) # bump utility
-    cmds.connectAttr (fractalMap + '.outAlpha', bumpUtility + '.bumpValue', f=True)
+    cmds.setAttr ( str(fractalMap)+'.alphaIsLuminance', True) # The white areas are understood as alpha in the fractal map
+    bumpUtility = cmds.shadingNode( 'bump2d', asUtility=True) # We create a bump utility
+    cmds.connectAttr ( fractalMap + '.outAlpha', bumpUtility + '.bumpValue', f=True) # Fractal map's alpha will drive bump
     cmds.connectAttr ( bumpUtility + '.outNormal', branchMat + '.normalCamera', f=True)
 
 def createLeafShader(rgb_leaf): # It creates a shading network for the leaf material.
     global leafMat, leafSG
-    leafMat = cmds.shadingNode( 'lambert', asShader=True, name='leafMat' ) # lambert node (leaf)
+    leafMat = cmds.shadingNode( 'lambert', asShader=True, name='leafMat'+str(globalVar.plantNumber) ) # lambert node (leaf)
     cmds.setAttr( leafMat + '.color', rgb_leaf[0], rgb_leaf[1], rgb_leaf[2] )
-    leafSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='leafSG' ) # shading net (leaf)
+    leafSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='leafSG'+str(globalVar.plantNumber) ) # shading net (leaf)
     cmds.connectAttr( leafMat + '.outColor', leafSG + '.surfaceShader', f=True )
 
 def createBlossomShader(rgb_blossom): # It creates a shading network for the blossom material.
@@ -72,11 +76,11 @@ def createBlossomShader(rgb_blossom): # It creates a shading network for the blo
 
 def applyShader(geometricObj, materialType):
     if materialType == 'branch':
-        cmds.sets( geometricObj, fe='branchSG' )
+        cmds.sets( geometricObj, fe='branchSG'+str(globalVar.plantNumber) )
     if materialType == 'leaf':
-        cmds.sets( geometricObj, fe='leafSG' )
+        cmds.sets( geometricObj, fe='leafSG'+str(globalVar.plantNumber) )
     if materialType == 'blossom':
-        cmds.sets( geometricObj, fe='blossomSG' )
+        cmds.sets( geometricObj, fe='blossomSG'+str(globalVar.plantNumber) )
     
 def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation, radius_atenuation, rgb_branch):
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
@@ -100,10 +104,10 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
     applyShader(branchGeo, 'branch')
 
     # TO DO: PARENT THIS BRANCH TO ITS DAD
-    cmds.parent(branchGeo, 'plant')
+    cmds.parent(branchGeo, 'plant' + str(globalVar.plantNumber))
     return cmds.polyEvaluate(v = True)
 
-def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed, rgb_flowers, rgb_leaves, rgb_branch):
+def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation, rgb_flowers, rgb_leaves, rgb_branch):
     """ Translates the string into maya commands in order to generate the final LSystem plant.
     
     pStep :   Axiom, the initial state.
@@ -112,8 +116,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
     pDepth :  Recursive index.
     On Exit : Creates the geometry.
     """
-
-    cmds.group( em=True, name='plant')
+    cmds.group( em=True, name='plant'+str(globalVar.plantNumber) )
 
     class position:
         x = 0
@@ -164,6 +167,12 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             POS.y = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[1]
             POS.z = cmds.xform('segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True)[2]
             segment += 1
-            time.sleep(turtleSpeed)
-            cmds.refresh(force=True)
+            if turtleSpeed != 0:
+                print turtleSpeed
+                time.sleep(turtleSpeed)
+                cmds.refresh(force=True)
             # atenuation -= 0.05
+    globalVar.plantNumber += 1
+
+def createAnimation(keyEvery, angleVar):
+    pass #TO DO
