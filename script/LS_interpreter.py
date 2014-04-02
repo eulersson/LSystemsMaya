@@ -29,8 +29,6 @@
     and rotation will be updated each time a character is read. 
 '''
 
-
-
 import maya.cmds as cmds
 import random
 import math
@@ -42,7 +40,16 @@ import globalVar
 reload(globalVar)
 
 #--- SHADER AND MATERIALS DEFINITIONS ---#
-def createBranchShader(rgb_branch): # It creates a shading network for the branch material.
+def createBranchShader(rgb_branch):
+
+    '''It creates a shading network for the branch material.
+
+    rgb_branch:   RGB values for the diffuse colour of the branches.
+
+    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
+
+    '''
+
     global branchMat, branchSG, fractalMap, placeTexture, bumpUtility
     # Creating Lambert Node (branch)
     branchMat = cmds.shadingNode( 'lambert', asShader=True, name='branchMat'+str(globalVar.plantNumber) ) 
@@ -60,14 +67,32 @@ def createBranchShader(rgb_branch): # It creates a shading network for the branc
     cmds.connectAttr ( fractalMap + '.outAlpha', bumpUtility + '.bumpValue', f=True) # Fractal map's alpha will drive bump
     cmds.connectAttr ( bumpUtility + '.outNormal', branchMat + '.normalCamera', f=True)
 
-def createLeafShader(rgb_leaf): # It creates a shading network for the leaf material.
+def createLeafShader(rgb_leaf):
+
+    '''It creates a shading network for the leaf material.
+
+    rgb_leaf:   RGB values for the diffuse colour of the branches.
+
+    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
+
+    '''
+
     global leafMat, leafSG
     leafMat = cmds.shadingNode( 'lambert', asShader=True, name='leafMat'+str(globalVar.plantNumber) ) # lambert node (leaf)
     cmds.setAttr( leafMat + '.color', rgb_leaf[0], rgb_leaf[1], rgb_leaf[2] )
     leafSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='leafSG'+str(globalVar.plantNumber) ) # shading net (leaf)
     cmds.connectAttr( leafMat + '.outColor', leafSG + '.surfaceShader', f=True )
 
-def createBlossomShader(rgb_blossom): # It creates a shading network for the blossom material.
+def createBlossomShader(rgb_blossom):
+
+    '''It creates a shading network for the branch material.
+
+    rgb_blossom:   RGB values for the diffuse colour of the branches.
+
+    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
+
+    '''
+
     global blossomMat, blossomSG
     blossomMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomMat' ) # lambert node (blossom)
     cmds.setAttr( blossomMat + '.color', rgb_blossom[0], rgb_blossom[1], rgb_blossom[2] )
@@ -82,15 +107,33 @@ def applyShader(geometricObj, materialType):
     if materialType == 'blossom':
         cmds.sets( geometricObj, fe='blossomSG'+str(globalVar.plantNumber) )
     
-def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation, radius_atenuation, rgb_branch):
+def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation, radius_atenuation,
+    rgb_branch):
+
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
 
-        pW :      Axiom, the initial state.
-        pP :      Production rules, set as a 2-item tuple. The first one indicates the condition and the
-                  second one the value the first item should be replaced with.
-        pDepth :  Recursive index.
+        pRad :    Axiom, the initial state.
+        pStep :   Production rules, set as a 2-item tuple. The first one indicates the condition and the second one the value
+                  the first item should be replaced with.
+        posX :    X-position we want the cylinder's origin to be.
+        posY :    Y-position we want the cylinder's origin to be.
+        posZ :    Z-position we want the cylinder's origin to be.
+        rotX :    X-rotation we want the cylinder's origin to be.
+        rotY :    X-rotation we want the cylinder's origin to be.
+        rotZ :    X-rotation we want the cylinder's origin to be.
+        subDivs :        Number of subdivisions for each segment (or step).
+        indexBranch :    Keeps track of the level this segment lays on. Very useful for the atenuation prameters.
+        length_atenuation:    Next's segment's length will be 'this value' percent the length of the previous one. But if the
+                              segment is located in the same branch level as the previous one it will have the dimensions of
+                              the previous one. This scales depending on which branch level you are.
+        radius_atenuation:    Next's segment's radius will be 'this value' percent the radius of the previous one. But if the
+                              segment is located in the same branch level as the previous one it will have the dimensions of
+                              the previous one. This scales depending on which branch level you are.
+        rgb_branch:    Colour information which will be applied to a material that will shade the branches.
+
         On Exit : Will return a result string. Thus it is recommendable binding the call to a variable.
     """
+
     branchGeo = cmds.polyCylinder (n='segment#',r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0])[0]
     cmds.xform(piv=[0,-pStep/2, 0], r=True, os=True)
     for i in range(0,indexBranch+1):
@@ -107,14 +150,29 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
     cmds.parent(branchGeo, 'plant' + str(globalVar.plantNumber))
     return cmds.polyEvaluate(v = True)
 
-def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation, rgb_flowers, rgb_leaves, rgb_branch):
+def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation,
+    rgb_branch, rgb_leaf, rgb_blossom):
     """ Translates the string into maya commands in order to generate the final LSystem plant.
-    
-    pStep :   Axiom, the initial state.
-    pAngle :  Production rules, set as a 2-item tuple. The first one indicates the condition and the
-              second one the value the first item should be replaced with.
-    pDepth :  Recursive index.
-    On Exit : Creates the geometry.
+
+    LStringVar :    The L-System-generated string which will be interpreted by the turtle.
+    pRad :          The radius of the segments left by each turtle's step.
+    pStep :         The length of the segments left by each turtle's step.
+    pAngle :        The turtle will yaw, roll or pitch by this angular amount each time it finds its corresponding  symbol.
+    subDivs :       Number of subdivisions for each segment (or step).
+    length_atenuation :     Next's segment's length will be 'this value' percent the length of the previous one. But if the
+                           segment is located in the same branch level as the previous one it will have the dimensions of
+                           the previous one. This scales depending on which branch level you are.
+    radius_atenuation :    Next's segment's radius will be 'this value' percent the radius of the previous one. But if the
+                           segment is located in the same branch level as the previous one it will have the dimensions of
+                           the previous one. This scales depending on which branch level you are.
+    rgb_branch :    RGB values for the diffuse colour of the branches.
+    rgb_leaf :      RGB values for the diffuse colour of the leaves.
+    rgb_blossom :   RGB values for the diffuse colour of blossoms.
+
+
+
+
+    On Exit :  Creates the geometry.
     """
     cmds.group( em=True, name='plant'+str(globalVar.plantNumber) )
 

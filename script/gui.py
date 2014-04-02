@@ -38,7 +38,7 @@ def createUI():
     #--- MAIN FRAME LAYOUT ---#
     mainFrame = cmds.frameLayout( l='L-System String Operations', lv=False, cll=False, cl=True, mw=10, mh=10 )
 
-    #////////////////////////////////////////INSTRUCTIONS//AND//PRESETS/////////////////////////////////////////////////////#
+    #////////////////////////////////////////INSTRUCTIONS//AND//PRESETS////////////////////////////////////////////////////#
     def displayInstructions(*pArgs):
         '''Shows in an independent window a list of instructions for the user to set things up quickly'''
         if cmds.window( "instructions_window", exists=True ):
@@ -56,7 +56,7 @@ def createUI():
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 425)], parent=mainFrame )
     cmds.separator( h=1, st="none" )
 
-    #////////////////////////////////////////////////RULES//TAB/////////////////////////////////////////////////////////////#
+    #////////////////////////////////////////////////RULES//TAB////////////////////////////////////////////////////////////#
     rulesLayout = cmds.frameLayout( label = "Rules", collapsable=True, cl=False, mw = 10, mh = 10, w=425 )
 
     cmds.rowColumnLayout( numberOfColumns=2, columnWidth=[(1, 43), (2, 363)], parent=rulesLayout )
@@ -174,7 +174,7 @@ def createUI():
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 402)], parent=mainFrame )
     cmds.separator( h=5, st='none' )
 
-    #//////////////////////////////////////GEOMETRIC//INTERPRETATION////////////////////////////////////////////////////////#
+    #//////////////////////////////////////GEOMETRIC//INTERPRETATION///////////////////////////////////////////////////////#
     mInterpret = cmds.frameLayout( label = "Geometric Interpretation", collapsable=True, cl=True, mw = 10, mh = 10 )
  
     #--- Set of geometric parameters ---#
@@ -211,7 +211,7 @@ def createUI():
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 426)], parent=mainFrame)
     cmds.separator( h=5, st="none" )
 
-    #/////////////////////////////////////////////ANIMATION////////////////////////////////////////////////////////////////#
+    #/////////////////////////////////////////////ANIMATION///////////////////////////////////////////////////////////////#
     kAnimation = cmds.frameLayout( label = "Animation Settings", collapsable=True, cl=True, mw = 10, mh = 10 )
 
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1,406)], parent=kAnimation )
@@ -224,7 +224,7 @@ def createUI():
     cmds.separator( h=5, st="none" )
     cmds.button( l="Clear Keyframes", command=clearKeyframesButtonAction )
 
-    #/////////////////////////////////////WARNINGS//AND//HELPLINE///////////////////////////////////////////////////////////#
+    #/////////////////////////////////////WARNINGS//AND//HELPLINE//////////////////////////////////////////////////////////#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,55), (2, 5), (3, 366)], parent=mainFrame )
     cmds.text( l="Warnings" )
     cmds.separator( st="none" )
@@ -238,7 +238,7 @@ def createUI():
     cmds.showWindow()
     cmds.showWindow(window)
 
-#/////////////////////////////////////////////BUTTON//ACTIONS///////////////////////////////////////////////////////////////#
+#////////////////////////////////////////////BUTTON//ACTIONS///////////////////////////////////////////////////////////////#
 #--- GENERATE STRING ---#
 def generateStringButtonAction(*pArgs):
     ''' Queries all the fields related to the string generation and calls the procedure. ''' 
@@ -290,8 +290,8 @@ def createGeometryButtonAction(*pArgs):
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
         createBlossomShader(rgb_blossom)
-        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation, 
-            rgb_blossom, rgb_leaf, rgb_branch)
+        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, turtleSpeed, radius_atenuation,
+            rgb_branch, rgb_leaf, rgb_blossom)
 
 #--- CLEAN ACTION ---#
 def cleanPlantButtonAction(*pArgs):
