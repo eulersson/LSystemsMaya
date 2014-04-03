@@ -135,6 +135,9 @@ try: # Try to import all the modules and then start the UI
     reload(gui)
     import globalVar
     reload(globalVar)
+    globalVar.plantNumber = 0
+    import presets
+    reload(presets)
     gui.createUI()
 
 except: # If the above fails create an instance of the findPathWindow to try to find the modules

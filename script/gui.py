@@ -43,13 +43,44 @@ def createUI():
         '''Shows in an independent window a list of instructions for the user to set things up quickly'''
         if cmds.window( "instructions_window", exists=True ):
             cmds.deleteUI( "instructions_window" )
-        instructions_window = cmds.window( "instructions_window", title="Instructions")
+        instructions_window = cmds.window( "instructions_window", title="Instructions", s=False, mnb=False, mxb=False )
+        instructionsLayout = cmds.frameLayout( l="Instructions", collapsable=False, cl=False, mw = 10, mh=10 )
+        cmds.rowColumnLayout( nc=3, cw=[(1,20),(2,480),(3,20)], cal=[(2,"left")], parent=instructionsLayout )
+        cmds.separator( st="none" )
+        cmds.text( l="1. Copy all the text inside startScript.py and paste it to Maya's Script Editor, a window will pop up\n\tasking you to select the folder which the script files are. Hit accept.\n2. Set an axiom (or initial word), depth and rules.\n3. Click Generate String. Then you will see the result in the text field below.\n4. Set all the 'Geometric Interpretation' attributes (Angle, Segment Length...)\n5. Click Create Geometry. You will see the result in your scene. If you want to clean the last plant\n\tclick Clean Plant. If you click Create Geometry again you will get another plant.\n6. If you want you can set animation parameters under the tab Animation  Settings, they are self-\n\texplanatory. Furthermore you can take a look at the help line I built for that.       " )
+        cmds.separator( st="none" )
         cmds.showWindow( instructions_window )
-    cmds.rowColumnLayout( numberOfColumns=4, cal=[(2,"left")], columnWidth=[(1,5),(2,320),(3,100),(4,5)], parent=mainFrame)
+    cmds.rowColumnLayout( numberOfColumns=4, cal=[(2,"left")], columnWidth=[(1,5),(2,320),(3,100),(4,5)], parent=mainFrame )
     cmds.separator( st="none" )
     cmds.text( l="You might feel a bit lost, I recommend you to read a quick guide" )
-    cmds.button( l="Instrucions", en=True, ebg=True, w=90, command=displayInstructions )
+    cmds.button( l="Instructions", en=True, command=displayInstructions )
     cmds.separator( st="none" )
+
+    cmds.rowColumnLayout( nc=7, cw=[(1,103),(2,5),(3,103),(4,5),(5,102),(6,5),(7,102)], parent=mainFrame )
+
+    def preset1Action(*args):
+        import presets
+        set1 = presets.preset1()
+    cmds.button( l="Preset1", c=preset1Action, ann="Loads Preset #1" )
+    cmds.separator( st="none" )
+
+    def preset2Action(*args):
+        import presets
+        set2 = presets.preset2()
+    cmds.button( l="Preset2", c=preset2Action, ann="Loads Preset #2" )
+    cmds.separator( st="none" )
+
+    def preset3Action(*args):
+        import presets
+        set3 = presets.preset3()
+    cmds.button( l="Preset3", c=preset3Action, ann="Loads Preset #3" )
+    cmds.separator( st="none" )
+
+    def preset4Action(*args):
+        import presets
+        set4 = presets.preset4()
+    cmds.button( l="Preset4", c=preset4Action, ann="Loads Preset #4" )
+
 
     # !!!!!!!!!!!!!!!!!!!!!!! TO DO --> PRESETS
 
@@ -82,7 +113,7 @@ def createUI():
     cmds.textField( "prodRulePred1", en=True, tx="F", ann="Enter predecessor string for production rule 1")
     cmds.text( l="->", en=True )
     cmds.textField( "prodRuleSucc1", en=True, tx="F[&+F]F[->F][&F]", ann="Enter successor string for production rule 1")
-    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=100,
+    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=0,
         ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
     cmds.separator( st="none" )
     cmds.separator( st="none" )
@@ -104,12 +135,14 @@ def createUI():
             cmds.text( "prodRule2Text_B", edit=True, en=True )
             cmds.textField( "prodRuleSucc2", edit=True, en=True )
             cmds.intField( "prodRuleProb2", edit=True, en=True )
+            cmds.intField( "prodRuleProb2", edit=True, v=100 )
         if valueCB2 == False:
             cmds.text( "prodRule2Text_A", edit=True, en=False )
             cmds.textField( "prodRulePred2", edit=True, en=False )
             cmds.text( "prodRule2Text_B", edit=True, en=False )
             cmds.textField( "prodRuleSucc2", edit=True, en=False )
             cmds.intField( "prodRuleProb2", edit=True, en=False )
+            cmds.intField( "prodRuleProb2", edit=True, v=0 )
     cmds.checkBox( "prodRuleCheckBox2", edit=True, changeCommand=toggleGreyingOut2 )
 
     #--- RULE 3 ---#
@@ -129,12 +162,14 @@ def createUI():
             cmds.text( "prodRule3Text_B", edit=True, en=True )
             cmds.textField( "prodRuleSucc3", edit=True, en=True )
             cmds.intField( "prodRuleProb3", edit=True, en=True )
+            cmds.intField( "prodRuleProb3", edit=True, v=100 )
         if valueCB3 == False:
             cmds.text( "prodRule3Text_A", edit=True, en=False )
             cmds.textField( "prodRulePred3", edit=True, en=False )
             cmds.text( "prodRule3Text_B", edit=True, en=False )
             cmds.textField( "prodRuleSucc3", edit=True, en=False )
             cmds.intField( "prodRuleProb3", edit=True, en=False )
+            cmds.intField( "prodRuleProb3", edit=True, v=0 )
     cmds.checkBox( "prodRuleCheckBox3", edit=True, changeCommand=toggleGreyingOut3 )
 
     #--- RULE 4 ---#
@@ -147,19 +182,21 @@ def createUI():
     cmds.separator( st="none" )
     cmds.checkBox( "prodRuleCheckBox4", l="", value=False, ann="Activates the 4th production rule")
     def toggleGreyingOut4(*pArgs):
-        valueCB2 = cmds.checkBox( "prodRuleCheckBox4", q=True, value=True )
+        valueCB4 = cmds.checkBox( "prodRuleCheckBox4", q=True, value=True )
         if valueCB4 == True:
             cmds.text( "prodRule4Text_A", edit=True, en=True )
             cmds.textField( "prodRulePred4", edit=True, en=True )
             cmds.text( "prodRule4Text_B", edit=True, en=True )
             cmds.textField( "prodRuleSucc4", edit=True, en=True )
             cmds.intField( "prodRuleProb4", edit=True, en=True )
+            cmds.intField( "prodRuleProb4", edit=True, v=100 )
         if valueCB4 == False:
             cmds.text( "prodRule4Text_A", edit=True, en=False )
             cmds.textField( "prodRulePred4", edit=True, en=False )
             cmds.text( "prodRule4Text_B", edit=True, en=False )
             cmds.textField( "prodRuleSucc4", edit=True, en=False )
             cmds.intField( "prodRuleProb4", edit=True, en=False )
+            cmds.intField( "prodRuleProb4", edit=True, v=0 )
     cmds.checkBox( "prodRuleCheckBox4", edit=True, changeCommand=toggleGreyingOut4 )
 
     #--- Generate String / Clear String  ---#
@@ -175,7 +212,7 @@ def createUI():
     cmds.separator( h=5, st='none' )
 
     #//////////////////////////////////////GEOMETRIC//INTERPRETATION///////////////////////////////////////////////////////#
-    mInterpret = cmds.frameLayout( label = "Geometric Interpretation", collapsable=True, cl=True, mw = 10, mh = 10 )
+    mInterpret = cmds.frameLayout( label = "Geometric Interpretation", collapsable=True, cl=True, mw = 10, mh = 10, w=425 )
  
     #--- Set of geometric parameters ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1,406)], parent=mInterpret )
@@ -197,17 +234,17 @@ def createUI():
 
     #--- Colour Fields ---#
     global rgb_branchField, rgb_leafField, rgb_branchField
-    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.43, 0.23, 0.11), cw3=[92,30,278], ann="Branch colour" )
+    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.43, 0.23, 0.11), cw3=[52,30,328], ann="Branch colour" )
     cmds.separator( h=6, st="none" )
-    cmds.colorSliderGrp( "rgb_leafField", l="Leaves", rgb=(0, 1, 0), cw3=[92,30,278], ann="Leaf colour" )
+    cmds.colorSliderGrp( "rgb_leafField", l="Leaves", rgb=(0, 1, 0), cw3=[52,30,328], ann="Leaf colour" )
     cmds.separator( h=6, st="none" )
-    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(1, 0, 0), cw3=[92,30,278], ann="Blossoms colour" )
+    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(1, 0, 0), cw3=[52,30,328], ann="Blossoms colour" )
 
     #--- Create Geometry / Clean Plant ---#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,196), (2,10), (3,196)], parent=mInterpret )
-    cmds.button( l="Create Geometry", command=createGeometryButtonAction )
+    cmds.button( l="Create Geometry", command=createGeometryButtonAction, ann="Execute the turtle!" )
     cmds.separator( h=5, st="none" )
-    cmds.button(l="Clean Plant", command=cleanPlantButtonAction)
+    cmds.button(l="Clean Plant", command=cleanPlantButtonAction, ann='Deletes the very last generated plant.')
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 426)], parent=mainFrame)
     cmds.separator( h=5, st="none" )
 
@@ -245,23 +282,49 @@ def generateStringButtonAction(*pArgs):
     pAxiom = cmds.textField( "axiomTextField", q=True, tx=True )
 
     pP = []
-    pP.append([str(cmds.intField( "prodRuleProb1", q=True, v=True )),str(cmds.textField( "prodRulePred1", q=True, tx=True )),
-        str(cmds.textField("prodRuleSucc1", q=True, tx=True))])
-    if cmds.checkBox( "prodRuleCheckBox2", q=True, value=True ) == True:
-        pP.append([str(cmds.intField( "prodRuleProb2", q=True, v=True )),str(cmds.textField( "prodRulePred2", q=True,
-            tx=True )),str(cmds.textField( "prodRuleSucc2", q=True, tx=True ))])
-    if cmds.checkBox("prodRuleCheckBox3", q=True, value=True) == True:
-        pP.append([str(cmds.intField( "prodRuleProb3", q=True, v=True )),str(cmds.textField( "prodRulePred3", q=True,
-            tx=True )),str(cmds.textField( "prodRuleSucc3", q=True, tx=True ))])
-    if cmds.checkBox("prodRuleCheckBox4", q=True, value=True) == True:
-        pP.append([str(cmds.intField( "prodRuleProb4", q=True, v=True )),str(cmds.textField( "prodRulePred4", q=True,
-            tx=True )),str(cmds.textField( "prodRuleSucc4", q=True, tx=True ))])
+
+    prodRuleProb1 = str(cmds.intField( "prodRuleProb1", q=True, v=True ))
+    prodRulePred1 = str(cmds.textField( "prodRulePred1", q=True, tx=True ))
+    prodRuleSucc1 = str(cmds.textField("prodRuleSucc1", q=True, tx=True))
+
+    prodRuleCheckBox2 = cmds.checkBox( "prodRuleCheckBox2", q=True, value=True )
+    prodRuleProb2 = str(cmds.intField( "prodRuleProb2", q=True, v=True ))
+    prodRulePred2 = str(cmds.textField( "prodRulePred2", q=True, tx=True ))
+    prodRuleSucc2 = str(cmds.textField("prodRuleSucc2", q=True, tx=True))
+
+    prodRuleCheckBox3 = cmds.checkBox( "prodRuleCheckBox3", q=True, value=True )
+    prodRuleProb3 = str(cmds.intField( "prodRuleProb3", q=True, v=True ))
+    prodRulePred3 = str(cmds.textField( "prodRulePred3", q=True, tx=True ))
+    prodRuleSucc3 = str(cmds.textField("prodRuleSucc3", q=True, tx=True))
+
+    prodRuleCheckBox4 = cmds.checkBox( "prodRuleCheckBox4", q=True, value=True )
+    prodRuleProb4 = str(cmds.intField( "prodRuleProb4", q=True, v=True ))
+    prodRulePred4 = str(cmds.textField( "prodRulePred4", q=True, tx=True ))
+    prodRuleSucc4 = str(cmds.textField("prodRuleSucc4", q=True, tx=True))
+
+    pP.append([prodRuleProb1, prodRulePred1, prodRuleSucc1])
+    if prodRuleCheckBox2 == True:
+        pP.append([prodRuleProb2, prodRulePred2, prodRuleSucc2]) 
+    if prodRuleCheckBox3 == True:
+        pP.append([prodRuleProb3, prodRulePred3, prodRuleSucc3]) 
+    if prodRuleCheckBox4 == True:
+        pP.append([prodRuleProb4, prodRulePred4, prodRuleSucc4])
 
     pDepth = cmds.intSliderGrp( "depthIntField", q=True, v=True )
 
+    '''
+    if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4 or prodRulePred2 == prodRulePred3, prodRulePred2 == prodRulePred4, prodRulePred3 == prodRulePred4:
+        if prodRuleProb1+prodRuleProb1+prodRuleProb1+prodRuleProb4 == 100:
+            global LStringVar
+            LStringVar = writeLS(pAxiom, pP, pDepth)
+        else:
+            cmds.textField('warningsTextField', edit=True, tx="Be careful with percentages. They don't add to 100, but I will carry on.")
+            global LStringVar
+            LStringVar = writeLS(pAxiom, pP, pDepth)
+    '''
+
     global LStringVar
     LStringVar = writeLS(pAxiom, pP, pDepth)
-
     cmds.textField( "output", edit=True, tx=LStringVar )
 
 #--- CLEAR STRING BUTTON ACTION ---#
@@ -286,6 +349,9 @@ def createGeometryButtonAction(*pArgs):
     if pAngle == 0 or pStep == 0 or pRad == 0 or subDivs == 0 or LStringVar == '':
         cmds.textField('warningsTextField', edit=True, tx='Please, revise all the fields again')  
     else:
+        import globalVar
+        reload(globalVar)
+        globalVar.plantNumber += 1
         cmds.textField('warningsTextField', edit=True, tx='None.')
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
@@ -293,10 +359,14 @@ def createGeometryButtonAction(*pArgs):
         createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
             rgb_branch, rgb_leaf, rgb_blossom)
 
+
 #--- CLEAN ACTION ---#
 def cleanPlantButtonAction(*pArgs):
     ''' Will delete the last plant that has been generated. ''' 
-    cmds.select( 'plant'+str(globalVar.plantNumber-1))
+    import globalVar
+    reload(globalVar)
+    
+    cmds.select( 'plant'+str(globalVar.plantNumber))
     #cmds.select(branchMat, add=True)
     #cmds.select(branchSG, add=True)
     #cmds.select(fractalMap, add=True)

@@ -34,10 +34,7 @@ import random
 import math
 import copy
 import time
-import LS_string_rewriting
-reload(LS_string_rewriting)
-import globalVar
-reload(globalVar)
+
 
 #--- SHADER AND MATERIALS DEFINITIONS ---#
 def createBranchShader(rgb_branch):
@@ -49,6 +46,8 @@ def createBranchShader(rgb_branch):
     On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
 
     '''
+    import globalVar
+    reload(globalVar)
 
     global branchMat, branchSG, fractalMap, placeTexture, bumpUtility
     # Creating Lambert Node (branch)
@@ -78,9 +77,12 @@ def createLeafShader(rgb_leaf):
     '''
 
     global leafMat, leafSG
+    import globalVar
+    reload(globalVar)
+
     leafMat = cmds.shadingNode( 'lambert', asShader=True, name='leafMat'+str(globalVar.plantNumber) ) # lambert node (leaf)
     cmds.setAttr( leafMat + '.color', rgb_leaf[0], rgb_leaf[1], rgb_leaf[2] )
-    leafSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='leafSG'+str(globalVar.plantNumber) ) # shading net (leaf)
+    leafSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='leafSG'+str(globalVar.plantNumber) ) # SG
     cmds.connectAttr( leafMat + '.outColor', leafSG + '.surfaceShader', f=True )
 
 def createBlossomShader(rgb_blossom):
@@ -94,12 +96,19 @@ def createBlossomShader(rgb_blossom):
     '''
 
     global blossomMat, blossomSG
-    blossomMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomMat' ) # lambert node (blossom)
+    import globalVar
+    reload(globalVar)
+
+    blossomMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomMat'+str(globalVar.plantNumber) )
     cmds.setAttr( blossomMat + '.color', rgb_blossom[0], rgb_blossom[1], rgb_blossom[2] )
-    blossomSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomSG' ) # shading net (blossom)
+    blossomSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomSG'+str(globalVar.plantNumber) )
     cmds.connectAttr( blossomMat + '.outColor', blossomSG + '.surfaceShader', f=True )
 
 def applyShader(geometricObj, materialType):
+
+    import globalVar
+    reload(globalVar)
+    
     if materialType == 'branch':
         cmds.sets( geometricObj, fe='branchSG'+str(globalVar.plantNumber) )
     if materialType == 'leaf':
@@ -107,8 +116,8 @@ def applyShader(geometricObj, materialType):
     if materialType == 'blossom':
         cmds.sets( geometricObj, fe='blossomSG'+str(globalVar.plantNumber) )
     
-def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation /= 100,
-    radius_atenuation /= 100, rgb_branch):
+def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation,
+    radius_atenuation, rgb_branch, segmentNum):
 
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
 
@@ -131,10 +140,18 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
                               the previous one. This scales depending on which branch level you are.
         rgb_branch:    Colour information which will be applied to a material that will shade the branches.
 
-        On Exit : Will return a result string. Thus it is recommendable binding the call to a variable.
+        On Exit : It will have created the geometry AND IT RETURNS THE POSITION OF THE LAST VERTEX.
     """
 
-    branchGeo = cmds.polyCylinder ( n='segment#',r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
+    length_atenuation = 1
+    radius_atenuation = 1
+
+    import globalVar
+    reload(globalVar)
+    print 'ATENTION, ATENTION!!! GLOBALVAR HERE IS', globalVar.plantNumber
+    branchGeo = cmds.polyCylinder ( n='segment'+str(globalVar.plantNumber)+'_'+str(indexBranch)+'_'+str(segmentNum),r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
+    print branchGeo, 'has been created.'
+
     cmds.xform( piv=[0,-pStep/2, 0], r=True, os=True )
     for i in range(0,indexBranch+1):
         cmds.xform( scale=[length_atenuation,length_atenuation,length_atenuation], r=True )
@@ -152,7 +169,7 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
 
     # TO DO: PARENT THIS BRANCH TO ITS DAD
     cmds.parent( branchGeo, 'plant' + str(globalVar.plantNumber ))
-    return cmds.polyEvaluate( v = True )
+    return cmds.polyEvaluate( v = True ) # Returns the position of the last vertex, which will be the origin for next segment
 
 def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
     rgb_branch, rgb_leaf, rgb_blossom):
@@ -179,6 +196,9 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
 
     On Exit :  Creates the geometry.
     """
+    import globalVar
+    reload(globalVar)
+
     cmds.group( em=True, name='plant'+str(globalVar.plantNumber) )
 
     class position:
@@ -192,7 +212,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         z = 0
     ROT = rotation()
     indexBranch = 0
-    segment = 1
+    segmentNum = 1
     
     for i in range(0,len(LStringVar)):
         if LStringVar[i] == chr(43):     # chr(43) is +
@@ -225,11 +245,15 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             exec "POS = copy.copy(storedPOS_%s)" % (indexBranch)
             exec "ROT = copy.copy(storedROT_%s)" % (indexBranch)
         else:
-            lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch, length_atenuation, radius_atenuation, rgb_branch)
-            POS.x = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[0]
-            POS.y = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[1]
-            POS.z = cmds.xform( 'segment%s.vtx[%s]' % (segment, lastVtx), q=True, ws=True, t=True )[2]
-            segment += 1
+            # Have in mind that makeSegment apart from creating the geometry it also returns the position of the last vertex.
+            lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch,
+                length_atenuation, radius_atenuation, rgb_branch, segmentNum)
+            import globalVar
+            reload(globalVar)
+            POS.x = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[0]
+            POS.y = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[1]
+            POS.z = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[2]
+            segmentNum += 1
             if turtleSpeed != 0:
                 time.sleep( turtleSpeed )
                 cmds.refresh( force=True )
@@ -239,7 +263,6 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             print "ROT.x =", ROT.x
             print "ROT.y =", ROT.y
             print "ROT.z =", ROT.z
-    globalVar.plantNumber += 1
 
 def createAnimation(keyEvery, angleVar):
     pass #TO DO
