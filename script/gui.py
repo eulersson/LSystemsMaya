@@ -113,7 +113,7 @@ def createUI():
     cmds.textField( "prodRulePred1", en=True, tx="F", ann="Enter predecessor string for production rule 1")
     cmds.text( l="->", en=True )
     cmds.textField( "prodRuleSucc1", en=True, tx="F[&+F]F[->F][&F]", ann="Enter successor string for production rule 1")
-    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=0,
+    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=100,
         ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
     cmds.separator( st="none" )
     cmds.separator( st="none" )
@@ -356,7 +356,8 @@ def createGeometryButtonAction(*pArgs):
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
         createBlossomShader(rgb_blossom)
-        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
+        print "The length atenuation variable in gui is ", length_atenuation
+        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation/100.0, radius_atenuation, turtleSpeed,
             rgb_branch, rgb_leaf, rgb_blossom)
 
 

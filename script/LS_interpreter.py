@@ -20,6 +20,7 @@
         &    Rotate -Y (roll left)
         <    Rotate +Z (pitch down)
         >    Rotate -Z (pitch up)
+        *    Turtle rotates 180 (as it was facing backwards)
         [    Push current turtle state on the stack
         ]    Pop the current turtlestate from the stack
 
@@ -57,14 +58,14 @@ def createBranchShader(rgb_branch):
     branchSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='branchSG'+str(globalVar.plantNumber) )
     # Connecting the Lambert colour to the Shading Group's surface colour.
     cmds.connectAttr( branchMat + '.outColor', branchSG + '.surfaceShader', f=True )
-    fractalMap = cmds.shadingNode( 'fractal', asTexture=True, n='fractalMap'+str(globalVar.plantNumber) ) # Fractal Map
-    placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True, n='P2DTEX'+str(globalVar.plantNumber) ) # Place 2DText
-    cmds.connectAttr( placeTexture + '.outUV', fractalMap + '.uv', force=True ) # Connecting the UVs to the Texture
-    cmds.connectAttr (placeTexture + '.outUvFilterSize', fractalMap + '.uvFilterSize', force=True)
-    cmds.setAttr ( str(fractalMap)+'.alphaIsLuminance', True) # The white areas are understood as alpha in the fractal map
-    bumpUtility = cmds.shadingNode( 'bump2d', asUtility=True) # We create a bump utility
-    cmds.connectAttr ( fractalMap + '.outAlpha', bumpUtility + '.bumpValue', f=True) # Fractal map's alpha will drive bump
-    cmds.connectAttr ( bumpUtility + '.outNormal', branchMat + '.normalCamera', f=True)
+    #fractalMap = cmds.shadingNode( 'fractal', asTexture=True, n='fractalMap'+str(globalVar.plantNumber) ) # Fractal Map
+    #placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True, n='P2DTEX'+str(globalVar.plantNumber) ) # Place 2DText
+    #cmds.connectAttr( placeTexture + '.outUV', fractalMap + '.uv', force=True ) # Connecting the UVs to the Texture
+    #cmds.connectAttr (placeTexture + '.outUvFilterSize', fractalMap + '.uvFilterSize', force=True)
+    #cmds.setAttr ( str(fractalMap)+'.alphaIsLuminance', True) # The white areas are understood as alpha in the fractal map
+    #bumpUtility = cmds.shadingNode( 'bump2d', asUtility=True) # We create a bump utility
+    #cmds.connectAttr ( fractalMap + '.outAlpha', bumpUtility + '.bumpValue', f=True) # Fractal map's alpha will drive bump
+    #cmds.connectAttr ( bumpUtility + '.outNormal', branchMat + '.normalCamera', f=True)
 
 def createLeafShader(rgb_leaf):
 
@@ -99,22 +100,36 @@ def createBlossomShader(rgb_blossom):
     import globalVar
     reload(globalVar)
 
-    blossomMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomMat'+str(globalVar.plantNumber) )
-    cmds.setAttr( blossomMat + '.color', rgb_blossom[0], rgb_blossom[1], rgb_blossom[2] )
-    blossomSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomSG'+str(globalVar.plantNumber) )
-    cmds.connectAttr( blossomMat + '.outColor', blossomSG + '.surfaceShader', f=True )
+    blossomPetalsMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomPetalsMat'+str(globalVar.plantNumber) )
+    cmds.setAttr( blossomPetalsMat + '.color', rgb_blossom[0], rgb_blossom[1], rgb_blossom[2] )
+    blossomPetalsSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomPetalsSG'+str(globalVar.plantNumber) )
+    cmds.connectAttr( blossomPetalsMat + '.outColor', blossomPetalsSG + '.surfaceShader', f=True )
+
+    blossomStamenMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomStamenMat'+str(globalVar.plantNumber) )
+    cmds.setAttr( blossomStamenMat + '.color', 0.848, 0.8484, 0.186 )
+    blossomStamenSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomStamenSG'+str(globalVar.plantNumber) )
+    cmds.connectAttr( blossomStamenMat + '.outColor', blossomStamenSG + '.surfaceShader', f=True )
+
+    blossomPedicelMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomPedicelMat'+str(globalVar.plantNumber) )
+    cmds.setAttr( blossomPedicelMat + '.color', 0, 0.494, 0 )
+    blossomPedicelSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomPedicelSG'+str(globalVar.plantNumber) )
+    cmds.connectAttr( blossomPedicelMat + '.outColor', blossomPedicelSG + '.surfaceShader', f=True )
 
 def applyShader(geometricObj, materialType):
 
     import globalVar
     reload(globalVar)
-    
+
     if materialType == 'branch':
         cmds.sets( geometricObj, fe='branchSG'+str(globalVar.plantNumber) )
     if materialType == 'leaf':
         cmds.sets( geometricObj, fe='leafSG'+str(globalVar.plantNumber) )
-    if materialType == 'blossom':
-        cmds.sets( geometricObj, fe='blossomSG'+str(globalVar.plantNumber) )
+    if materialType == 'blossomPetals':
+        cmds.sets( geometricObj, fe='blossomPetalsSG'+str(globalVar.plantNumber) )
+    if materialType == 'blossomStamen':
+        cmds.sets( geometricObj, fe='blossomStamenSG'+str(globalVar.plantNumber) )
+    if materialType == 'blossomPedicel':
+        cmds.sets( geometricObj, fe='blossomPedicelSG'+str(globalVar.plantNumber) )
     
 def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation,
     radius_atenuation, rgb_branch, segmentNum):
@@ -143,21 +158,14 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
         On Exit : It will have created the geometry AND IT RETURNS THE POSITION OF THE LAST VERTEX.
     """
 
-    length_atenuation = 1
-    radius_atenuation = 1
-
     import globalVar
     reload(globalVar)
-    print 'ATENTION, ATENTION!!! GLOBALVAR HERE IS', globalVar.plantNumber
     branchGeo = cmds.polyCylinder ( n='segment'+str(globalVar.plantNumber)+'_'+str(indexBranch)+'_'+str(segmentNum),r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
     print branchGeo, 'has been created.'
 
     cmds.xform( piv=[0,-pStep/2, 0], r=True, os=True )
     for i in range(0,indexBranch+1):
         cmds.xform( scale=[length_atenuation,length_atenuation,length_atenuation], r=True )
-
-    queryVar = cmds.xform( q=True, scale=True )
-    print queryVar
 
     cmds.move(0, pStep/2, 0)
     cmds.makeIdentity( apply=True, t=1, r=1, s=1, n=0 )
@@ -173,6 +181,7 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
 
 def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
     rgb_branch, rgb_leaf, rgb_blossom):
+
     """ Translates the string into maya commands in order to generate the final LSystem plant.
 
     LStringVar :    The L-System-generated string which will be interpreted by the turtle.
@@ -211,8 +220,17 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         y = 0
         z = 0
     ROT = rotation()
+    
     indexBranch = 0
     segmentNum = 1
+
+    leavesList = []
+    rotationLeaves = 0
+    leafNum = 1
+
+    blossomsList = []
+    rotationBlossoms = 0
+    blossomNum = 1
     
     for i in range(0,len(LStringVar)):
         if LStringVar[i] == chr(43):     # chr(43) is +
@@ -233,9 +251,51 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         elif LStringVar[i] == chr(62):   # chr(92) is >
             ROT.y -= pAngle
             #ROT.y += (5*random.random())
-        elif LStringVar[i] == chr(124):  # chr(124) is |
+        elif LStringVar[i] == chr(42):  # chr(42) is *
             ROT.x += 180
             #ROT.x += (5*random.random())
+        elif LStringVar[i] == 'B': # Create blossom
+            blossomName = "blossom_"+str(globalVar.plantNumber)+"_"+str(blossomNum)
+            cmds.file( "C:/GitHub/LSystemsMaya/script/blossom_geo.mb", i=True )
+            cmds.rename( "polySurface1", blossomName )
+
+            cmds.select( blossomName )
+            cmds.move( POS.x, POS.y, POS.z, r=True, os=True )
+            cmds.xform( ro=flaggedSegmentRot, os=True )
+            cmds.parent( blossomName, "plant"+str(globalVar.plantNumber) )
+            cmds.scale( pRad, pRad, pRad )
+
+            applyShader( blossomName+".f[50:109]", "blossomStamen")
+            applyShader( blossomName+".f[0:49]", "blossomPedicel")
+            cmds.select( blossomName+".f[*]", r=True )
+            cmds.select( blossomName+".f[50:109]", deselect=True )
+            cmds.select( blossomName+".f[0:49]", deselect=True )
+            objectList = cmds.ls(sl=True)
+            for item in objectList:
+                applyShader( item, "blossomPetals")
+
+
+            blossomsList += blossomName
+            blossomNum += 1
+
+        elif LStringVar[i] == 'L': # Create leaf
+            leafName = "leaf_"+str(globalVar.plantNumber)+"_"+str(leafNum)
+            cmds.file( "C:/GitHub/LSystemsMaya/script/leaf_geo.mb", i=True )
+            cmds.rename( "pPlane1", leafName )
+
+            cmds.select( leafName )
+            cmds.move( POS.x, POS.y, POS.z, r=True, os=True )
+            cmds.xform( ro=flaggedSegmentRot, os=True )
+            cmds.rotate( rotationLeaves%48, rotationLeaves, rotationLeaves%15, r=True, os=True )
+            cmds.move( 0, 0, -pRad*0.8, r=True, os=True )
+            cmds.parent( leafName, "plant"+str(globalVar.plantNumber) )
+            applyShader(leafName, "leaf")
+            cmds.scale( pRad*0.5, pRad*0.5, pRad*0.5 )
+
+            leavesList += leafName
+            rotationLeaves += random.randint(0,720)
+            leafNum += 1
+
         elif LStringVar[i] == chr(91):   # chr(93) is [
             exec "storedPOS_%s = copy.copy(POS)" % (indexBranch)
             exec "storedROT_%s = copy.copy(ROT)" % (indexBranch)
@@ -248,21 +308,21 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             # Have in mind that makeSegment apart from creating the geometry it also returns the position of the last vertex.
             lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch,
                 length_atenuation, radius_atenuation, rgb_branch, segmentNum)
+
+
             import globalVar
             reload(globalVar)
             POS.x = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[0]
             POS.y = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[1]
             POS.z = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[2]
+            
+            flaggedSegment = "segment%s_%s_%s" % (globalVar.plantNumber, indexBranch, segmentNum)
+            flaggedSegmentRot = cmds.xform( flaggedSegment, q=True, ro=True )
+
             segmentNum += 1
             if turtleSpeed != 0:
                 time.sleep( turtleSpeed )
                 cmds.refresh( force=True )
-            print "POS.x =", POS.x
-            print "POS.y =", POS.y
-            print "POS.z =", POS.z
-            print "ROT.x =", ROT.x
-            print "ROT.y =", ROT.y
-            print "ROT.z =", ROT.z
 
 def createAnimation(keyEvery, angleVar):
     pass #TO DO
