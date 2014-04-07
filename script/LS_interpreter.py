@@ -22,7 +22,7 @@
         >    Rotate -Z (pitch up)
         *    Turtle rotates 180 (as it was facing backwards)
         [    Push current turtle state on the stack
-        ]    Pop the current turtlestate from the stack
+        ]    Pop the current turtle state from the stack
 
         The rest of letters (AaCcDdEeGgHhIiJjKkMmNnOoPpQqRrSsTtUuVvXxYyZz) will be interpreted as move forward as well.
     
@@ -256,7 +256,10 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
                     - blossom_X_Y
                 Where X will be the plant number and Y the unique blossom number (ID).
             """
-            cmds.file( "C:/GitHub/LSystemsMaya/script/blossom_geo.mb", i=True )
+            import os
+            pathVar = os.path.dirname(__file__) # This stores the current working directory
+
+            cmds.file( pathVar+"/blossom_geo.mb", i=True )
             cmds.rename( "polySurface1", blossomName )
             # Places the blossom to the right position and rotates it according to the last branch orientation
             cmds.select( blossomName )
@@ -285,7 +288,10 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
                     - leaf_X_Y
                 Where X will be the plant number and Y the unique leaf number (ID).
             """
-            cmds.file( "C:/GitHub/LSystemsMaya/script/leaf_geo.mb", i=True )
+            import os
+            pathVar = os.path.dirname(__file__) # This stores the current working directory
+
+            cmds.file( pathVar+"/leaf_geo.mb", i=True )
             cmds.rename( "pPlane1", leafName )
             # Places the leaf to the right position and rotates it according to the last branch orientation
             cmds.select( leafName )

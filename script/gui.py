@@ -251,11 +251,11 @@ def createUI():
 
     #--- Colour Fields ---#
     global rgb_branchField, rgb_leafField, rgb_branchField
-    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.624,0,0), cw3=[52,30,328], ann="Branch colour." )
+    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.430,0.230,0.11), cw3=[52,30,328], ann="Branch colour." )
     cmds.separator( h=6, st="none" )
     cmds.colorSliderGrp( "rgb_leafField", l="Leaves", rgb=(0,0.624,0), cw3=[52,30,328], ann="Leaf colour." )
     cmds.separator( h=6, st="none" )
-    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(0.430,0.230,0.11), cw3=[52,30,328], ann="Blossoms colour." )
+    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(0.624,0,0), cw3=[52,30,328], ann="Blossoms colour." )
 
     #--- Create Geometry / Clean Plant ---#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,196), (2,10), (3,196)], parent=mInterpret )
