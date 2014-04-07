@@ -19,7 +19,6 @@ from LS_string_rewriting import *
 from LS_interpreter import *
 
 __author__ = "Ramon Blanquer Ruiz"
-__license__ = "GPL"
 __version__ = "1.0.0"
 __email__ = "ramon@ramonblanquer.com"
 __status__ = "Unmaintained"
@@ -49,6 +48,25 @@ def createUI():
         cmds.separator( st="none" )
         cmds.text( l="1. Copy all the text inside startScript.py and paste it to Maya's Script Editor, a window will pop up\n\tasking you to select the folder which the script files are. Hit accept.\n2. Set an axiom (or initial word), depth and rules.\n3. Click Generate String. Then you will see the result in the text field below.\n4. Set all the 'Geometric Interpretation' attributes (Angle, Segment Length...)\n5. Click Create Geometry. You will see the result in your scene. If you want to clean the last plant\n\tclick Clean Plant. If you click Create Geometry again you will get another plant.\n6. If you want you can set animation parameters under the tab Animation  Settings, they are self-\n\texplanatory. Furthermore you can take a look at the help line I built for that.       " )
         cmds.separator( st="none" )
+        cmds.separator( st="none" )
+        cmds.text( l='\nThis is the meaning for each character you enter in the rules section:' )
+        cmds.separator( st="none" )
+        cmds.separator( st="none" )
+        cmds.text( l="""        
+        F    Move forward
+        f    Move forward
+        L    Leaf
+        B    Blossom
+        +    Rotate +X (yaw right)
+        -    Rotate -X (yaw left)
+        ^    Rotate +Y (roll right)
+        &    Rotate -Y (roll left)
+        <    Rotate +Z (pitch down)
+        >    Rotate -Z (pitch up)
+        *    Turtle rotates 180 (as it was facing backwards)
+        [    Push current turtle state on the stack
+        ]    Pop the current turtlestate from the stack""" )
+        cmds.text
         cmds.showWindow( instructions_window )
     cmds.rowColumnLayout( numberOfColumns=4, cal=[(2,"left")], columnWidth=[(1,5),(2,320),(3,100),(4,5)], parent=mainFrame )
     cmds.separator( st="none" )
@@ -61,13 +79,13 @@ def createUI():
     def preset1Action(*args):
         import presets
         set1 = presets.preset1()
-    cmds.button( l="Preset1", c=preset1Action, ann="Loads Preset #1" )
+    cmds.button( l="Preset1", c=preset1Action, ann="Loads Preset #1." )
     cmds.separator( st="none" )
 
     def preset2Action(*args):
         import presets
         set2 = presets.preset2()
-    cmds.button( l="Preset2", c=preset2Action, ann="Loads Preset #2" )
+    cmds.button( l="Preset2", c=preset2Action, ann="Loads Preset #2." )
     cmds.separator( st="none" )
 
     def preset3Action(*args):
@@ -113,7 +131,7 @@ def createUI():
     cmds.textField( "prodRulePred1", en=True, tx="F", ann="Enter predecessor string for production rule 1")
     cmds.text( l="->", en=True )
     cmds.textField( "prodRuleSucc1", en=True, tx="F[&+F]F[->F][&F]", ann="Enter successor string for production rule 1")
-    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=0,
+    cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=100,
         ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
     cmds.separator( st="none" )
     cmds.separator( st="none" )
@@ -217,7 +235,7 @@ def createUI():
     #--- Set of geometric parameters ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1,406)], parent=mInterpret )
     cmds.floatSliderGrp( "angle", l="Angle: ", pre=1, v=28, cal=[2,'center'], cw3=[92,40,788], min=0, max=100, fmx=360,
-        f=True, ann="The turtle will yaw, roll / pitch by this angular amount each time it finds its corresponding  symbol.")
+        f=True, ann="The turtle will yaw, roll, pitch by this angular amount each time it finds its corresponding  symbol.")
     cmds.floatSliderGrp( "length", l="Segment Length: ", pre=2, v=1.2, cw3=[92,40,788], min=0, max=10, fmx=100, f=True,
         ann= "The length of each turtle's step.")
     cmds.floatSliderGrp( "radius", l="Segment Radius: ", pre=2, v=0.2, cw3=[92,40,788], min=0, max=0.5, fmx=2, f=True,
@@ -312,20 +330,22 @@ def generateStringButtonAction(*pArgs):
 
     pDepth = cmds.intSliderGrp( "depthIntField", q=True, v=True )
 
-    '''
-    if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4 or prodRulePred2 == prodRulePred3, prodRulePred2 == prodRulePred4, prodRulePred3 == prodRulePred4:
-        if prodRuleProb1+prodRuleProb1+prodRuleProb1+prodRuleProb4 == 100:
+    # This bit makes sure the sum of all probabilities is 100%.
+    if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4 or prodRulePred2 == prodRulePred3 or prodRulePred2 == prodRulePred4 or prodRulePred3 == prodRulePred4:
+        probSum = int(prodRuleProb1) + int(prodRuleProb2) + int(prodRuleProb3) + int(prodRuleProb4)
+        if probSum == 100:
             global LStringVar
             LStringVar = writeLS(pAxiom, pP, pDepth)
+            cmds.textField( "output", edit=True, tx=LStringVar )
+            cmds.textField( "warningsTextField", edit=True, tx="None" )
+        elif probSum == 10:
+            global LStringVar
+            LStringVar = writeLS(pAxiom, pP, pDepth)
+            cmds.textField( "output", edit=True, tx=LStringVar )
+            cmds.textField( "warningsTextField", edit=True, tx="None" )
         else:
-            cmds.textField('warningsTextField', edit=True, tx="Be careful with percentages. They don't add to 100, but I will carry on.")
-            global LStringVar
-            LStringVar = writeLS(pAxiom, pP, pDepth)
-    '''
-
-    global LStringVar
-    LStringVar = writeLS(pAxiom, pP, pDepth)
-    cmds.textField( "output", edit=True, tx=LStringVar )
+            cmds.textField('warningsTextField', edit=True, tx="Be careful with percentages. They don't add to 100.")
+            cmds.textField( "output", edit=True, tx='ERROR. Take a look at the warning text line.' )
 
 #--- CLEAR STRING BUTTON ACTION ---#
 def clearStringButtonAction(*pArgs):
@@ -356,7 +376,8 @@ def createGeometryButtonAction(*pArgs):
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
         createBlossomShader(rgb_blossom)
-        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
+        print "The length atenuation variable in gui is ", length_atenuation
+        createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation/100.0, radius_atenuation/100.0, turtleSpeed,
             rgb_branch, rgb_leaf, rgb_blossom)
 
 
@@ -367,15 +388,6 @@ def cleanPlantButtonAction(*pArgs):
     reload(globalVar)
     
     cmds.select( 'plant'+str(globalVar.plantNumber))
-    #cmds.select(branchMat, add=True)
-    #cmds.select(branchSG, add=True)
-    #cmds.select(fractalMap, add=True)
-    #cmds.select(placeTexture, add=True)
-    #cmds.select(bumpUtility, add=True)
-    #cmds.select(leafMat, add=True)
-    #cmds.select(leafSG, add=True)
-    #cmds.select(blossomMat, add=True)
-    #cmds.select(blossomSG, add=True)
     cmds.delete()
 
 #--- CREATE ANIMATION ACTION ---#
@@ -384,7 +396,8 @@ def createAnimationButtonAction(*pArgs):
     keyEvery = cmds.intSliderGrp('keyEvery', q=True, v=True)
     angleVar = cmds.intSliderGrp('angleVar', q=True, v=True)
     #--- Procedure Call ---#
-    createAnimation(keyEvery, angleVar)
+    import animation
+    animation.createAnimation(keyEvery, angleVar)
 
 #--- CLEAR KEYFRAMES ---#
 def clearKeyframesButtonAction(*pArgs):

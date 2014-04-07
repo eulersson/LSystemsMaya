@@ -9,10 +9,7 @@
         - The probabilities are forced to be integers, a way to operate with float could improve it.
 '''
 
-import maya.cmds as cmds
 import random
-import math
-import copy
 import LS_interpreter
 reload(LS_interpreter)
 
@@ -86,24 +83,58 @@ def writeLS(pW, pP, pDepth):
         for i in range(0, len(pW)): # Search for coincidences in the string
             coincidence = []
             for j in range(0, len(pP)):
-                if pW[i] == pP[j][1]: # IF the current letter matches any of the rule cases...
-                    coincidence.append([i,j]) # Appends the index of the string in which the rule
-                                              # satisfies and the rule index
-
+                if pW[i] == pP[j][1]: # IF the current letter matches any of the rule cases... p[X][1] is the predecessor
+                    coincidence.append([i,j]) # Appends the index of the string where rule satisfies and the rule index
+            """
+            For example:
+            >>> word = 'F+FX+FF'
+            >>> rules = [ [50, 'F', 'GF'],
+                          [50, 'F', 'ff'] ]
+            What will happen is that we will go over each character of the word and compare to the rules. Let's do it. We
+            start with word[0] which is 'F'. We will compare it to ALL the predecessors to see if they are the same. So, as
+            word[0] is the same char as rules[0][1] we will add in the coincidence array the touple [0,0], which can be
+            understood as "We have found a coincidence in word[X] matching the rule[Y]".
+            """
             if len(coincidence) == 0: # IF coincidence is empty
                 tempList += pW[i] # Just add the current character
             elif len(coincidence) == 1: # ELSE IF it finds just one coincidence
-                tempList += pP[coincidence[0][1]][2] # Add the right hand side content of the rule.
+                tempList += pP[coincidence[0][1]][2] # Add the right hand side content (sucessor) of the rule.
             else:
-            #--- Working out the probabilities ---#
+                '''
+                WORKING OUT THE PROBABILITIES
+                This is the most complicated part. To work out the percentages I do it using a rudimentary way. I create a
+                a list, called choiceList. Then I iterate over the coincidence list we created before which contains all the
+                rule matchings. Refer back to the previous explanation if you don't know what I am talking about. It is
+                rudimentary because what I put in the choiceList the successors of the rules multiple times in the array.
+                
+                Let me explain myself with a simple example:
+                >>> word = 'F'
+                >>> rules = [ [30, 'F', 'P'],
+                              [70, 'F', 'Q'] ]
+                
+                Imagine we were in this case. choiceList would be an array containing 30 times the item 'P' and 70 times the
+                element 'Q'. So it would be huge.
+
+                    choiceList --> [[0,0,0, ...thirty times...],[1,1,1,1,1,1,1, ...seventy times...]]
+                
+                Then I flatten the list so that I have a one-dimensional array:
+
+                    flattenedList --> [0,0,0,...thirty items...,1,1,1,1,1,1,1,...seventy times...]
+
+                Now it is so easy because I pick a random number between 0 and the length of the array which will be used to
+                select the successor through the rule index.
+                '''
                 choiceList = []
-                for item in coincidence:
-                    choiceList.append(int(pP[item[j]][0]) * [pP[item[j]][2]])
-                flattenedList = [] # As we get a multidimensional array I must flatten it to 1D in
-                                   # order to pick an item just using one single index
+
+                for k in range(0,len(coincidence)):
+                    choiceList.append(int(pP[coincidence[k][1]][0]) * [coincidence[k][1]])
+
+                flattenedList = [] # As we get a multidimensional array I must flatten it to 1D in order to pick an item just using one single index
                 for item in choiceList:
                     flattenedList.extend(item)
-                randomIndex = random.randint(0, len(flattenedList))
-                tempList += flattenedList[randomIndex]
+                # We pick one of the possible sucessors and we carry on
+                randomIndex = random.randint(0, len(flattenedList)-1)
+                tempList += pP[flattenedList[randomIndex]][2]
+
         pW = tempList
         return writeLS(pW, pP, pDepth-1) # Recursive call
