@@ -65,7 +65,6 @@ def createUI():
         *    Turtle rotates 180 (as it was facing backwards)
         [    Push current turtle state on the stack
         ]    Pop the current turtle state from the stack""" )
-        cmds.tex
         cmds.showWindow( instructions_window )
     cmds.rowColumnLayout( numberOfColumns=4, cal=[(2,"left")], columnWidth=[(1,5),(2,320),(3,100),(4,5)], parent=mainFrame )
     cmds.separator( st="none" )
@@ -316,8 +315,7 @@ def generateStringButtonAction(*pArgs):
     pDepth = cmds.intSliderGrp( "depthIntField", q=True, v=True )
 
     # This bit makes sure the sum of all probabilities is 100.
-    if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4
-    or prodRulePred2 == prodRulePred3 or prodRulePred2 == prodRulePred4 or prodRulePred3 == prodRulePred4:
+    if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4 or prodRulePred2 == prodRulePred3 or prodRulePred2 == prodRulePred4 or prodRulePred3 == prodRulePred4:
         probSum = int(prodRuleProb1) + int(prodRuleProb2) + int(prodRuleProb3) + int(prodRuleProb4)
         if probSum == 100:
             global LStringVar
