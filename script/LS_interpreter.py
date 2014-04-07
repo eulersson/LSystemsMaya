@@ -160,12 +160,14 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
 
     import globalVar
     reload(globalVar)
-    branchGeo = cmds.polyCylinder ( n='segment'+str(globalVar.plantNumber)+'_'+str(indexBranch)+'_'+str(segmentNum),r=pRad, h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
+    branchGeo = cmds.polyCylinder ( n='segment'+str(globalVar.plantNumber)+'_'+str(indexBranch)+'_'+str(segmentNum),r=pRad,
+        h=pStep, sx=subDivs, sy=1, sz=1, ax=[0, 1, 0] )[0]
     print branchGeo, 'has been created.'
 
     cmds.xform( piv=[0,-pStep/2, 0], r=True, os=True )
     for i in range(0,indexBranch+1):
-        cmds.xform( scale=[length_atenuation,length_atenuation,length_atenuation], r=True )
+        cmds.xform( scale=[radius_atenuation,1,radius_atenuation], r=True )
+        cmds.xform( scale=[1,length_atenuation,1], r=True )
 
     cmds.move(0, pStep/2, 0)
     cmds.makeIdentity( apply=True, t=1, r=1, s=1, n=0 )
@@ -200,11 +202,9 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
     rgb_leaf :      RGB values for the diffuse colour of the leaves.
     rgb_blossom :   RGB values for the diffuse colour of blossoms.
 
-
-
-
     On Exit :  Creates the geometry.
     """
+
     import globalVar
     reload(globalVar)
 
@@ -215,22 +215,20 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         y = 0
         z = 0
     POS = position()
+
     class rotation:
         x = 0
         y = 0
         z = 0
     ROT = rotation()
     
-    indexBranch = 0
-    segmentNum = 1
+    indexBranch = 0         # keeps track of the branch level
+    segmentNum = 1          # unique ID for each segment or internode
 
-    leavesList = []
-    rotationLeaves = 0
-    leafNum = 1
+    rotationLeaves = 0      # we initialise a variable that will be useful for adding slight random rotation to the leaves
+    leafNum = 1             # unique ID for each leaf
 
-    blossomsList = []
-    rotationBlossoms = 0
-    blossomNum = 1
+    blossomNum = 1          # unique ID for each blossoms
     
     for i in range(0,len(LStringVar)):
         if LStringVar[i] == chr(43):     # chr(43) is +
@@ -254,17 +252,26 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         elif LStringVar[i] == chr(42):  # chr(42) is *
             ROT.x += 180
             #ROT.x += (5*random.random())
-        elif LStringVar[i] == 'B': # Create blossom
-            blossomName = "blossom_"+str(globalVar.plantNumber)+"_"+str(blossomNum)
-            cmds.file( "C:/GitHub/LSystemsMaya/script/blossom_geo.mb", i=True )
-            cmds.rename( "polySurface1", blossomName )
 
+        elif LStringVar[i] == 'B': # Create blossom
+            # Import geometry from external file and rename it
+            blossomName = "blossom_"+str(globalVar.plantNumber)+"_"+str(blossomNum)
+            ''' The blossoms' names will follow this template:
+                    - blossom_X_Y
+                Where X will be the plant number and Y the unique blossom number (ID).
+            '''
+            cmds.file( "blossom_geo.mb", i=True )
+            cmds.rename( "polySurface1", blossomName )
+            # Places the blossom to the right position and rotates it according to the last branch orientation
             cmds.select( blossomName )
             cmds.move( POS.x, POS.y, POS.z, r=True, os=True )
             cmds.xform( ro=flaggedSegmentRot, os=True )
             cmds.parent( blossomName, "plant"+str(globalVar.plantNumber) )
             cmds.scale( pRad, pRad, pRad )
-
+            # We reduce a iteratively the size of the blossoms when they are in a deep level
+            for i in range(0,indexBranch+1):
+                cmds.scale( 0.95, 0.95, 0.95, r=True )
+            # Assigns materials to petals, stamen and pedicel
             applyShader( blossomName+".f[50:109]", "blossomStamen")
             applyShader( blossomName+".f[0:49]", "blossomPedicel")
             cmds.select( blossomName+".f[*]", r=True )
@@ -273,26 +280,30 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             objectList = cmds.ls(sl=True)
             for item in objectList:
                 applyShader( item, "blossomPetals")
-
-
-            blossomsList += blossomName
+            # Increments the blossoms counter
             blossomNum += 1
 
         elif LStringVar[i] == 'L': # Create leaf
             leafName = "leaf_"+str(globalVar.plantNumber)+"_"+str(leafNum)
-            cmds.file( "C:/GitHub/LSystemsMaya/script/leaf_geo.mb", i=True )
+            ''' The leave's names will follow this template:
+                    - leaf_X_Y
+                Where X will be the plant number and Y the unique leaf number (ID).
+            '''
+            cmds.file( "leaf_geo.mb", i=True )
             cmds.rename( "pPlane1", leafName )
-
+            # Places the leaf to the right position and rotates it according to the last branch orientation
             cmds.select( leafName )
             cmds.move( POS.x, POS.y, POS.z, r=True, os=True )
             cmds.xform( ro=flaggedSegmentRot, os=True )
             cmds.rotate( rotationLeaves%48, rotationLeaves, rotationLeaves%15, r=True, os=True )
-            cmds.move( 0, 0, -pRad*0.8, r=True, os=True )
             cmds.parent( leafName, "plant"+str(globalVar.plantNumber) )
+            # Assigns the material to leaves
             applyShader(leafName, "leaf")
             cmds.scale( pRad*0.5, pRad*0.5, pRad*0.5 )
-
-            leavesList += leafName
+            # We reduce a iteratively the size of the leaves when they are in a deep level
+            for i in range(0,indexBranch+1):
+                cmds.scale( 0.85, 0.85, 0.85, r=True )
+            # We change the random value for the slight rotation value we add
             rotationLeaves += random.randint(0,720)
             leafNum += 1
 
@@ -300,6 +311,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             exec "storedPOS_%s = copy.copy(POS)" % (indexBranch)
             exec "storedROT_%s = copy.copy(ROT)" % (indexBranch)
             indexBranch +=1
+
         elif LStringVar[i] == chr(93):   # chr(93) is ]
             indexBranch -= 1
             exec "POS = copy.copy(storedPOS_%s)" % (indexBranch)
@@ -309,9 +321,9 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch,
                 length_atenuation, radius_atenuation, rgb_branch, segmentNum)
 
-
             import globalVar
             reload(globalVar)
+
             POS.x = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[0]
             POS.y = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[1]
             POS.z = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[2]
@@ -323,6 +335,3 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             if turtleSpeed != 0:
                 time.sleep( turtleSpeed )
                 cmds.refresh( force=True )
-
-def createAnimation(keyEvery, angleVar):
-    pass #TO DO
