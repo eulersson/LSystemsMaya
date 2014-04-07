@@ -9,10 +9,7 @@
         - The probabilities are forced to be integers, a way to operate with float could improve it.
 '''
 
-import maya.cmds as cmds
 import random
-import math
-import copy
 import LS_interpreter
 reload(LS_interpreter)
 
@@ -118,26 +115,26 @@ def writeLS(pW, pP, pDepth):
                 Imagine we were in this case. choiceList would be an array containing 30 times the item 'P' and 70 times the
                 element 'Q'. So it would be huge.
 
-                    choiceList --> [['P','P','P', ...thirty times...],['Q','Q','Q','Q','Q','Q','Q', ...seventy times...]]
+                    choiceList --> [[0,0,0, ...thirty times...],[1,1,1,1,1,1,1, ...seventy times...]]
                 
                 Then I flatten the list so that I have a one-dimensional array:
 
-                    flattenedList --> ['P','P','P',...thirty items...,'Q','Q','Q','Q','Q','Q','Q',...seventy times...]
+                    flattenedList --> [0,0,0,...thirty items...,1,1,1,1,1,1,1,...seventy times...]
 
                 Now it is so easy because I pick a random number between 0 and the length of the array which will be used to
-                select the successor.
+                select the successor through the rule index.
                 '''
                 choiceList = []
 
                 for k in range(0,len(coincidence)):
-                    choiceList.append(int(pP[coincidence[k][1]][0]) * [pP[coincidence[k][1]][2]])
+                    choiceList.append(int(pP[coincidence[k][1]][0]) * [coincidence[k][1]])
 
                 flattenedList = [] # As we get a multidimensional array I must flatten it to 1D in order to pick an item just using one single index
                 for item in choiceList:
                     flattenedList.extend(item)
                 # We pick one of the possible sucessors and we carry on
-                randomIndex = random.randint(0, len(flattenedList))
-                tempList += flattenedList[randomIndex]
-                
+                randomIndex = random.randint(0, len(flattenedList)-1)
+                tempList += pP[flattenedList[randomIndex]][2]
+
         pW = tempList
         return writeLS(pW, pP, pDepth-1) # Recursive call

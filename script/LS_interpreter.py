@@ -30,7 +30,6 @@
     and rotation will be updated each time a character is read. 
 '''
 
-import maya.cmds as cmds
 import random
 import math
 import copy
@@ -260,7 +259,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
                     - blossom_X_Y
                 Where X will be the plant number and Y the unique blossom number (ID).
             '''
-            cmds.file( "blossom_geo.mb", i=True )
+            cmds.file( "C:/GitHub/LSystemsMaya/script/blossom_geo.mb", i=True )
             cmds.rename( "polySurface1", blossomName )
             # Places the blossom to the right position and rotates it according to the last branch orientation
             cmds.select( blossomName )
@@ -289,7 +288,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
                     - leaf_X_Y
                 Where X will be the plant number and Y the unique leaf number (ID).
             '''
-            cmds.file( "leaf_geo.mb", i=True )
+            cmds.file( "C:/GitHub/LSystemsMaya/script/leaf_geo.mb", i=True )
             cmds.rename( "pPlane1", leafName )
             # Places the leaf to the right position and rotates it according to the last branch orientation
             cmds.select( leafName )

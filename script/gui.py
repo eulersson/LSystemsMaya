@@ -338,6 +338,11 @@ def generateStringButtonAction(*pArgs):
             LStringVar = writeLS(pAxiom, pP, pDepth)
             cmds.textField( "output", edit=True, tx=LStringVar )
             cmds.textField( "warningsTextField", edit=True, tx="None" )
+        elif probSum == 10:
+            global LStringVar
+            LStringVar = writeLS(pAxiom, pP, pDepth)
+            cmds.textField( "output", edit=True, tx=LStringVar )
+            cmds.textField( "warningsTextField", edit=True, tx="None" )
         else:
             cmds.textField('warningsTextField', edit=True, tx="Be careful with percentages. They don't add to 100.")
             cmds.textField( "output", edit=True, tx='ERROR. Take a look at the warning text line.' )
