@@ -89,13 +89,13 @@ def createUI():
     def preset3Action(*args):
         import presets
         set3 = presets.preset3()
-    cmds.button( l="Preset3", c=preset3Action, ann="Loads Preset #3" )
+    cmds.button( l="Preset3", c=preset3Action, ann="Loads Preset #3." )
     cmds.separator( st="none" )
 
     def preset4Action(*args):
         import presets
         set4 = presets.preset4()
-    cmds.button( l="Preset4", c=preset4Action, ann="Loads Preset #4" )
+    cmds.button( l="Preset4", c=preset4Action, ann="Loads Preset #4." )
 
 
     # !!!!!!!!!!!!!!!!!!!!!!! TO DO --> PRESETS
@@ -109,15 +109,15 @@ def createUI():
     #--- Axiom ---#
     cmds.rowColumnLayout( numberOfColumns=2, columnWidth=[(1, 43), (2, 363)], parent=rulesLayout )
     cmds.text( l="Axiom ", align="right" )
-    cmds.textField( "axiomTextField", tx="F", ann="Type the initial word you want to start with. The initialiser." )
+    cmds.textField( "axiomTextField", tx="F", ann="Type the initial word you want to start with. The rules will replace each char of the word." )
     
     #--- Depth ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 406)], parent=rulesLayout )
     cmds.intSliderGrp( "depthIntField", l="Depth: ", v=4, cw3=[40,30,350], min=1, max=10, fmx=20, f=True,
-        ann="Set the index of recursion. The number of iterations over the generated string." )
+        ann="Set the index of recursion. The number of iterations over the generated string. How many times do you want to seach and replace chars in the string?" )
 
     #--- Probabilities header ---#
-    cmds.rowColumnLayout( numberOfColumns=3, cal=[(1,"right")], columnWidth=[(1,325),(2,50),(3,45)], parent=rulesLayout)
+    cmds.rowColumnLayout( numberOfColumns=3, cal=[(1,"right")], columnWidth=[(1,325),(2,50),(3,45)], parent=rulesLayout )
     cmds.separator( st="none" )
     cmds.text( l="Prob.(%)", en=True, ebg=True, bgc=[0.0,0.153,0.0666] )
     cmds.separator( st="none" )
@@ -127,23 +127,23 @@ def createUI():
 
      #--- RULE 1 ---#
     cmds.text( l="Rule 1: ", en=True )
-    cmds.textField( "prodRulePred1", en=True, tx="F", ann="Enter predecessor string for production rule 1" )
+    cmds.textField( "prodRulePred1", en=True, tx="F", ann="Enter predecessor string for production rule 1. If this character is found in the string it will be replaced." )
     cmds.text( l="->", en=True )
-    cmds.textField( "prodRuleSucc1", en=True, tx="F[&+F]F[->FL][&FB]", ann="Enter successor string for production rule 1" )
+    cmds.textField( "prodRuleSucc1", en=True, tx="F[&+F]F[->FL][&FB]", ann="Enter successor string for production rule 1. The value you want to replace the predecessor with." )
     cmds.intField( "prodRuleProb1", minValue=0, maxValue=100, value=100,
-        ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
+        ann="Enter the probability (in percentage %) in which you want this rule to be executed. Applies just if you write the same predecessors in different rules." )
     cmds.separator( st="none" )
     cmds.separator( st="none" )
 
     #--- RULE 2 ---#
     cmds.text( "prodRule2Text_A", l="Rule 2: ", en=False )
-    cmds.textField( "prodRulePred2", en=False, ann="Enter predecessor string for production rule 2" )
+    cmds.textField( "prodRulePred2", en=False, ann="Enter predecessor string for production rule 2. If this character is found in the string it will be replaced." )
     cmds.text( "prodRule2Text_B", l="->", en=False )
-    cmds.textField( "prodRuleSucc2", en=False, ann="Enter successor string for production rule 2" )
+    cmds.textField( "prodRuleSucc2", en=False, ann="Enter successor string for production rule 2. The value you want to replace the predecessor with." )
     cmds.intField( "prodRuleProb2", minValue=0, maxValue=100, value=0, en=False,
-        ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
+        ann="Enter the probability (in percentage %) in which you want this rule to be executed. Applies just if you write the same predecessors in different rules." )
     cmds.separator( st="none" )
-    cmds.checkBox( "prodRuleCheckBox2", l="", value=False, ann="Activates the 2st production rule" )
+    cmds.checkBox( "prodRuleCheckBox2", l="", value=False, ann="Activates the 2st production rule." )
     def toggleGreyingOut2(*pArgs):
         valueCB2 = cmds.checkBox( "prodRuleCheckBox2", q=True, value=True )
         if valueCB2 == True:
@@ -164,13 +164,13 @@ def createUI():
 
     #--- RULE 3 ---#
     cmds.text( "prodRule3Text_A", l="Rule 3: ", en=False )
-    cmds.textField( "prodRulePred3", en=False, ann="Enter predecessor string for production rule 3" )
+    cmds.textField( "prodRulePred3", en=False, ann="Enter predecessor string for production rule 3. If this character is found in the string it will be replaced." )
     cmds.text( "prodRule3Text_B", l="->", en=False )
-    cmds.textField( "prodRuleSucc3", en=False, ann="Enter successor string for production rule 3" )
+    cmds.textField( "prodRuleSucc3", en=False, ann="Enter successor string for production rule 3. The value you want to replace the predecessor with." )
     cmds.intField( "prodRuleProb3", minValue=0, maxValue=100, value=0, en=False,
-        ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
+        ann="Enter the probability (in percentage %) in which you want this rule to be executed. Applies just if you write the same predecessors in different rules." )
     cmds.separator( st="none" )
-    cmds.checkBox( "prodRuleCheckBox3", l="", value=False, ann="Activates the 3rd production rule" )
+    cmds.checkBox( "prodRuleCheckBox3", l="", value=False, ann="Activates the 3rd production rule." )
     def toggleGreyingOut3(*pArgs):
         valueCB3 = cmds.checkBox( "prodRuleCheckBox3", q=True, value=True )
         if valueCB3 == True:
@@ -191,13 +191,13 @@ def createUI():
 
     #--- RULE 4 ---#
     cmds.text( "prodRule4Text_A", l="Rule 4: ", en=False )
-    cmds.textField( "prodRulePred4", en=False, ann="Enter predecessor string for production rule 4" )
+    cmds.textField( "prodRulePred4", en=False, ann="Enter predecessor string for production rule 4. If this character is found in the string it will be replaced." )
     cmds.text( "prodRule4Text_B", l="->", en=False )
-    cmds.textField( "prodRuleSucc4", en=False, ann="Enter successor string for production rule 4" )
+    cmds.textField( "prodRuleSucc4", en=False, ann="Enter successor string for production rule 4. The value you want to replace the predecessor with." )
     cmds.intField( "prodRuleProb4", minValue=0, maxValue=100, value=0, en=False,
-        ann="Enter the probability (in percentage %) in which you want this rule to be executed" )
+        ann="Enter the probability (in percentage %) in which you want this rule to be executed. Applies just if you write the same predecessors in different rules." )
     cmds.separator( st="none" )
-    cmds.checkBox( "prodRuleCheckBox4", l="", value=False, ann="Activates the 4th production rule" )
+    cmds.checkBox( "prodRuleCheckBox4", l="", value=False, ann="Activates the 4th production rule." )
     def toggleGreyingOut4(*pArgs):
         valueCB4 = cmds.checkBox( "prodRuleCheckBox4", q=True, value=True )
         if valueCB4 == True:
@@ -218,13 +218,13 @@ def createUI():
 
     #--- Generate String / Clear String  ---#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,196), (2,10), (3,196)], parent=rulesLayout )
-    cmds.button( l="Generate String", ann="Click to run the L-System string calculation", c=generateStringButtonAction )
+    cmds.button( l="Generate String", ann="Click to run the L-System string procedure.", c=generateStringButtonAction )
     cmds.separator( h=5, st="none" )
     cmds.button( l="Clear String", ann="Click to reset the generated string", command=clearStringButtonAction )
 
     #--- String Output ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 402)], parent=rulesLayout )
-    cmds.textField( "output", editable=True, ann="This is the generated string. Now Proceed to build the geometry.")
+    cmds.textField( "output", editable=True, ann="This is the generated string. When you get it proceed to construct the geometry.")
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1, 402)], parent=mainFrame )
     cmds.separator( h=5, st='none' )
 
@@ -234,34 +234,34 @@ def createUI():
     #--- Set of geometric parameters ---#
     cmds.rowColumnLayout( numberOfColumns=1, columnWidth=[(1,406)], parent=mInterpret )
     cmds.floatSliderGrp( "angle", l="Angle: ", pre=1, v=25.2, cal=[2,'center'], cw3=[92,40,788], min=0, max=100, fmx=360,
-        f=True, ann="The turtle will yaw, roll, pitch by this angular amount each time it finds its corresponding  symbol.")
+        f=True, ann="The turtle will yaw, roll or pitch by this angular (degrees) amount each time it finds each corresponding symbol.")
     cmds.floatSliderGrp( "length", l="Segment Length: ", pre=2, v=1.20, cw3=[92,40,788], min=0, max=10, fmx=100, f=True,
-        ann= "The length of each turtle's step.")
+        ann= "The length of each turtle's step or segment.")
     cmds.floatSliderGrp( "radius", l="Segment Radius: ", pre=2, v=0.20, cw3=[92,40,788], min=0, max=0.5, fmx=2, f=True,
-        ann="The radius of each cylinder that will be placed." )
+        ann="The radius of each cylinder (segment) that is placed." )
     cmds.intSliderGrp( "cylSubdivs", l="Cylinder Subdivs: ", v=5, cw3=[92,40,788], min=4, max=20, fmx=20, f=True,
         ann="No. of subdivisions for each cylinder." )
     cmds.intSliderGrp( "length_atenuation", l="Len. Atenuation: ", v=95, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
-        ann="Next's segment's length will be (this field) percent the length of the previous one." )
+        ann="Next's index branch's segment's length will be (this field) percent the length of the previous one." )
     cmds.intSliderGrp( "radius_atenuation", l="Rad. Atenuation: ", v=85, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
-        ann="Next's radius's will be (this field) percent the radius of the previous one." )
+        ann="Next's index branch's segment's radius will be (this field) percent the length of the previous one." )
     cmds.floatSliderGrp( "turtleSpeed", l="Turtle speed: ", v=0, cw3=[92,30,278], min=0, max=2, fmx=5, f=True,
-        ann="Before proceeding to the next turtle command it will be frozen for this amount of time (in seconds)." )
+        ann="Before proceeding to the next turtle command it will be frozen for this amount of time (in seconds). Useful for keeping track of everything that happens." )
     cmds.separator( h=2, st="none" )
 
     #--- Colour Fields ---#
     global rgb_branchField, rgb_leafField, rgb_branchField
-    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.624,0,0), cw3=[52,30,328], ann="Branch colour" )
+    cmds.colorSliderGrp( "rgb_branchField", l="Branches", rgb=(0.624,0,0), cw3=[52,30,328], ann="Branch colour." )
     cmds.separator( h=6, st="none" )
-    cmds.colorSliderGrp( "rgb_leafField", l="Leaves", rgb=(0,0.624,0), cw3=[52,30,328], ann="Leaf colour" )
+    cmds.colorSliderGrp( "rgb_leafField", l="Leaves", rgb=(0,0.624,0), cw3=[52,30,328], ann="Leaf colour." )
     cmds.separator( h=6, st="none" )
-    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(0.430,0.230,0.11), cw3=[52,30,328], ann="Blossoms colour" )
+    cmds.colorSliderGrp('rgb_blossomField', l="Blossoms", rgb=(0.430,0.230,0.11), cw3=[52,30,328], ann="Blossoms colour." )
 
     #--- Create Geometry / Clean Plant ---#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,196), (2,10), (3,196)], parent=mInterpret )
-    cmds.button( l="Create Geometry", command=createGeometryButtonAction, ann="Execute the turtle!" )
+    cmds.button( l="Create Geometry", command=createGeometryButtonAction, ann="Go turtle! Go!" )
     cmds.separator( h=5, st="none" )
-    cmds.button(l="Clean Plant", command=cleanPlantButtonAction, ann='Deletes the very last generated plant.')
+    cmds.button( l="Clean Plant", command=cleanPlantButtonAction, ann='Deletes the lastest generated plant.' )
 
     #/////////////////////////////////////WARNINGS//AND//HELPLINE//////////////////////////////////////////////////////////#
     cmds.rowColumnLayout( numberOfColumns=3, columnWidth=[(1,55), (2, 5), (3, 366)], parent=mainFrame )
