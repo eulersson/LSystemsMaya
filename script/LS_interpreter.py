@@ -58,7 +58,7 @@ def createBranchShader(rgb_branch):
     # Connecting the Lambert colour to the Shading Group's surface colour.
     cmds.connectAttr( branchMat + '.outColor', branchSG + '.surfaceShader', f=True )
     #fractalMap = cmds.shadingNode( 'fractal', asTexture=True, n='fractalMap'+str(globalVar.plantNumber) ) # Fractal Map
-    #placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True, n='P2DTEX'+str(globalVar.plantNumber) ) # Place 2DText
+    #placeTexture = cmds.shadingNode( 'place2dTexture', asUtility=True, n='P2DTEX'+str(globalVar.plantNumber))# Place 2DText
     #cmds.connectAttr( placeTexture + '.outUV', fractalMap + '.uv', force=True ) # Connecting the UVs to the Texture
     #cmds.connectAttr (placeTexture + '.outUvFilterSize', fractalMap + '.uvFilterSize', force=True)
     #cmds.setAttr ( str(fractalMap)+'.alphaIsLuminance', True) # The white areas are understood as alpha in the fractal map
@@ -98,17 +98,20 @@ def createBlossomShader(rgb_blossom):
 
     blossomPetalsMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomPetalsMat'+str(globalVar.plantNumber) )
     cmds.setAttr( blossomPetalsMat + '.color', rgb_blossom[0], rgb_blossom[1], rgb_blossom[2] )
-    blossomPetalsSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomPetalsSG'+str(globalVar.plantNumber) )
+    blossomPetalsSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True,
+        name='blossomPetalsSG'+str(globalVar.plantNumber) )
     cmds.connectAttr( blossomPetalsMat + '.outColor', blossomPetalsSG + '.surfaceShader', f=True )
 
     blossomStamenMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomStamenMat'+str(globalVar.plantNumber) )
     cmds.setAttr( blossomStamenMat + '.color', 0.848, 0.8484, 0.186 )
-    blossomStamenSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomStamenSG'+str(globalVar.plantNumber) )
+    blossomStamenSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True,
+        name='blossomStamenSG'+str(globalVar.plantNumber) )
     cmds.connectAttr( blossomStamenMat + '.outColor', blossomStamenSG + '.surfaceShader', f=True )
 
     blossomPedicelMat = cmds.shadingNode( 'lambert', asShader=True, name='blossomPedicelMat'+str(globalVar.plantNumber) )
     cmds.setAttr( blossomPedicelMat + '.color', 0, 0.494, 0 )
-    blossomPedicelSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True, name='blossomPedicelSG'+str(globalVar.plantNumber) )
+    blossomPedicelSG = cmds.sets( renderable=True, noSurfaceShader=True, empty=True,
+        name='blossomPedicelSG'+str(globalVar.plantNumber) )
     cmds.connectAttr( blossomPedicelMat + '.outColor', blossomPedicelSG + '.surfaceShader', f=True )
 
 def applyShader(geometricObj, materialType):
@@ -173,7 +176,7 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
 
     # TO DO: PARENT THIS BRANCH TO ITS DAD
     cmds.parent( branchGeo, 'plant' + str(globalVar.plantNumber ))
-    return cmds.polyEvaluate( v = True ) # Returns the position of the last vertex, which will be the origin for next segment
+    return cmds.polyEvaluate( v = True ) # Returns the position of the last vertex which will be the origin for next segment
 
 def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
     rgb_branch, rgb_leaf, rgb_blossom):
@@ -310,7 +313,7 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             exec "POS = copy.copy(storedPOS_%s)" % (indexBranch)
             exec "ROT = copy.copy(storedROT_%s)" % (indexBranch)
         else:
-            # Have in mind that makeSegment apart from creating the geometry it also returns the position of the last vertex.
+            # Have in mind that makeSegment apart from creating geometry it also returns the position of the last vertex.
             lastVtx = makeSegment(pRad, pStep, POS.x, POS.y, POS.z, ROT.x, ROT.y, ROT.z, subDivs, indexBranch,
                 length_atenuation, radius_atenuation, rgb_branch, segmentNum)
 
