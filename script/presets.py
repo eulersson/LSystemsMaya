@@ -1,9 +1,11 @@
+#!/usr/bin/env python
 '''
-    Presets Module                                  <presets.py>
+    Presets Module    <presets.py>
     
     This module contains some presets. The user will be able to select them in the main graphics user interface. The presets
-    are taken from The Algorithmic Beaute of Plants (Astrid Lindenmayer and Przemyslaw Prusinkiewicz) and from internet sites
-    such as Hung-Wen Chen's one (http://www.nbb.cornell.edu/neurobio/land/OldStudentProjects/cs490-94to95/hwchen/).
+    are inspired by The Algorithmic Beaute of Plants (Astrid Lindenmayer and Przemyslaw Prusinkiewicz) and from internet 
+    sites such as Hung-Wen Chen's one (http://www.nbb.cornell.edu/neurobio/land/OldStudentProjects/cs490-94to95/hwchen/), I
+    tweaked some of them to get more interesting results, and now it looks better.
 '''
 
 class preset1:
@@ -53,7 +55,7 @@ class preset2:
         ''' Edits all the fields related to the string generation and calls the procedure. ''' 
         import maya.cmds as cmds
         import LS_string_rewriting
-        cmds.textField( "axiomTextField", q=True, tx=True )
+        cmds.textField( "axiomTextField", e=True, tx='F' )
         cmds.intSliderGrp( "depthIntField", e=True, v=3 )
         cmds.intField( "prodRuleProb1", e=True, v=70 )
         cmds.textField( "prodRulePred1", e=True, tx='F' )
@@ -64,7 +66,7 @@ class preset2:
         cmds.intField( "prodRuleProb2", e=True, en=True )
         cmds.textField( "prodRulePred2", e=True, en=True )
         cmds.textField( "prodRulePred2", e=True, tx='F' )
-        cmds.textField("prodRuleSucc2", e=True, en=False)
+        cmds.textField("prodRuleSucc2", e=True, en=True )
         cmds.textField("prodRuleSucc2", e=True, tx='[-FL]F[F[-FB-&&>F][&>F]]')
 
         cmds.checkBox( "prodRuleCheckBox3", e=True, value=False )
@@ -80,7 +82,7 @@ class preset2:
         cmds.textField("prodRuleSucc4", e=True, en=False)
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
-        cmds.textField( "warningTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
+        cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
         cmds.floatSliderGrp("angle", e=True, v=25.7)
         cmds.floatSliderGrp("length", e=True, v=3.32)
         cmds.floatSliderGrp("radius", e=True, v=0.50)
@@ -131,7 +133,7 @@ class preset3:
         cmds.textField( "prodRuleSucc4", e=True, en=False )
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
-        cmds.textField( "warningTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
+        cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
         cmds.floatSliderGrp( "angle", e=True, v=26.5)
         cmds.floatSliderGrp( "length", e=True, v=1.20)
         cmds.floatSliderGrp("radius", e=True, v=0.20)

@@ -1,14 +1,14 @@
 #!/usr/bin/env python
-'''
+"""
     L-System Geometric Interpretation Module:    <LS_interpreter.py>
 
     This module reads a string of characters and performs actions in function of what they are. This will follow the turtle
-    method as it's the best way to represent a bunch of characters as geometric objects, therefore characters are treated as
-    commands.
+    method as it's the best way to represent a bunch of characters as geometric objects, therefore, characters are treated
+    as commands.
     
     The turtle can be considered as an object or instance which moves in the three-dimensional space according to the 
     executed commands. I will write below the interpretation which is given to any of the possible characters we have
-    enerated in the previous string (the one generated in LS_string_rewriting).
+    generated in the previous string (the one generated in the LS_string_rewriting module).
 
         F    Move forward
         f    Move forward
@@ -26,26 +26,26 @@
 
         The rest of letters (AaCcDdEeGgHhIiJjKkMmNnOoPpQqRrSsTtUuVvXxYyZz) will be interpreted as move forward as well.
     
-    The position and rotation are stored as parameters of the object instance, so that it is easily accessible. Both position
-    and rotation will be updated each time a character is read. 
-'''
-
+    The position and rotation are stored as parameters of the object instance, so that it is easily accessible. Both
+    position and rotation will be updated each time a character is read. 
+"""
+import maya.cmds as cmds
 import random
 import math
 import copy
 import time
 
-
 #--- SHADER AND MATERIALS DEFINITIONS ---#
 def createBranchShader(rgb_branch):
+    """
+    It creates a shading network for the branch material. In the beginning I wanted to have a slight bump map on the
+    branch surface, but then I realised it was not visually pleasing, so I left it commented just in case. It was good
+    practice.
 
-    '''It creates a shading network for the branch material.
+    rgb_branch:   RGB values (0-1) for the diffuse colour of the branches.
 
-    rgb_branch:   RGB values for the diffuse colour of the branches.
-
-    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
-
-    '''
+    On Exit:      Creates a Lambert node connected to a Shading Group.
+    """
     import globalVar
     reload(globalVar)
 
@@ -67,15 +67,13 @@ def createBranchShader(rgb_branch):
     #cmds.connectAttr ( bumpUtility + '.outNormal', branchMat + '.normalCamera', f=True)
 
 def createLeafShader(rgb_leaf):
+    """
+    It creates a shading network for the leaf material.
 
-    '''It creates a shading network for the leaf material.
+    rgb_branch:   RGB values (0-1) for the diffuse colour of the branches.
 
-    rgb_leaf:   RGB values for the diffuse colour of the branches.
-
-    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
-
-    '''
-
+    On Exit:      Creates a Lambert node connected to a Shading Group.
+    """
     global leafMat, leafSG
     import globalVar
     reload(globalVar)
@@ -86,15 +84,14 @@ def createLeafShader(rgb_leaf):
     cmds.connectAttr( leafMat + '.outColor', leafSG + '.surfaceShader', f=True )
 
 def createBlossomShader(rgb_blossom):
+    """
+    It creates a shading network for the blossom material.
 
-    '''It creates a shading network for the branch material.
+    rgb_branch:   RGB values (0-1) for the diffuse colour of the branches.
 
-    rgb_blossom:   RGB values for the diffuse colour of the branches.
-
-    On Exit:      Creates a Shading Group which connects a Lambert, fractal map, 2dplace texture node and the bump.
-
-    '''
-
+    On Exit:      Creates a Lambert node connected to a Shading Group which will be applied to the petals. Furthermore, two
+                  non-customizable additional shaders will be created and applied to the stamen and pedicel of the blossom. 
+    """
     global blossomMat, blossomSG
     import globalVar
     reload(globalVar)
@@ -132,12 +129,11 @@ def applyShader(geometricObj, materialType):
     
 def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation,
     radius_atenuation, rgb_branch, segmentNum):
-
     """ Creates a step, a cylinder, representing a brach segment of the actual L-System.
 
         pRad :    Axiom, the initial state.
-        pStep :   Production rules, set as a 2-item tuple. The first one indicates the condition and the second one the value
-                  the first item should be replaced with.
+        pStep :   Production rules, set as a 2-item tuple. The first one indicates the condition and the second one the
+                  value the first item should be replaced with.
         posX :    X-position we want the cylinder's origin to be.
         posY :    Y-position we want the cylinder's origin to be.
         posZ :    Z-position we want the cylinder's origin to be.
@@ -146,17 +142,16 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
         rotZ :    X-rotation we want the cylinder's origin to be.
         subDivs :        Number of subdivisions for each segment (or step).
         indexBranch :    Keeps track of the level this segment lays on. Very useful for the atenuation prameters.
-        length_atenuation:    Next's segment's length will be 'this value' percent the length of the previous one. But if the
-                              segment is located in the same branch level as the previous one it will have the dimensions of
-                              the previous one. This scales depending on which branch level you are.
-        radius_atenuation:    Next's segment's radius will be 'this value' percent the radius of the previous one. But if the
-                              segment is located in the same branch level as the previous one it will have the dimensions of
-                              the previous one. This scales depending on which branch level you are.
+        length_atenuation:    Next's segment's length will be 'this value' percent the length of the previous one. But if
+                              the segment is located in the same branch level as the previous one it will have the
+                              dimensions of the previous one. This scales depending on which branch level you are.
+        radius_atenuation:    Next's segment's radius will be 'this value' percent the radius of the previous one. But if 
+                              the segment is located in the same branch level as the previous one it will have the
+                              dimensions of the previous one. This scales depending on which branch level you are.
         rgb_branch:    Colour information which will be applied to a material that will shade the branches.
 
         On Exit : It will have created the geometry AND IT RETURNS THE POSITION OF THE LAST VERTEX.
     """
-
     import globalVar
     reload(globalVar)
     branchGeo = cmds.polyCylinder ( n='segment'+str(globalVar.plantNumber)+'_'+str(indexBranch)+'_'+str(segmentNum),r=pRad,
@@ -182,7 +177,6 @@ def makeSegment(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexB
 
 def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed,
     rgb_branch, rgb_leaf, rgb_blossom):
-
     """ Translates the string into maya commands in order to generate the final LSystem plant.
 
     LStringVar :    The L-System-generated string which will be interpreted by the turtle.
@@ -201,9 +195,9 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
     rgb_leaf :      RGB values for the diffuse colour of the leaves.
     rgb_blossom :   RGB values for the diffuse colour of blossoms.
 
-    On Exit :  Creates the geometry.
+    On Exit :  Creates the geometry. Everything will be collected and parented to a group which will have the plant unique
+               name with its number.
     """
-
     import globalVar
     reload(globalVar)
 
@@ -255,10 +249,10 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
         elif LStringVar[i] == 'B': # Create blossom
             # Import geometry from external file and rename it
             blossomName = "blossom_"+str(globalVar.plantNumber)+"_"+str(blossomNum)
-            ''' The blossoms' names will follow this template:
+            """ The blossoms' names will follow this template:
                     - blossom_X_Y
                 Where X will be the plant number and Y the unique blossom number (ID).
-            '''
+            """
             cmds.file( "C:/GitHub/LSystemsMaya/script/blossom_geo.mb", i=True )
             cmds.rename( "polySurface1", blossomName )
             # Places the blossom to the right position and rotates it according to the last branch orientation
@@ -284,10 +278,10 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
 
         elif LStringVar[i] == 'L': # Create leaf
             leafName = "leaf_"+str(globalVar.plantNumber)+"_"+str(leafNum)
-            ''' The leave's names will follow this template:
+            """ The leave's names will follow this template:
                     - leaf_X_Y
                 Where X will be the plant number and Y the unique leaf number (ID).
-            '''
+            """
             cmds.file( "C:/GitHub/LSystemsMaya/script/leaf_geo.mb", i=True )
             cmds.rename( "pPlane1", leafName )
             # Places the leaf to the right position and rotates it according to the last branch orientation
@@ -323,9 +317,18 @@ def createGeometry(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, 
             import globalVar
             reload(globalVar)
 
-            POS.x = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[0]
-            POS.y = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[1]
-            POS.z = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx), q=True, ws=True, t=True )[2]
+            """
+            I do a little trick in this part. If I changed the POS object using number additions and so on I would lose a
+            lot of precision when the segment count is so great. So, what I do is query the positon for the middle top
+            vertex for each segment when it is just created and update the POS instance according to this value.
+            """
+
+            POS.x = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx),
+                q=True, ws=True, t=True )[0]
+            POS.y = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx),
+                q=True, ws=True, t=True )[1]
+            POS.z = cmds.xform( 'segment%s_%s_%s.vtx[%s]' % (globalVar.plantNumber, indexBranch, segmentNum, lastVtx),
+                q=True, ws=True, t=True )[2]
             
             flaggedSegment = "segment%s_%s_%s" % (globalVar.plantNumber, indexBranch, segmentNum)
             flaggedSegmentRot = cmds.xform( flaggedSegment, q=True, ro=True )
