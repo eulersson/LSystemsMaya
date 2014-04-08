@@ -28,60 +28,127 @@ code:before, code:after {
 #container {
     position:absolute;
     left: 50%;
-    margin-left: -500px;
-    width:1000px;
+    margin-left: -450px;
+    width:900px;
 }
 </style>
 
 <html>
 <div id="container">
+
 <h1 id="lsystemsmaya">LSystemsMaya</h1>
 <p>Basic L-System rewriting with geometric interpretation in Maya.</p>
 <h2 id="installation">Installation</h2>
-<p>First of all, if you are not familiarized with git and you don't know how the cloning stuff works, just keep it simple: Download all this project as a ZIP file (button on right side of the screen). Then, once you have extracted all the contents on your Desktop or wherever you want...
-<em> Uncompress the ZIP file you just downloaded
-</em> Open <code>startScript.py</code> with Notepad or your favourite text editor
-<em> Copy all the content from it.
-</em> Paste it to the Script Editor in Maya
-<em> Execute the code
-</em> You will be asked to point the location where all the scripts are. You must point to the folder called <code>script</code> inside the uncompressed  folder in which you have uncompressed the ZIP file.
-* The UI should be created, then you can click on "Instructions" in order to get started as soon as possible.</p>
-<p>This method for including the pointed folder as a Pythonpath for maya to access the files has been adapted from Jared Auty's wonderful scripting project, which you can download here <a href="http://bit.ly/1kDUXhj">http://bit.ly/1kDUXhj</a></p>
+<p>First of all, if you are not familiarized with git and you don't know how the cloning stuff works, just keep it simple:
+Download all this project as a ZIP file (button on right side of the screen). Then, once you have extracted all the contents
+on your Desktop or wherever you want...</p>
+<ul>
+    <li> Uncompress the ZIP file you just downloaded </li>
+    <li> Open <code>startScript.py</code> with Notepad or your favourite text editor </li>
+    <li> Copy all the content from it. </li>
+    <li> Paste it to the Script Editor in Maya </li>
+    <li> Execute the code </li>
+    <li> You will be asked to point the location where all the scripts are. You must point to the folder called <code>script
+    </code> inside the uncompressed  folder in which you have uncompressed the ZIP file.
+    * The UI should be created, then you can click on "Instructions" in order to get started as soon as possible. </li>
+</ul>
+
+<p>This method for including the pointed folder as a Pythonpath for maya to access the files has been adapted from Jared
+Auty's wonderful scripting project, which you can download here <a href="http://bit.ly/1kDUXhj">http://bit.ly/1kDUXhj</a></p>
+
 <h2 id="usage">Usage</h2>
 <p>I built up the UI considering standard users. <strong>There's a Help Line</strong>, there's an <strong>Instructions Button</strong>, and so on, I recommend paying attention to them. What I could do is talk a little bit about L-Systems for those ones who don't know what they are.</p>
+
 <h3 id="what-are-l-systems">What are L-Systems?</h3>
-<p>An L-system or is a parallel rewriting system and a type of formal grammar. An L-system consists of an alphabet of symbols that can be used to make strings, a collection of production rules that expand each symbol into some larger string of symbols, an initial "axiom" string from which to begin construction, and a mechanism for translating the generated strings into geometric structures. <em>(from Wikipedia)</em></p>
-<p><em>My turn now...</em> L-Systems consist on rewriting over a string of characters considering a bunch of rules. For instance you can start with an initial word, for instance <code>F</code> (this is formally called <strong>Axiom</strong>), then you have some rewriting rules that tell to replace this <code>F</code> by something a little bit more complex, for instance let's says replace <code>F</code> with <code>XF</code>.</p>
-<p>If you apply this rule for each character of the word you would get <code>XF</code>, right? Because you iterated over the initial word. So what if we want to iterate again over this string we got? We could! Because we still have the rule <code>F --&gt; XF</code>, so if we run the rewriting system first of all we would come across an <code>X</code>, mmm.. we don't have any specific rule for it... Well, nevermind, keep going. Next character is <code>F</code>, cool we have a rule for it, it says that we have to replace it with <code>XF</code>, go on. <em>(We rewrite)</em> Now we get <code>XXF</code>.</p>
-<p>We could carry on with this, we did 2 iterations over the string in this example, so the <strong>Depth</strong> would be two (now you know what the depth parameter in my script is). You could expand the rules, you could have some rules for <code>X</code> as well. We could even have another rule that said <code>F --&gt; GG</code> that could live with the previous one <code>F --&gt; XF</code>. <em>Wait, wait! If you have rules that react to the same character (formally called <strong>predecessor</strong>), how can you chose which one to apply?</em> It's simple, with <strong>percentages</strong>, with probability. And L-System which implements probability is called a Stochastic L-System. That's cool, isn't it?</p>
+<p>An L-system or is a parallel rewriting system and a type of formal grammar. An L-system consists of an alphabet of
+symbols that can be used to make strings, a collection of production rules that expand each symbol into some larger string
+of symbols, an initial "axiom" string from which to begin construction, and a mechanism for translating the generated
+strings into geometric structures. <em>(from Wikipedia)</em></p>
+
+<p><em>My turn now...</em> L-Systems consist on rewriting over a string of characters considering a bunch of rules. For
+instance you can start with an initial word, for instance <code>F</code> (this is formally called <strong>Axiom</strong>),
+then you have some rewriting rules that tell to replace this <code>F</code> by something a little bit more complex, for
+instance let's says replace <code>F</code> with <code>XF</code>.</p>
+
+<p>If you apply this rule for each character of the word you would get <code>XF</code>, right? Because you iterated over the
+initial word. So what if we want to iterate again over this string we got? We could! Because we still have the rule <code>F 
+--&gt; XF</code>, so if we run the rewriting system first of all we would come across an <code>X</code>, mmm.. we don't have
+any specific rule for it... Well, nevermind, keep going. Next character is <code>F</code>, cool we have a rule for it, it
+says that we have to replace it with <code>XF</code>, go on. <em>(We rewrite)</em> Now we get <code>XXF</code>.</p>
+
+<p>We could carry on with this, we did 2 iterations over the string in this example, so the <strong>Depth</strong> would be 
+two (now you know what the depth parameter in my script is). You could expand the rules, you could have some rules for
+<code>X</code> as well. We could even have another rule that said <code>F --&gt; GG</code> that could live with the previous
+ one <code>F --&gt; XF</code>. <em>Wait, wait! If you have rules that react to the same character (formally called <strong>
+ predecessor</strong>), how can you chose which one to apply?</em> It's simple, with <strong>percentages</strong>, with 
+ probability. And L-System which implements probability is called a Stochastic L-System. That's cool, isn't it?</p>
+
 <h3 id="how-do-they-relate-to-plants-turtle">How do they relate to plants? (Turtle)</h3>
-<p>So far you could be asking yourself, how does that match to plants? Well... Here the <strong>Turtle Concept</strong> plays an important role. For those ones who don't know what the turtle paradigm is: imagine you were in the beach and you had a turtle which you could control (I don't know how, maybe mental power!).</p>
-<p>For instance you could tell the turtle (let's call it Leonardo, he is a male turtle) to move forward. If Leonardo did that he would leave a path with his tail in the sand, wouldn't he? You would be able to see his trail. Now you could keep yelling commands to him such as <em>turn right Leo!</em>, <em>turn left!</em>. This is great but our amazing Leonardo can even do more crazy stuff. Imagine you could tell him: <strong>Leo, remember your current position, save it in your little turtle mind</strong>, then, keep walking forward and turning and more stuff until... when at some point we tell him <strong>go back to that position you saved without leaving trail, teleport yourself!</strong>, then, keep doing other movements from the place I told you before to save in your mind. This concept is called <strong>Pushing a state into the stack</strong> (remembering, saving), and <strong>Popping the state of the turtle</strong> (going back to where we saved the state) // With this concept implemented we could leave trails in the sand that would look like a branching system.</p>
-<p>So with that silly explanation I wanted to say that we could give a <strong>meaning</strong> to each character in an L-System generated string. For instance we could say <code>**F** is Move Forward</code>, <code>**+** is Turn Left</code>, <code>**-** is Turn Right</code>... We are just building up a language for the turtle commands, we are giving meaning to a bunch of characters, we are giving them a <strong>Geometrical Interpretation</strong>. THIS IS THE ESSENCE, because L-Systems on their own they are nothing but text characters.</p>
-<p>There are some conventions I will be using in this script. The turtle we talked about before it's two-dimensional, try to translate the concept to three-dimensions. I don't know, imagine Leo equipped with some sort of jet-pack, being the trail he leaves the smoke emitted by the exhaust pipe... Oh God... I am being too creative, pardon me. So bearing in mind that, I collected this grammar:</p>
+<p>So far you could be asking yourself, how does that match to plants? Well... Here the <strong>Turtle Concept</strong>
+plays an important role. For those ones who don't know what the turtle paradigm is: imagine you were in the beach and you
+had a turtle which you could control (I don't know how, maybe mental power!).</p>
+
+<p>For instance you could tell the turtle (let's call it Leonardo, he is a male turtle) to move forward. If Leonardo did
+that he would leave a path with his tail in the sand, wouldn't he? You would be able to see his trail. Now you could keep
+yelling commands to him such as <em>turn right Leo!</em>, <em>turn left!</em>. This is great but our amazing Leonardo can
+even do more crazy stuff. Imagine you could tell him: <strong>Leo, remember your current position, save it in your little
+turtle mind</strong>, then, keep walking forward and turning and more stuff until... when at some point we tell him <strong>
+go back to that position you saved without leaving trail, teleport yourself!</strong>, then, keep doing other movements from
+ the place I told you before to save in your mind. This concept is called <strong>Pushing a state into the stack</strong>
+ (remembering, saving), and <strong>Popping the state of the turtle</strong> (going back to where we saved the state) //
+ With this concept implemented we could leave trails in the sand that would look like a branching system.</p>
+
+<p>So with that silly explanation I wanted to say that we could give a <strong>meaning</strong> to each character in an
+L-System generated string. For instance we could say <code>F is Move Forward</code>, <code>+ is Turn Left</code>, <code>- is
+Turn Right</code>... We are just building up a language for the turtle commands, we are giving meaning to a bunch of
+characters, we are giving them a <strong>Geometrical Interpretation</strong>. <em>THIS IS THE ESSENCE</em>, because
+L-Systems on their own they are nothing but text characters.</p>
+
+<p>There are some conventions I will be using in this script. The turtle we talked about before it's two-dimensional, try to
+translate the concept to three-dimensions. I don't know, imagine Leo equipped with some sort of jet-pack, being the trail he
+leaves the smoke emitted by the exhaust pipe... Oh God... I am being too creative, pardon me. So bearing in mind that, I
+collected this grammar:</p>
+
 <ul>
-<li><code>F</code>    Move forward</li>
-<li><code>f</code>    Move forward</li>
-<li><code>L</code>    Leaf</li>
-<li><code>B</code>    Blossom</li>
-<li><code>+</code>    Rotate +X (yaw right)</li>
-<li><code>-</code>    Rotate -X (yaw left)</li>
-<li><code>^</code>    Rotate +Y (roll right)</li>
-<li><code>&amp;</code>    Rotate -Y (roll left)</li>
-<li><code>&lt;</code>    Rotate +Z (pitch down)</li>
-<li><code>&gt;</code>    Rotate -Z (pitch up)</li>
-<li><code>*</code>    Turtle rotates 180 (as it was facing backwards)</li>
-<li><code>[</code>   Push current turtle state on the stack</li>
-<li><code>]</code>    Pop the current turtle state from the stack</li>
+    <li><code>F</code>    Move forward</li>
+    <li><code>f</code>    Move forward</li>
+    <li><code>L</code>    Leaf</li>
+    <li><code>B</code>    Blossom</li>
+    <li><code>+</code>    Rotate +X (yaw right)</li>
+    <li><code>-</code>    Rotate -X (yaw left)</li>
+    <li><code>^</code>    Rotate +Y (roll right)</li>
+    <li><code>&amp;</code>    Rotate -Y (roll left)</li>
+    <li><code>&lt;</code>    Rotate +Z (pitch down)</li>
+    <li><code>&gt;</code>    Rotate -Z (pitch up)</li>
+    <li><code>*</code>    Turtle rotates 180 (as it was facing backwards)</li>
+    <li><code>[</code>   Push current turtle state on the stack</li>
+    <li><code>]</code>    Pop the current turtle state from the stack</li>
 </ul>
-<p>This way we can do complex things for instance having this grammar set:
-<em> Axiom: <code>F</code>
-</em> Production Rules: <code>F --&gt; F[-F]F[+F]F</code>
-* Depth: 3</p>
-<p>Then we could say that each step or "F" is a segment of Length 2, Radius 0.5, and each rotation is done considering a Step Angle of 28... We can say as well, each time the turtle pushes his state, to slightly decrease the length or the radius. This is what I implemented in my script.</p>
-<p>Furthermore I added some fancy features such as customizing the colour for the branches, for the leaves, and blossoms. And this is pretty much all. You can find all the procedures documented in an HTML file. Follow the help tips, and instructions of my script, you might need to practise in order to understand better!</p>
-<p>It's normal if you didn't understand exactly what I explained in this readme file, I would recommend you to find a proper explanation of the L-System concept, because it is so interesting! You can even apply L-Systems to music!</p>
-<p>Any questions please drop me an email to <em>ramon@ramonblanquer.com</em>, thanks for taking your time reading, and apologies for my crappy English. Love.</p>
+
+<p>This way we can do complex things for instance having this grammar set:</p>
+
+<ul>
+    <li>Axiom: <code>F</code></li>
+    <li>Production Rules: <code>F --&gt; F[-F]F[+F]F</code></li>
+    <li>Depth: 3</li>
+</ul>
+
+<p>Then we could say that each step or "F" is a segment of <em>Length</em> 2, <em>Radius</em> 0.5, and each rotation is done
+considering a Step <em>Angle</em> of 28... We can say as well, each time the turtle <em>pushes</em> his state, to slightly
+<em>decrease</em> the length or the radius. This is basically what I implemented in my script. I am just have told you my
+parameters right now.</p>
+
+<p>Furthermore I added some fancy features such as customizing the <em>colour for the branches, for the leaves, and blossoms
+</em>. And this is pretty much all. You can find all the procedures and modules documented in an
+<a href="documentation/LS_string_rewriting.html">HTML file</a>. Follow the help tips, and instructions of my script, you
+might need to practise in order to understand better!</p>
+
+<p>It's normal if you didn't understand exactly what I explained in this readme file, I would recommend you to find a proper
+explanation of the L-System concept, because it is so interesting! You can even apply L-Systems to music!</p>
+
+<p>Any questions please drop me an email to <em>ramon@ramonblanquer.com</em>, thanks for taking your time reading, and
+apologies for my crappy English. Love.</p>
+
 <p><em>Ramon Blanquer (NCCA) ©</em></p>
 </div>
 </html>
