@@ -7,7 +7,6 @@
     it creates kind of a copy of them, and the "global" word loses its meaning. I don't really know what I did in here, but
     IT WORKS, and I will keep it as it is until I realize why I am doing this or when I notice a quicker or better way.
 """
-import pydoc
 
 global plantNumber
 global pathVar

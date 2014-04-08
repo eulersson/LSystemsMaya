@@ -75,7 +75,6 @@ class findPathWindow:
         """
         cmds.deleteUI( self.loadDirWin, window=True ) # Close window
         import random
-        import math
         import copy
         import LS_string_rewriting
         reload(LS_string_rewriting)

@@ -7,10 +7,7 @@
 
 '''
 import maya.cmds as cmds
-import pydoc
 import random
-import LS_interpreter
-reload(LS_interpreter)
 
 def writeLS(pW, pP, pDepth):
     """ Iterates through the string. It will create a global string variable called "result" which is a concatenation of

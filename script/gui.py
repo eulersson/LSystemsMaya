@@ -21,7 +21,7 @@ from LS_interpreter import *
 __author__ = "Ramon Blanquer Ruiz"
 __version__ = "1.0.0"
 __email__ = "ramon@ramonblanquer.com"
-__status__ = "Unmaintained"
+__status__ = "Maintaned"
 
 def createUI():
     # Check to see if our window exists
@@ -248,7 +248,7 @@ def createUI():
         ann="Next's index branch's segment's length will be (this field) percent the length of the previous one." )
     cmds.intSliderGrp( "radius_atenuation", l="Rad. Atenuation: ", v=85, cw3=[92,40,788], min=0, max=100, fmx=100, f=True,
         ann="Next's index branch's segment's radius will be (this field) percent the length of the previous one." )
-    cmds.floatSliderGrp( "turtleSpeed", l="Turtle speed: ", v=0, cw3=[92,30,278], min=0, max=2, fmx=5, f=True,
+    cmds.floatSliderGrp( "turtleSpeed", l="Turtle speed: ", v=0, cw3=[92,40,288], min=0, max=1, pre=2, fmx=5, f=True,
         ann="Before proceeding to the next turtle command it will be frozen for this amount of time (in seconds). Useful for keeping track of everything that happens." )
     cmds.separator( h=2, st="none" )
 
@@ -320,7 +320,7 @@ def generateStringButtonAction(*pArgs):
     # This bit makes sure the sum of all probabilities is 100.
     if prodRulePred1 == prodRulePred2 or prodRulePred1 == prodRulePred3 or prodRulePred1 == prodRulePred4 or prodRulePred2 == prodRulePred3 or prodRulePred2 == prodRulePred4 or prodRulePred3 == prodRulePred4:
         probSum = int(prodRuleProb1) + int(prodRuleProb2) + int(prodRuleProb3) + int(prodRuleProb4)
-        if probSum == 100:
+        if probSum == 100 or ((prodRulePred1 != prodRulePred2) or (prodRulePred1 != prodRulePred3) or (prodRulePred1 != prodRulePred4) or (prodRulePred2 != prodRulePred3) or (prodRulePred2 != prodRulePred4) or (prodRulePred3 != prodRulePred4)):
             global LStringVar
             LStringVar = writeLS(pAxiom, pP, pDepth)
             cmds.textField( "output", edit=True, tx=LStringVar )

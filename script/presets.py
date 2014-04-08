@@ -12,7 +12,6 @@ class preset1:
     def __init__(*args):
         ''' Edits all the fields related to the string generation and calls the procedure. ''' 
         import maya.cmds as cmds
-        import LS_string_rewriting
         cmds.textField( "axiomTextField", e=True, tx='F' )
         cmds.intSliderGrp( "depthIntField", e=True, v=4 )
 
@@ -23,20 +22,32 @@ class preset1:
         cmds.checkBox( "prodRuleCheckBox2", e=True, value=False )
         cmds.intField( "prodRuleProb2", e=True, v=0 )
         cmds.intField( "prodRuleProb2", e=True, en=False )
+        cmds.text( "prodRule2Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred2", e=True, en=False )
-        cmds.textField("prodRuleSucc2", e=True, en=False)
+        cmds.textField( "prodRulePred2", e=True, tx='' )
+        cmds.text( "prodRule2Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc2", e=True, en=False )
+        cmds.textField( "prodRuleSucc2", e=True, tx='' )
 
         cmds.checkBox( "prodRuleCheckBox3", e=True, value=False )
         cmds.intField( "prodRuleProb3", e=True, v=0 )
         cmds.intField( "prodRuleProb3", e=True, en=False )
+        cmds.text( "prodRule3Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred3", e=True, en=False )
-        cmds.textField("prodRuleSucc3", e=True, en=False)
+        cmds.textField( "prodRulePred3", e=True, tx='' )
+        cmds.text( "prodRule3Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, tx='' )
 
         cmds.checkBox( "prodRuleCheckBox4", e=True, value=False )
         cmds.intField( "prodRuleProb4", e=True, v=0 )
         cmds.intField( "prodRuleProb4", e=True, en=False )
+        cmds.text( "prodRule4Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred4", e=True, en=False )
-        cmds.textField("prodRuleSucc4", e=True, en=False)
+        cmds.textField( "prodRulePred4", e=True, tx='' )
+        cmds.text( "prodRule4Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, tx='' )
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
         cmds.floatSliderGrp("angle", e=True, v=28)
@@ -54,7 +65,6 @@ class preset2:
     def __init__(*args):
         ''' Edits all the fields related to the string generation and calls the procedure. ''' 
         import maya.cmds as cmds
-        import LS_string_rewriting
         cmds.textField( "axiomTextField", e=True, tx='F' )
         cmds.intSliderGrp( "depthIntField", e=True, v=3 )
         cmds.intField( "prodRuleProb1", e=True, v=70 )
@@ -72,14 +82,22 @@ class preset2:
         cmds.checkBox( "prodRuleCheckBox3", e=True, value=False )
         cmds.intField( "prodRuleProb3", e=True, v=0 )
         cmds.intField( "prodRuleProb3", e=True, en=False )
+        cmds.text( "prodRule3Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred3", e=True, en=False )
-        cmds.textField("prodRuleSucc3", e=True, en=False)
+        cmds.textField( "prodRulePred3", e=True, tx='' )
+        cmds.text( "prodRule3Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, tx='' )
 
         cmds.checkBox( "prodRuleCheckBox4", e=True, value=False )
         cmds.intField( "prodRuleProb4", e=True, v=0 )
         cmds.intField( "prodRuleProb4", e=True, en=False )
+        cmds.text( "prodRule4Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred4", e=True, en=False )
-        cmds.textField("prodRuleSucc4", e=True, en=False)
+        cmds.textField( "prodRulePred4", e=True, tx='' )
+        cmds.text( "prodRule4Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, tx='' )
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
         cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
@@ -98,7 +116,6 @@ class preset3:
     def __init__(*args):
         ''' Edits all the fields related to the string generation and calls the procedure. ''' 
         import maya.cmds as cmds
-        import LS_string_rewriting
         cmds.textField( "axiomTextField", e=True, tx='S' )
         cmds.intSliderGrp( "depthIntField", e=True, v=6 )
 
@@ -129,8 +146,12 @@ class preset3:
         cmds.checkBox( "prodRuleCheckBox4", e=True, value=False )
         cmds.intField( "prodRuleProb4", e=True, v=0 )
         cmds.intField( "prodRuleProb4", e=True, en=False )
+        cmds.text( "prodRule4Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred4", e=True, en=False )
+        cmds.textField( "prodRulePred4", e=True, tx='' )
+        cmds.text( "prodRule4Text_B", edit=True, en=False )
         cmds.textField( "prodRuleSucc4", e=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, tx='' )
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
         cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
@@ -150,39 +171,52 @@ class preset4:
     def __init__(*args):
         ''' Edits all the fields related to the string generation and calls the procedure. ''' 
         import maya.cmds as cmds
-        import LS_string_rewriting
-        cmds.textField( "axiomTextField", q=True, tx=True )
+        cmds.textField( "axiomTextField", e=True, tx='F' )
         cmds.intSliderGrp( "depthIntField", e=True, v=4 )
+
         cmds.intField( "prodRuleProb1", e=True, v=100 )
         cmds.textField( "prodRulePred1", e=True, tx='F' )
-        cmds.textField("prodRuleSucc1", e=True, tx='F[&+F]F[->F][&F]')
+        cmds.textField("prodRuleSucc1", e=True, tx='F++R[&X[>+XL]]++++R--F----FF--R++')
 
-        cmds.checkBox( "prodRuleCheckBox2", e=True, value=False )
-        cmds.intField( "prodRuleProb2", e=True, v=0 )
-        cmds.intField( "prodRuleProb2", e=True, en=False )
-        cmds.textField( "prodRulePred2", e=True, en=False )
-        cmds.textField("prodRuleSucc2", e=True, en=False)
+        cmds.checkBox( "prodRuleCheckBox2", e=True, value=True )
+        cmds.intField( "prodRuleProb2", e=True, v=100 )
+        cmds.intField( "prodRuleProb2", e=True, en=True )
+        cmds.text( "prodRule2Text_A", edit=True, en=True )
+        cmds.textField( "prodRulePred2", e=True, en=True )
+        cmds.textField( "prodRulePred2", e=True, tx='R' )
+        cmds.text( "prodRule2Text_B", edit=True, en=True )
+        cmds.textField("prodRuleSucc2", e=True, en=True)
+        cmds.textField("prodRuleSucc2", e=True, tx='--F++R[&X[&>+X][^<X-XB]XL]R++++R++F----F--R')
 
         cmds.checkBox( "prodRuleCheckBox3", e=True, value=False )
         cmds.intField( "prodRuleProb3", e=True, v=0 )
         cmds.intField( "prodRuleProb3", e=True, en=False )
+        cmds.text( "prodRule3Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred3", e=True, en=False )
-        cmds.textField("prodRuleSucc3", e=True, en=False)
+        cmds.textField( "prodRulePred3", e=True, tx='' )
+        cmds.text( "prodRule3Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, en=False )
+        cmds.textField( "prodRuleSucc3", e=True, tx='' )
 
         cmds.checkBox( "prodRuleCheckBox4", e=True, value=False )
         cmds.intField( "prodRuleProb4", e=True, v=0 )
         cmds.intField( "prodRuleProb4", e=True, en=False )
+        cmds.text( "prodRule4Text_A", edit=True, en=False )
         cmds.textField( "prodRulePred4", e=True, en=False )
-        cmds.textField("prodRuleSucc4", e=True, en=False)
+        cmds.textField( "prodRulePred4", e=True, tx='' )
+        cmds.text( "prodRule4Text_B", edit=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, en=False )
+        cmds.textField( "prodRuleSucc4", e=True, tx='' )
 
-        cmds.textField( "output", e=True, tx='Press Generate String, please' )
-        cmds.floatSliderGrp("angle", e=True, v=28)
-        cmds.floatSliderGrp("length", e=True, v=1.20)
-        cmds.floatSliderGrp("radius", e=True, v=0.20)
-        cmds.intSliderGrp("cylSubdivs", e=True, v=5)
-        cmds.intSliderGrp( "length_atenuation", e=True, v=100 )
-        cmds.intSliderGrp( "radius_atenuation", e=True, v=100 )
+        cmds.textField( "output", e=True, tx='Press Generate String, please.' )
+        cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
+        cmds.floatSliderGrp( "angle", e=True, v=30)
+        cmds.floatSliderGrp( "length", e=True, v=2)
+        cmds.floatSliderGrp("radius", e=True, v=0.39)
+        cmds.intSliderGrp( "cylSubdivs", e=True, v=8)
+        cmds.intSliderGrp( "length_atenuation", e=True, v=77 )
+        cmds.intSliderGrp( "radius_atenuation", e=True, v=80 )
         cmds.floatSliderGrp("turtleSpeed", e=True, v=0)
-        cmds.colorSliderGrp( 'rgb_blossomField', e=True, rgb=(0.430,0.230,0.11) )
-        cmds.colorSliderGrp( 'rgb_leafField', e=True, rgb=(0,0.624,0) )
-        cmds.colorSliderGrp( 'rgb_branchField', e=True, rgb=(0.624,0,0) )
+        cmds.colorSliderGrp( 'rgb_branchField', e=True, rgb=(0.753,0.559,0.300) )
+        cmds.colorSliderGrp( 'rgb_leafField', e=True, rgb=(1.0,0.747,0) )
+        cmds.colorSliderGrp( 'rgb_blossomField', e=True, rgb=(0.730,0,1.0) )
