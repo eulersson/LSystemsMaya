@@ -99,6 +99,45 @@ Furthermore I added some fancy features such as customizing the *colour for the 
 this is pretty much all. You can find all the procedures and modules documented in an **HTML file** inside the documentation
 folder. Follow the help tips, and instructions of my script, you might need to practise in order to understand better!
 
+###Examples
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example.png)
+This is a quick generation using 3 different presets.
+
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_preset1.png)
+The first preset uses this L-System:
+* Axiom: `F`
+* Rules: `F --> F[&+F]F[->FL][&FB]`
+* Depth: 5
+* Angle: 28°
+
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_preset2.png)
+This is a Stochastic L-System example, it's the second preset. I created it by myself, it looks good, I must have been so lucky. As they are Stochastic you can generate a few plants and stick with the one you like most. Use the Outliner and pick the plant group to move the entire geometry, it's more comfortable. The L-System:
+* Axiom: `F`
+* Rules: **70%** `F --> F[+FL][-FB][&FL][^FB]F`, **30%** `F -- > [-FL]F[F[-FB-&&>F][&>F]]`
+* Depth: **3**
+* Angle: **25.7°**
+
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_preset3.png)
+Again another Stochastic L-System preset. In perspective view looks a little bit 2D, but still nice. Tim Burton might love these kind of vegetation.
+* Axiom: `S`
+* Rules: 33% `S --> S[>>&&FL][>>^^FL]S`, 33% `S -- > S[-FL]F[S[-F-FB-&&>S][&>F][+S]]`, 34% `S --> S[+S[-FB][&>S]]`
+* Depth: **6**
+* Angle: **26.5°**
+
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_sierpinski.png)
+Fractal geometry is so beautiful. With this script you can also create them. They can be generated in many ways, and the L-System approach is one of them, our script is valid for it as well. For the Sierpinsky just enter:
+* Axiom: `F`
+* Rules: `F --> X-F-X` and `X --> F+X+F` (We need no percentages because they don't apply to the same predecessor)
+* Depth: **6**
+* Angle: **60°**
+
+![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_gosper.png)
+The Gosper curve is quite famous as well. It's L-System is:
+* Axiom: `F`
+* Rules: `F --> F+R++R-F--FF-R+` and `R --> -F+RR++R+F--F-R`
+* Depth: **5**
+* Angle: **60°**
+
 It's normal if you didn't understand exactly what I explained in this readme file, I would recommend you to find a proper
 explanation of the L-System concept, because it is so interesting! You can even apply L-Systems to music!
 
