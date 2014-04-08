@@ -1,0 +1,66 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module gui</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>gui</strong></big></big> (version 1.0.0)</font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doc/github/LSystemsMaya/script/gui.py">/home/doc/github/LSystemsMaya/script/gui.py</a></font></td></tr></table>
+    <p><tt>GUI&nbsp;module&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;gui.py&gt;<br>
+&nbsp;<br>
+Responsible&nbsp;for&nbsp;the&nbsp;user&nbsp;interface&nbsp;layout.&nbsp;I&nbsp;used&nbsp;some&nbsp;framed&nbsp;layouts&nbsp;so&nbsp;that&nbsp;it&nbsp;doesn't&nbsp;go&nbsp;off&nbsp;screen.&nbsp;Moreover&nbsp;I&nbsp;added<br>
+an&nbsp;Instructions&nbsp;button&nbsp;and&nbsp;a&nbsp;Help&nbsp;Line&nbsp;underneath&nbsp;so&nbsp;that&nbsp;the&nbsp;user&nbsp;doesn't&nbsp;get&nbsp;lost&nbsp;at&nbsp;the&nbsp;beginning.&nbsp;The&nbsp;structure&nbsp;it<br>
+follows&nbsp;is&nbsp;not&nbsp;too&nbsp;complicated:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Instructions&nbsp;and&nbsp;Presets:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Quick&nbsp;guide&nbsp;for&nbsp;the&nbsp;users.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Rules:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Setting&nbsp;the&nbsp;predecessor,&nbsp;successor&nbsp;and&nbsp;probability&nbsp;for&nbsp;the&nbsp;rule&nbsp;to&nbsp;happen.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Geometric&nbsp;interpretation:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Attributes&nbsp;and&nbsp;parameters&nbsp;for&nbsp;the&nbsp;geometry.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;Warnings&nbsp;and&nbsp;helpline:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Self-explanatory.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="LS_interpreter.html">LS_interpreter</a><br>
+<a href="LS_string_rewriting.html">LS_string_rewriting</a><br>
+</td><td width="25%" valign=top><a href="globalVar.html">globalVar</a><br>
+<a href="gui.html">gui</a><br>
+</td><td width="25%" valign=top><a href="presets.html">presets</a><br>
+<a href="pydoc.html">pydoc</a><br>
+</td><td width="25%" valign=top><a href="startScript.html">startScript</a><br>
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-cleanPlantButtonAction"><strong>cleanPlantButtonAction</strong></a>(*pArgs)</dt><dd><tt>Will&nbsp;delete&nbsp;the&nbsp;last&nbsp;plant&nbsp;that&nbsp;has&nbsp;been&nbsp;generated.</tt></dd></dl>
+ <dl><dt><a name="-clearStringButtonAction"><strong>clearStringButtonAction</strong></a>(*pArgs)</dt><dd><tt>Clears&nbsp;the&nbsp;string&nbsp;field.</tt></dd></dl>
+ <dl><dt><a name="-createGeometryButtonAction"><strong>createGeometryButtonAction</strong></a>(*pArgs)</dt><dd><tt>Queries&nbsp;all&nbsp;the&nbsp;fields&nbsp;related&nbsp;to&nbsp;the&nbsp;geometry&nbsp;interpretation&nbsp;and&nbsp;calls&nbsp;the&nbsp;procedure.</tt></dd></dl>
+ <dl><dt><a name="-createUI"><strong>createUI</strong></a>()</dt></dl>
+ <dl><dt><a name="-generateStringButtonAction"><strong>generateStringButtonAction</strong></a>(*pArgs)</dt><dd><tt>Queries&nbsp;all&nbsp;the&nbsp;fields&nbsp;related&nbsp;to&nbsp;the&nbsp;string&nbsp;generation&nbsp;and&nbsp;calls&nbsp;the&nbsp;procedure.</tt></dd></dl>
+</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>__author__</strong> = 'Ramon Blanquer Ruiz'<br>
+<strong>__email__</strong> = 'ramon@ramonblanquer.com'<br>
+<strong>__status__</strong> = 'Unmaintained'<br>
+<strong>__version__</strong> = '1.0.0'</td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#7799ee">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Author</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#7799ee"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%">Ramon&nbsp;Blanquer&nbsp;Ruiz</td></tr></table>
+</body></html>

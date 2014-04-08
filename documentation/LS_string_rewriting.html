@@ -1,0 +1,99 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module LS_string_rewriting</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>LS_string_rewriting</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doc/github/LSystemsMaya/script/LS_string_rewriting.py">/home/doc/github/LSystemsMaya/script/LS_string_rewriting.py</a></font></td></tr></table>
+    <p><tt>L-System&nbsp;String&nbsp;Rewriting&nbsp;Module:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;LS_string_rewriting.py&gt;<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;will&nbsp;generate&nbsp;a&nbsp;text&nbsp;string&nbsp;which&nbsp;later&nbsp;will&nbsp;&nbsp;be&nbsp;used&nbsp;by&nbsp;the&nbsp;interpreter&nbsp;module&nbsp;to&nbsp;generate&nbsp;all&nbsp;the&nbsp;geometry<br>
+according&nbsp;to&nbsp;certain&nbsp;conventions&nbsp;(because&nbsp;L-System&nbsp;strings&nbsp;on&nbsp;their&nbsp;own&nbsp;they&nbsp;are&nbsp;nothing&nbsp;but&nbsp;a&nbsp;bunch&nbsp;of&nbsp;characters).</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="LS_interpreter.html">LS_interpreter</a><br>
+<a href="LS_string_rewriting.html">LS_string_rewriting</a><br>
+</td><td width="25%" valign=top><a href="globalVar.html">globalVar</a><br>
+<a href="gui.html">gui</a><br>
+</td><td width="25%" valign=top><a href="presets.html">presets</a><br>
+<a href="startScript.html">startScript</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-writeLS"><strong>writeLS</strong></a>(pW, pP, pDepth)</dt><dd><tt>Iterates&nbsp;through&nbsp;the&nbsp;string.&nbsp;It&nbsp;will&nbsp;create&nbsp;a&nbsp;global&nbsp;string&nbsp;variable&nbsp;called&nbsp;"result"&nbsp;which&nbsp;is&nbsp;a&nbsp;concatenation&nbsp;of<br>
+various&nbsp;character&nbsp;additions&nbsp;done&nbsp;when&nbsp;reading&nbsp;the&nbsp;Axiom&nbsp;or&nbsp;Word&nbsp;entered&nbsp;by&nbsp;the&nbsp;user&nbsp;(W)&nbsp;and&nbsp;comparing&nbsp;it&nbsp;to&nbsp;some&nbsp;rules.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pW&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Axiom,&nbsp;the&nbsp;initial&nbsp;word.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pP:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;production&nbsp;rules.&nbsp;Production&nbsp;rules&nbsp;are&nbsp;used&nbsp;to&nbsp;replace&nbsp;a&nbsp;single&nbsp;characters&nbsp;by&nbsp;another&nbsp;sequence<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;of&nbsp;them.&nbsp;For&nbsp;instance&nbsp;'F&nbsp;--&gt;&nbsp;F+F-F'&nbsp;means&nbsp;if&nbsp;you&nbsp;find&nbsp;an&nbsp;F,&nbsp;replace&nbsp;it&nbsp;by&nbsp;F+F-F.&nbsp;You&nbsp;don't&nbsp;need&nbsp;to&nbsp;know<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;meaning&nbsp;of&nbsp;the&nbsp;symbols&nbsp;yet,&nbsp;just&nbsp;get&nbsp;the&nbsp;idea.&nbsp;LSystems&nbsp;on&nbsp;their&nbsp;own&nbsp;are&nbsp;not&nbsp;more&nbsp;than&nbsp;that,&nbsp;mere&nbsp;text<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;generated&nbsp;by&nbsp;a&nbsp;set&nbsp;of&nbsp;string-replacing&nbsp;rules&nbsp;which&nbsp;iterate&nbsp;recursively.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;In&nbsp;my&nbsp;script&nbsp;they&nbsp;are&nbsp;set&nbsp;as&nbsp;a&nbsp;3-item&nbsp;tuple.&nbsp;The&nbsp;first&nbsp;one&nbsp;indicates&nbsp;the&nbsp;probability&nbsp;for&nbsp;this&nbsp;rule&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;happen&nbsp;when&nbsp;we&nbsp;have&nbsp;multiple&nbsp;identical&nbsp;predecessors.&nbsp;The&nbsp;second&nbsp;one&nbsp;is&nbsp;the&nbsp;letter&nbsp;that&nbsp;must&nbsp;be&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(called&nbsp;predecessor)&nbsp;and&nbsp;the&nbsp;third&nbsp;one,&nbsp;the&nbsp;content&nbsp;to&nbsp;be&nbsp;replaced&nbsp;with&nbsp;(or&nbsp;sucessor)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Again,&nbsp;we&nbsp;can&nbsp;have&nbsp;multiple&nbsp;rules&nbsp;which&nbsp;apply&nbsp;to&nbsp;a&nbsp;same&nbsp;letter,&nbsp;that's&nbsp;why&nbsp;we&nbsp;take&nbsp;into&nbsp;account&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;percentages&nbsp;--&gt;&nbsp;Stochastic).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;pDepth&nbsp;:&nbsp;&nbsp;Recursive&nbsp;index&nbsp;or&nbsp;number&nbsp;of&nbsp;iterations&nbsp;over&nbsp;the&nbsp;string.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;On&nbsp;Exit&nbsp;:&nbsp;Will&nbsp;return&nbsp;a&nbsp;result&nbsp;string.&nbsp;Thus&nbsp;it&nbsp;is&nbsp;recommendable&nbsp;binding&nbsp;the&nbsp;call&nbsp;to&nbsp;a&nbsp;variable.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;For&nbsp;example:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;W&nbsp;=&nbsp;'F'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;The&nbsp;initial&nbsp;word.&nbsp;It&nbsp;is&nbsp;properly&nbsp;called&nbsp;Axiom<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;P&nbsp;=&nbsp;[[100,&nbsp;'F',&nbsp;'F[+F]F[-F]F']]&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Means:&nbsp;ALWAYS&nbsp;when&nbsp;you&nbsp;find&nbsp;'F',&nbsp;replace&nbsp;it&nbsp;with&nbsp;~<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;depth&nbsp;=&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Depth&nbsp;of&nbsp;the&nbsp;procedure,&nbsp;number&nbsp;of&nbsp;iterations<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;string&nbsp;=&nbsp;<a href="#-writeLS">writeLS</a>(W,&nbsp;P,&nbsp;depth)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;Binds&nbsp;the&nbsp;return&nbsp;value&nbsp;to&nbsp;a&nbsp;variable...<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;print&nbsp;string&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;#&nbsp;...&nbsp;which&nbsp;now&nbsp;is&nbsp;printed<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F[+F]F[-F]F<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;As&nbsp;we&nbsp;have&nbsp;seen&nbsp;here&nbsp;above&nbsp;we&nbsp;started&nbsp;with&nbsp;an&nbsp;initial&nbsp;axiom&nbsp;F,&nbsp;and&nbsp;it&nbsp;has&nbsp;been&nbsp;replaced&nbsp;following&nbsp;a&nbsp;production&nbsp;rule.<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;If&nbsp;the&nbsp;depth&nbsp;increases&nbsp;we&nbsp;carry&nbsp;the&nbsp;recursion&nbsp;one&nbsp;step&nbsp;further:<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;W&nbsp;=&nbsp;'F'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;P&nbsp;=&nbsp;[100,&nbsp;'F',&nbsp;'F[+F]F[-F]F']<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;depth&nbsp;=&nbsp;2<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;string&nbsp;=&nbsp;<a href="#-writeLS">writeLS</a>(W,&nbsp;P,&nbsp;depth)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;print&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;F[+F]F[-F]F[+F[+F]F[-F]F]F[+F]F[-F]F[-F[+F]F[-F]F]F[+F]F[-F]F<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;last&nbsp;example&nbsp;would&nbsp;be&nbsp;the&nbsp;same&nbsp;as&nbsp;we&nbsp;run&nbsp;<a href="#-writeLS">writeLS</a>(variable1,&nbsp;pPNum,&nbsp;P,&nbsp;depth),&nbsp;that&nbsp;is&nbsp;to&nbsp;say,&nbsp;it&nbsp;is&nbsp;the&nbsp;same&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;running&nbsp;again&nbsp;the&nbsp;procedure&nbsp;over&nbsp;the&nbsp;generated&nbsp;string&nbsp;in&nbsp;the&nbsp;previous&nbsp;example.&nbsp;That&nbsp;is&nbsp;to&nbsp;say,&nbsp;is&nbsp;the&nbsp;same&nbsp;as<br>
+&nbsp;&nbsp;&nbsp;&nbsp;running&nbsp;the&nbsp;writeLS&nbsp;being&nbsp;the&nbsp;Axiom&nbsp;"F[+F]F[-F]F"<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;This&nbsp;script&nbsp;also&nbsp;accepts&nbsp;more&nbsp;than&nbsp;one&nbsp;rule.&nbsp;Let's&nbsp;see&nbsp;an&nbsp;example&nbsp;if&nbsp;we&nbsp;had&nbsp;2&nbsp;rules.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;W&nbsp;=&nbsp;'F+X-FF'<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;P&nbsp;=&nbsp;[[100,&nbsp;'F',&nbsp;'ff'],&nbsp;[100,&nbsp;'X',&nbsp;'xx']]<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;depth&nbsp;=&nbsp;1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;string&nbsp;=&nbsp;<a href="#-writeLS">writeLS</a>(W,&nbsp;P,&nbsp;depth)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;&nbsp;print&nbsp;string<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ff+xx-ffff<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&gt;&gt;&gt;<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;way&nbsp;I&nbsp;worked&nbsp;out&nbsp;the&nbsp;probabilities&nbsp;is&nbsp;quite&nbsp;odd.&nbsp;We&nbsp;know&nbsp;a&nbsp;rule&nbsp;is&nbsp;specified&nbsp;X&nbsp;--&gt;&nbsp;YY,&nbsp;so&nbsp;what&nbsp;I&nbsp;did&nbsp;is&nbsp;I<br>
+&nbsp;&nbsp;&nbsp;&nbsp;appended&nbsp;in&nbsp;a&nbsp;list&nbsp;the&nbsp;right&nbsp;hand&nbsp;side&nbsp;of&nbsp;the&nbsp;rule&nbsp;TIMED&nbsp;by&nbsp;the&nbsp;percentage&nbsp;number&nbsp;the&nbsp;user&nbsp;wrote.&nbsp;For&nbsp;instance&nbsp;if&nbsp;we<br>
+&nbsp;&nbsp;&nbsp;&nbsp;had&nbsp;[70,&nbsp;'X',&nbsp;'YY']&nbsp;(70%&nbsp;chance&nbsp;for&nbsp;X&nbsp;to&nbsp;be&nbsp;replaced&nbsp;with&nbsp;YY)&nbsp;and&nbsp;[30,&nbsp;'X',&nbsp;'ZZ']&nbsp;(30%&nbsp;chance&nbsp;for&nbsp;X&nbsp;to&nbsp;be&nbsp;replaced<br>
+&nbsp;&nbsp;&nbsp;&nbsp;with&nbsp;ZZ),&nbsp;I&nbsp;collect&nbsp;in&nbsp;the&nbsp;"choiceList"&nbsp;a&nbsp;bunch&nbsp;of&nbsp;'ZZ'&nbsp;items&nbsp;and&nbsp;'YY'&nbsp;items&nbsp;(I&nbsp;am&nbsp;lying,&nbsp;to&nbsp;optimize&nbsp;performance&nbsp;I<br>
+&nbsp;&nbsp;&nbsp;&nbsp;just&nbsp;store&nbsp;the&nbsp;index&nbsp;that&nbsp;point&nbsp;to&nbsp;these&nbsp;elements,&nbsp;otherwise&nbsp;we&nbsp;would&nbsp;have&nbsp;extremely&nbsp;heavy&nbsp;arrays).<br>
+&nbsp;&nbsp;&nbsp;&nbsp;In&nbsp;this&nbsp;particular&nbsp;case&nbsp;I&nbsp;would&nbsp;have&nbsp;seventy&nbsp;'YY's&nbsp;and&nbsp;thirty&nbsp;'ZZ's.&nbsp;Now&nbsp;If&nbsp;I&nbsp;pick&nbsp;an&nbsp;random&nbsp;value&nbsp;between&nbsp;0-100&nbsp;I<br>
+&nbsp;&nbsp;&nbsp;&nbsp;can&nbsp;access&nbsp;randomly&nbsp;an&nbsp;element&nbsp;in&nbsp;this&nbsp;list.&nbsp;So&nbsp;as&nbsp;we&nbsp;have&nbsp;many&nbsp;more&nbsp;'YY's&nbsp;we&nbsp;will&nbsp;have&nbsp;more&nbsp;possibility&nbsp;to&nbsp;pick<br>
+&nbsp;&nbsp;&nbsp;&nbsp;one.&nbsp;I&nbsp;will&nbsp;explain&nbsp;it&nbsp;again&nbsp;later&nbsp;so&nbsp;that&nbsp;it&nbsp;is&nbsp;clearer.&nbsp;The&nbsp;bad&nbsp;things&nbsp;of&nbsp;this&nbsp;method&nbsp;are&nbsp;two:<br>
+&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;Performancewise&nbsp;it&nbsp;takes&nbsp;quite&nbsp;a&nbsp;lot&nbsp;of&nbsp;memory.<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-&nbsp;I&nbsp;cannot&nbsp;work&nbsp;with&nbsp;floating&nbsp;point&nbsp;values&nbsp;given&nbsp;that&nbsp;array&nbsp;index&nbsp;must&nbsp;be&nbsp;integers.&nbsp;I&nbsp;could&nbsp;get&nbsp;more&nbsp;precise<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;results&nbsp;if&nbsp;I&nbsp;make&nbsp;the&nbsp;list&nbsp;instead&nbsp;of&nbsp;being&nbsp;100&nbsp;items&nbsp;long,&nbsp;1000.</tt></dd></dl>
+</td></tr></table>
+</body></html>

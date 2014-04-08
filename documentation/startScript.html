@@ -1,0 +1,96 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module startScript</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>startScript</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doc/github/LSystemsMaya/script/startScript.py">/home/doc/github/LSystemsMaya/script/startScript.py</a></font></td></tr></table>
+    <p><tt>DISCLAIMER:&nbsp;This&nbsp;startScript.py&nbsp;file&nbsp;is&nbsp;adapted&nbsp;from&nbsp;Jared&nbsp;Auty's&nbsp;scripting&nbsp;project&nbsp;"L-System&nbsp;Plant&nbsp;Generator".&nbsp;All&nbsp;the<br>
+copyrights&nbsp;belong&nbsp;to&nbsp;him,&nbsp;just&nbsp;on&nbsp;this&nbsp;file,&nbsp;of&nbsp;course.&nbsp;I&nbsp;just&nbsp;tweaked&nbsp;some&nbsp;procedures&nbsp;to&nbsp;get&nbsp;them&nbsp;working&nbsp;in&nbsp;my&nbsp;script.<br>
+&nbsp;<br>
+You&nbsp;can&nbsp;access&nbsp;his&nbsp;source&nbsp;code&nbsp;here:&nbsp;<br>
+&nbsp;<br>
+https://docs.google.com/file/d/0B75Ij6W0fkuidkxhY1ozanFzVEU/<br>
+&nbsp;<br>
+//&nbsp;<br>
+&nbsp;<br>
+Start&nbsp;Up&nbsp;Script&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;startScript.py&gt;<br>
+&nbsp;<br>
+In&nbsp;order&nbsp;to&nbsp;get&nbsp;it&nbsp;running&nbsp;easily&nbsp;I&nbsp;suggest&nbsp;following&nbsp;these&nbsp;simple&nbsp;steps:<br>
+&nbsp;<br>
+1.&nbsp;Copy&nbsp;all&nbsp;the&nbsp;text&nbsp;inside&nbsp;startScript.py&nbsp;and&nbsp;paste&nbsp;it&nbsp;to&nbsp;Maya's&nbsp;Script&nbsp;Editor,&nbsp;a&nbsp;window&nbsp;will&nbsp;pop&nbsp;up&nbsp;asking&nbsp;you&nbsp;to<br>
+&nbsp;&nbsp;&nbsp;select&nbsp;the&nbsp;folder&nbsp;which&nbsp;the&nbsp;script&nbsp;files&nbsp;are.&nbsp;Hit&nbsp;accept.<br>
+2.&nbsp;Click&nbsp;on&nbsp;the&nbsp;"Instructions"&nbsp;button&nbsp;to&nbsp;get&nbsp;started&nbsp;by&nbsp;reading&nbsp;first&nbsp;a&nbsp;quick&nbsp;guide.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="LS_interpreter.html">LS_interpreter</a><br>
+<a href="LS_string_rewriting.html">LS_string_rewriting</a><br>
+</td><td width="25%" valign=top><a href="globalVar.html">globalVar</a><br>
+<a href="gui.html">gui</a><br>
+</td><td width="25%" valign=top><a href="presets.html">presets</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ee77aa">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Classes</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#ee77aa"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl>
+<dt><font face="helvetica, arial"><a href="startScript.html#errorWindow">errorWindow</a>
+</font></dt><dt><font face="helvetica, arial"><a href="startScript.html#findPathWindow">findPathWindow</a>
+</font></dt></dl>
+ <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="errorWindow">class <strong>errorWindow</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;creates&nbsp;an&nbsp;error&nbsp;window&nbsp;that&nbsp;displays&nbsp;a&nbsp;message&nbsp;passed&nbsp;it&nbsp;at&nbsp;creation&nbsp;time.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="errorWindow-__init__"><strong>__init__</strong></a>(self, message)</dt><dd><tt>This&nbsp;function&nbsp;creates&nbsp;the&nbsp;window.&nbsp;This&nbsp;is&nbsp;run&nbsp;when&nbsp;a&nbsp;new&nbsp;instance&nbsp;of&nbsp;the&nbsp;class&nbsp;is&nbsp;created.&nbsp;When&nbsp;creating&nbsp;a&nbsp;new<br>
+instance&nbsp;a&nbsp;string&nbsp;called&nbsp;message&nbsp;is&nbsp;passed&nbsp;in,&nbsp;this&nbsp;is&nbsp;then&nbsp;displayed&nbsp;on&nbsp;the&nbsp;window.</tt></dd></dl>
+
+<dl><dt><a name="errorWindow-close"><strong>close</strong></a>(self, *args)</dt><dd><tt>This&nbsp;function&nbsp;closed&nbsp;the&nbsp;window&nbsp;and&nbsp;is&nbsp;run&nbsp;when&nbsp;the&nbsp;'OK'&nbsp;button&nbsp;is&nbsp;run</tt></dd></dl>
+
+</td></tr></table> <p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#ffc8d8">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#000000" face="helvetica, arial"><a name="findPathWindow">class <strong>findPathWindow</strong></a></font></td></tr>
+    
+<tr bgcolor="#ffc8d8"><td rowspan=2><tt>&nbsp;&nbsp;&nbsp;</tt></td>
+<td colspan=2><tt>This&nbsp;class&nbsp;is&nbsp;responsible&nbsp;for&nbsp;managing&nbsp;the&nbsp;module-fininding&nbsp;window.&nbsp;This&nbsp;window&nbsp;is&nbsp;run&nbsp;when&nbsp;the&nbsp;script&nbsp;can't&nbsp;find&nbsp;the<br>
+modules&nbsp;it&nbsp;needs.&nbsp;It&nbsp;asks&nbsp;the&nbsp;user&nbsp;to&nbsp;locate&nbsp;the&nbsp;modules.&nbsp;The&nbsp;user-inputted&nbsp;path&nbsp;is&nbsp;then&nbsp;saved&nbsp;in&nbsp;python's&nbsp;temporary<br>
+system&nbsp;paths.&nbsp;This&nbsp;means&nbsp;that&nbsp;next&nbsp;time&nbsp;it&nbsp;tries&nbsp;to&nbsp;load&nbsp;the&nbsp;modules&nbsp;it&nbsp;will&nbsp;look&nbsp;in&nbsp;the&nbsp;right&nbsp;path.<br>&nbsp;</tt></td></tr>
+<tr><td>&nbsp;</td>
+<td width="100%">Methods defined here:<br>
+<dl><dt><a name="findPathWindow-__init__"><strong>__init__</strong></a>(self)</dt><dd><tt>This&nbsp;function&nbsp;initialises&nbsp;all&nbsp;the&nbsp;needed&nbsp;values&nbsp;and&nbsp;creates&nbsp;the&nbsp;GUI.&nbsp;It&nbsp;is&nbsp;run&nbsp;automatically&nbsp;when&nbsp;a&nbsp;new&nbsp;instance<br>
+of&nbsp;the&nbsp;class&nbsp;is&nbsp;run.</tt></dd></dl>
+
+<dl><dt><a name="findPathWindow-appendPath"><strong>appendPath</strong></a>(self, *args)</dt><dd><tt>This&nbsp;function&nbsp;queries&nbsp;the&nbsp;text&nbsp;field&nbsp;and&nbsp;puts&nbsp;the&nbsp;path&nbsp;in&nbsp;the&nbsp;system&nbsp;paths.&nbsp;It&nbsp;then&nbsp;runs&nbsp;the&nbsp;'closeAll'&nbsp;function.</tt></dd></dl>
+
+<dl><dt><a name="findPathWindow-closeAll"><strong>closeAll</strong></a>(self, *args)</dt><dd><tt>This&nbsp;function&nbsp;closes&nbsp;the&nbsp;window&nbsp;and&nbsp;starts&nbsp;up&nbsp;the&nbsp;main&nbsp;GUI.&nbsp;This&nbsp;is&nbsp;run&nbsp;when&nbsp;the&nbsp;Continue&nbsp;button&nbsp;is&nbsp;pressed.</tt></dd></dl>
+
+<dl><dt><a name="findPathWindow-openFile"><strong>openFile</strong></a>(self, *args)</dt><dd><tt>This&nbsp;opens&nbsp;the&nbsp;file&nbsp;browser&nbsp;and&nbsp;takes&nbsp;the&nbsp;path&nbsp;and&nbsp;puts&nbsp;it&nbsp;in&nbsp;the&nbsp;text&nbsp;field.&nbsp;This&nbsp;is&nbsp;run&nbsp;when&nbsp;the&nbsp;Browse&nbsp;button&nbsp;is<br>
+pressed.</tt></dd></dl>
+
+</td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#55aa55">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Data</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#55aa55"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><strong>load</strong> = &lt;startScript.findPathWindow instance&gt;</td></tr></table>
+</body></html>

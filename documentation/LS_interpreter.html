@@ -1,0 +1,122 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head><title>Python: module LS_interpreter</title>
+</head><body bgcolor="#f0f0f8">
+
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="heading">
+<tr bgcolor="#7799ee">
+<td valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial">&nbsp;<br><big><big><strong>LS_interpreter</strong></big></big></font></td
+><td align=right valign=bottom
+><font color="#ffffff" face="helvetica, arial"><a href=".">index</a><br><a href="file:/home/doc/github/LSystemsMaya/script/LS_interpreter.py">/home/doc/github/LSystemsMaya/script/LS_interpreter.py</a></font></td></tr></table>
+    <p><tt>L-System&nbsp;Geometric&nbsp;Interpretation&nbsp;Module:&nbsp;&nbsp;&nbsp;&nbsp;&lt;LS_interpreter.py&gt;<br>
+&nbsp;<br>
+This&nbsp;module&nbsp;reads&nbsp;a&nbsp;string&nbsp;of&nbsp;characters&nbsp;and&nbsp;performs&nbsp;actions&nbsp;in&nbsp;function&nbsp;of&nbsp;what&nbsp;they&nbsp;are.&nbsp;This&nbsp;will&nbsp;follow&nbsp;the&nbsp;turtle<br>
+method&nbsp;as&nbsp;it's&nbsp;the&nbsp;best&nbsp;way&nbsp;to&nbsp;represent&nbsp;a&nbsp;bunch&nbsp;of&nbsp;characters&nbsp;as&nbsp;geometric&nbsp;objects,&nbsp;therefore,&nbsp;characters&nbsp;are&nbsp;treated<br>
+as&nbsp;commands.<br>
+&nbsp;<br>
+The&nbsp;turtle&nbsp;can&nbsp;be&nbsp;considered&nbsp;as&nbsp;an&nbsp;object&nbsp;or&nbsp;instance&nbsp;which&nbsp;moves&nbsp;in&nbsp;the&nbsp;three-dimensional&nbsp;space&nbsp;according&nbsp;to&nbsp;the&nbsp;<br>
+executed&nbsp;commands.&nbsp;I&nbsp;will&nbsp;write&nbsp;below&nbsp;the&nbsp;interpretation&nbsp;which&nbsp;is&nbsp;given&nbsp;to&nbsp;any&nbsp;of&nbsp;the&nbsp;possible&nbsp;characters&nbsp;we&nbsp;have<br>
+generated&nbsp;in&nbsp;the&nbsp;previous&nbsp;string&nbsp;(the&nbsp;one&nbsp;generated&nbsp;in&nbsp;the&nbsp;LS_string_rewriting&nbsp;module).<br>
+&nbsp;<br>
+&nbsp;F&nbsp;&nbsp;&nbsp;&nbsp;Move&nbsp;forward<br>
+&nbsp;f&nbsp;&nbsp;&nbsp;&nbsp;Move&nbsp;forward<br>
+&nbsp;L&nbsp;&nbsp;&nbsp;&nbsp;Leaf<br>
+&nbsp;B&nbsp;&nbsp;&nbsp;&nbsp;Blossom<br>
+&nbsp;+&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;+X&nbsp;(yaw&nbsp;right)<br>
+&nbsp;-&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;-X&nbsp;(yaw&nbsp;left)<br>
+&nbsp;^&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;+Y&nbsp;(roll&nbsp;right)<br>
+&nbsp;&amp;&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;-Y&nbsp;(roll&nbsp;left)<br>
+&nbsp;&lt;&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;+Z&nbsp;(pitch&nbsp;down)<br>
+&nbsp;&gt;&nbsp;&nbsp;&nbsp;&nbsp;Rotate&nbsp;-Z&nbsp;(pitch&nbsp;up)<br>
+&nbsp;*&nbsp;&nbsp;&nbsp;&nbsp;Turtle&nbsp;rotates&nbsp;180&nbsp;(as&nbsp;it&nbsp;was&nbsp;facing&nbsp;backwards)<br>
+&nbsp;[&nbsp;&nbsp;&nbsp;&nbsp;Push&nbsp;current&nbsp;turtle&nbsp;state&nbsp;on&nbsp;the&nbsp;stack<br>
+&nbsp;]&nbsp;&nbsp;&nbsp;&nbsp;Pop&nbsp;the&nbsp;current&nbsp;turtle&nbsp;state&nbsp;from&nbsp;the&nbsp;stack<br>
+&nbsp;<br>
+&nbsp;The&nbsp;rest&nbsp;of&nbsp;letters&nbsp;(AaCcDdEeGgHhIiJjKkMmNnOoPpQqRrSsTtUuVvXxYyZz)&nbsp;will&nbsp;be&nbsp;interpreted&nbsp;as&nbsp;move&nbsp;forward&nbsp;as&nbsp;well.<br>
+&nbsp;<br>
+The&nbsp;position&nbsp;and&nbsp;rotation&nbsp;are&nbsp;stored&nbsp;as&nbsp;parameters&nbsp;of&nbsp;the&nbsp;object&nbsp;instance,&nbsp;so&nbsp;that&nbsp;it&nbsp;is&nbsp;easily&nbsp;accessible.&nbsp;Both<br>
+position&nbsp;and&nbsp;rotation&nbsp;will&nbsp;be&nbsp;updated&nbsp;each&nbsp;time&nbsp;a&nbsp;character&nbsp;is&nbsp;read.</tt></p>
+<p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#aa55cc">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Modules</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#aa55cc"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><table width="100%" summary="list"><tr><td width="25%" valign=top><a href="LS_interpreter.html">LS_interpreter</a><br>
+<a href="LS_string_rewriting.html">LS_string_rewriting</a><br>
+</td><td width="25%" valign=top><a href="globalVar.html">globalVar</a><br>
+<a href="gui.html">gui</a><br>
+</td><td width="25%" valign=top><a href="presets.html">presets</a><br>
+<a href="startScript.html">startScript</a><br>
+</td><td width="25%" valign=top></td></tr></table></td></tr></table><p>
+<table width="100%" cellspacing=0 cellpadding=2 border=0 summary="section">
+<tr bgcolor="#eeaa77">
+<td colspan=3 valign=bottom>&nbsp;<br>
+<font color="#ffffff" face="helvetica, arial"><big><strong>Functions</strong></big></font></td></tr>
+    
+<tr><td bgcolor="#eeaa77"><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt></td><td>&nbsp;</td>
+<td width="100%"><dl><dt><a name="-applyShader"><strong>applyShader</strong></a>(geometricObj, materialType)</dt></dl>
+ <dl><dt><a name="-createBlossomShader"><strong>createBlossomShader</strong></a>(rgb_blossom)</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;shading&nbsp;network&nbsp;for&nbsp;the&nbsp;blossom&nbsp;material.<br>
+&nbsp;<br>
+rgb_branch:&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;(0-1)&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;the&nbsp;branches.<br>
+&nbsp;<br>
+On&nbsp;Exit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;Lambert&nbsp;node&nbsp;connected&nbsp;to&nbsp;a&nbsp;Shading&nbsp;Group&nbsp;which&nbsp;will&nbsp;be&nbsp;applied&nbsp;to&nbsp;the&nbsp;petals.&nbsp;Furthermore,&nbsp;two<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;non-customizable&nbsp;additional&nbsp;shaders&nbsp;will&nbsp;be&nbsp;created&nbsp;and&nbsp;applied&nbsp;to&nbsp;the&nbsp;stamen&nbsp;and&nbsp;pedicel&nbsp;of&nbsp;the&nbsp;blossom.</tt></dd></dl>
+ <dl><dt><a name="-createBranchShader"><strong>createBranchShader</strong></a>(rgb_branch)</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;shading&nbsp;network&nbsp;for&nbsp;the&nbsp;branch&nbsp;material.&nbsp;In&nbsp;the&nbsp;beginning&nbsp;I&nbsp;wanted&nbsp;to&nbsp;have&nbsp;a&nbsp;slight&nbsp;bump&nbsp;map&nbsp;on&nbsp;the<br>
+branch&nbsp;surface,&nbsp;but&nbsp;then&nbsp;I&nbsp;realised&nbsp;it&nbsp;was&nbsp;not&nbsp;visually&nbsp;pleasing,&nbsp;so&nbsp;I&nbsp;left&nbsp;it&nbsp;commented&nbsp;just&nbsp;in&nbsp;case.&nbsp;It&nbsp;was&nbsp;good<br>
+practice.<br>
+&nbsp;<br>
+rgb_branch:&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;(0-1)&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;the&nbsp;branches.<br>
+&nbsp;<br>
+On&nbsp;Exit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;Lambert&nbsp;node&nbsp;connected&nbsp;to&nbsp;a&nbsp;Shading&nbsp;Group.</tt></dd></dl>
+ <dl><dt><a name="-createGeometry"><strong>createGeometry</strong></a>(LStringVar, pRad, pStep, pAngle, subDivs, length_atenuation, radius_atenuation, turtleSpeed, rgb_branch, rgb_leaf, rgb_blossom)</dt><dd><tt>Translates&nbsp;the&nbsp;string&nbsp;into&nbsp;maya&nbsp;commands&nbsp;in&nbsp;order&nbsp;to&nbsp;generate&nbsp;the&nbsp;final&nbsp;LSystem&nbsp;plant.<br>
+&nbsp;<br>
+LStringVar&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;L-System-generated&nbsp;string&nbsp;which&nbsp;will&nbsp;be&nbsp;interpreted&nbsp;by&nbsp;the&nbsp;turtle.<br>
+pRad&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;radius&nbsp;of&nbsp;the&nbsp;segments&nbsp;left&nbsp;by&nbsp;each&nbsp;turtle's&nbsp;step.<br>
+pStep&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;length&nbsp;of&nbsp;the&nbsp;segments&nbsp;left&nbsp;by&nbsp;each&nbsp;turtle's&nbsp;step.<br>
+pAngle&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;The&nbsp;turtle&nbsp;will&nbsp;yaw,&nbsp;roll&nbsp;or&nbsp;pitch&nbsp;by&nbsp;this&nbsp;angular&nbsp;amount&nbsp;each&nbsp;time&nbsp;it&nbsp;finds&nbsp;its&nbsp;corresponding&nbsp;&nbsp;symbol.<br>
+subDivs&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;subdivisions&nbsp;for&nbsp;each&nbsp;segment&nbsp;(or&nbsp;step).<br>
+length_atenuation&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Next's&nbsp;segment's&nbsp;length&nbsp;will&nbsp;be&nbsp;'this&nbsp;value'&nbsp;percent&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;But&nbsp;if&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segment&nbsp;is&nbsp;located&nbsp;in&nbsp;the&nbsp;same&nbsp;branch&nbsp;level&nbsp;as&nbsp;the&nbsp;previous&nbsp;one&nbsp;it&nbsp;will&nbsp;have&nbsp;the&nbsp;dimensions&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;previous&nbsp;one.&nbsp;This&nbsp;scales&nbsp;depending&nbsp;on&nbsp;which&nbsp;branch&nbsp;level&nbsp;you&nbsp;are.<br>
+radius_atenuation&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;Next's&nbsp;segment's&nbsp;radius&nbsp;will&nbsp;be&nbsp;'this&nbsp;value'&nbsp;percent&nbsp;the&nbsp;radius&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;But&nbsp;if&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;segment&nbsp;is&nbsp;located&nbsp;in&nbsp;the&nbsp;same&nbsp;branch&nbsp;level&nbsp;as&nbsp;the&nbsp;previous&nbsp;one&nbsp;it&nbsp;will&nbsp;have&nbsp;the&nbsp;dimensions&nbsp;of<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;previous&nbsp;one.&nbsp;This&nbsp;scales&nbsp;depending&nbsp;on&nbsp;which&nbsp;branch&nbsp;level&nbsp;you&nbsp;are.<br>
+turtleSpeed&nbsp;:&nbsp;&nbsp;&nbsp;(in&nbsp;seconds)&nbsp;Is&nbsp;the&nbsp;time&nbsp;Maya&nbsp;will&nbsp;wait&nbsp;until&nbsp;placing&nbsp;the&nbsp;next&nbsp;segment.<br>
+rgb_branch&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;the&nbsp;branches.<br>
+rgb_leaf&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;the&nbsp;leaves.<br>
+rgb_blossom&nbsp;:&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;blossoms.<br>
+&nbsp;<br>
+On&nbsp;Exit&nbsp;:&nbsp;&nbsp;Creates&nbsp;the&nbsp;geometry.&nbsp;Everything&nbsp;will&nbsp;be&nbsp;collected&nbsp;and&nbsp;parented&nbsp;to&nbsp;a&nbsp;group&nbsp;which&nbsp;will&nbsp;have&nbsp;the&nbsp;plant&nbsp;unique<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;name&nbsp;with&nbsp;its&nbsp;number.</tt></dd></dl>
+ <dl><dt><a name="-createLeafShader"><strong>createLeafShader</strong></a>(rgb_leaf)</dt><dd><tt>It&nbsp;creates&nbsp;a&nbsp;shading&nbsp;network&nbsp;for&nbsp;the&nbsp;leaf&nbsp;material.<br>
+&nbsp;<br>
+rgb_branch:&nbsp;&nbsp;&nbsp;RGB&nbsp;values&nbsp;(0-1)&nbsp;for&nbsp;the&nbsp;diffuse&nbsp;colour&nbsp;of&nbsp;the&nbsp;branches.<br>
+&nbsp;<br>
+On&nbsp;Exit:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Creates&nbsp;a&nbsp;Lambert&nbsp;node&nbsp;connected&nbsp;to&nbsp;a&nbsp;Shading&nbsp;Group.</tt></dd></dl>
+ <dl><dt><a name="-makeSegment"><strong>makeSegment</strong></a>(pRad, pStep, posX, posY, posZ, rotX, rotY, rotZ, subDivs, indexBranch, length_atenuation, radius_atenuation, rgb_branch, segmentNum)</dt><dd><tt>Creates&nbsp;a&nbsp;step,&nbsp;a&nbsp;cylinder,&nbsp;representing&nbsp;a&nbsp;brach&nbsp;segment&nbsp;of&nbsp;the&nbsp;actual&nbsp;L-System.<br>
+&nbsp;<br>
+pRad&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;Axiom,&nbsp;the&nbsp;initial&nbsp;state.<br>
+pStep&nbsp;:&nbsp;&nbsp;&nbsp;Production&nbsp;rules,&nbsp;set&nbsp;as&nbsp;a&nbsp;2-item&nbsp;tuple.&nbsp;The&nbsp;first&nbsp;one&nbsp;indicates&nbsp;the&nbsp;condition&nbsp;and&nbsp;the&nbsp;second&nbsp;one&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;value&nbsp;the&nbsp;first&nbsp;item&nbsp;should&nbsp;be&nbsp;replaced&nbsp;with.<br>
+posX&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;X-position&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+posY&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;Y-position&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+posZ&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;Z-position&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+rotX&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;X-rotation&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+rotY&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;X-rotation&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+rotZ&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;X-rotation&nbsp;we&nbsp;want&nbsp;the&nbsp;cylinder's&nbsp;origin&nbsp;to&nbsp;be.<br>
+subDivs&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;subdivisions&nbsp;for&nbsp;each&nbsp;segment&nbsp;(or&nbsp;step).<br>
+indexBranch&nbsp;:&nbsp;&nbsp;&nbsp;&nbsp;Keeps&nbsp;track&nbsp;of&nbsp;the&nbsp;level&nbsp;this&nbsp;segment&nbsp;lays&nbsp;on.&nbsp;Very&nbsp;useful&nbsp;for&nbsp;the&nbsp;atenuation&nbsp;prameters.<br>
+length_atenuation:&nbsp;&nbsp;&nbsp;&nbsp;Next's&nbsp;segment's&nbsp;length&nbsp;will&nbsp;be&nbsp;'this&nbsp;value'&nbsp;percent&nbsp;the&nbsp;length&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;But&nbsp;if<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;segment&nbsp;is&nbsp;located&nbsp;in&nbsp;the&nbsp;same&nbsp;branch&nbsp;level&nbsp;as&nbsp;the&nbsp;previous&nbsp;one&nbsp;it&nbsp;will&nbsp;have&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dimensions&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;This&nbsp;scales&nbsp;depending&nbsp;on&nbsp;which&nbsp;branch&nbsp;level&nbsp;you&nbsp;are.<br>
+radius_atenuation:&nbsp;&nbsp;&nbsp;&nbsp;Next's&nbsp;segment's&nbsp;radius&nbsp;will&nbsp;be&nbsp;'this&nbsp;value'&nbsp;percent&nbsp;the&nbsp;radius&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;But&nbsp;if&nbsp;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;the&nbsp;segment&nbsp;is&nbsp;located&nbsp;in&nbsp;the&nbsp;same&nbsp;branch&nbsp;level&nbsp;as&nbsp;the&nbsp;previous&nbsp;one&nbsp;it&nbsp;will&nbsp;have&nbsp;the<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;dimensions&nbsp;of&nbsp;the&nbsp;previous&nbsp;one.&nbsp;This&nbsp;scales&nbsp;depending&nbsp;on&nbsp;which&nbsp;branch&nbsp;level&nbsp;you&nbsp;are.<br>
+rgb_branch:&nbsp;&nbsp;&nbsp;&nbsp;Colour&nbsp;information&nbsp;which&nbsp;will&nbsp;be&nbsp;applied&nbsp;to&nbsp;a&nbsp;material&nbsp;that&nbsp;will&nbsp;shade&nbsp;the&nbsp;branches.<br>
+&nbsp;<br>
+On&nbsp;Exit&nbsp;:&nbsp;It&nbsp;will&nbsp;have&nbsp;created&nbsp;the&nbsp;geometry&nbsp;AND&nbsp;IT&nbsp;RETURNS&nbsp;THE&nbsp;POSITION&nbsp;OF&nbsp;THE&nbsp;LAST&nbsp;VERTEX.</tt></dd></dl>
+</td></tr></table>
+</body></html>
