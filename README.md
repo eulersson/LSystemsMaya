@@ -101,7 +101,7 @@ folder. Follow the help tips, and instructions of my script, you might need to p
 
 ###Examples
 ![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example.png)
-This is a quick generation using 3 different presets.
+This is a quick generation using 3 different presets. It's more a general overview. Now I will comment some nice results I got. Major part of them are included in the preset buttons in the UI, try to mess around with them.
 
 ![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example_preset1.png)
 The first preset uses this L-System:
