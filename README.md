@@ -5,7 +5,7 @@ Basic L-System rewriting with geometric interpretation in Maya.
 
 ##Installation
 First of all, if you are not familiarized with git and you don't know how the cloning stuff works, just keep it simple: Download all this project as a ZIP file (button on right side of the screen). Then, once you have extracted all the contents on your Desktop or wherever you want...
-* Uncompress the ZIP (unzip da zip ♫♪ dabudabababa) file you just downloaded
+* Uncompress the ZIP file you just downloaded
 * Open `startScript.py` with Notepad or your favourite text editor
 * Copy all the content from it.
 * Paste it to the Script Editor in Maya
@@ -23,7 +23,7 @@ An L-system or is a parallel rewriting system and a type of formal grammar. An L
 
 *My turn now...* L-Systems consist on rewriting over a string of characters considering a bunch of rules. For instance you can start with an initial word, for instance `F` (this is formally called **Axiom**), then you have some rewriting rules that tell to replace this `F` by something a little bit more complex, for instance let's says replace `F` with `XF`.
 
-If you apply this rule for each character of the word you would get `XF`, right? Because you iterated over the initial word. So what if we want to iterate again over this string we got? We could! Because we still have the rule `F --> XF`, so if we run the rewriting system first of all we would come across an `X`, mmm.. we don't have any specific rule for it... Well, nevermind, keep going. Next character is `F`, cool we have a rule for it, it says that we have to replace it with `X**F**`, go on. *(We rewrite)* Now we get `X**XF**`.
+If you apply this rule for each character of the word you would get `XF`, right? Because you iterated over the initial word. So what if we want to iterate again over this string we got? We could! Because we still have the rule `F --> XF`, so if we run the rewriting system first of all we would come across an `X`, mmm.. we don't have any specific rule for it... Well, nevermind, keep going. Next character is `F`, cool we have a rule for it, it says that we have to replace it with `XF`, go on. *(We rewrite)* Now we get `XXF`.
 
 We could carry on with this, we did 2 iterations over the string in this example, so the **Depth** would be two (now you know what the depth parameter in my script is). You could expand the rules, you could have some rules for `X` as well. We could even have another rule that said `F --> GG` that could live with the previous one `F --> XF`. *Wait, wait! If you have rules that react to the same character (formally called **predecessor**), how can you chose which one to apply?* It's simple, with **percentages**, with probability. And L-System which implements probability is called a Stochastic L-System. That's cool, isn't it?
 
