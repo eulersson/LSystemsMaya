@@ -5,7 +5,7 @@ Basic L-System rewriting with geometric interpretation in Maya.
 
 ##Installation
 First of all, if you are not familiarized with git and you don't know how the cloning stuff works, just keep it simple: Download all this project as a ZIP file (button on right side of the screen). Then, once you have extracted all the contents on your Desktop or wherever you want...
-* Uncompress the ZIP (unzip da zip ♫♪ dabudabababa) file you just downloaded
+* Uncompress the ZIP file you just downloaded
 * Open `startScript.py` with Notepad or your favourite text editor
 * Copy all the content from it.
 * Paste it to the Script Editor in Maya
