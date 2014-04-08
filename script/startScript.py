@@ -19,7 +19,6 @@ In order to get it running easily I suggest following these simple steps:
 """
 
 import maya.cmds as cmds
-import pydoc
 class findPathWindow:
     """
     This class is responsible for managing the module-fininding window. This window is run when the script can't find the
@@ -75,9 +74,22 @@ class findPathWindow:
         This function closes the window and starts up the main GUI. This is run when the Continue button is pressed.
         """
         cmds.deleteUI( self.loadDirWin, window=True ) # Close window
+        import random
+        import math
+        import copy
+        import LS_string_rewriting
+        reload(LS_string_rewriting)
+        import LS_interpreter
+        reload(LS_interpreter)
+        import gui
+        reload(gui)
+        import globalVar
+        reload(globalVar)
+        globalVar.plantNumber = 0
+        import presets
+        reload(presets)
         import gui
         gui.createUI() # Start UI
-
 
 class errorWindow:
     """
@@ -109,26 +121,7 @@ try: # If a gui is already open close it
 except:
     pass
 
-try: # Try to import all the modules and then start the UI
-    import maya.cmds as cmds
-    import random
-    import math
-    import copy
-    import LS_string_rewriting
-    reload(LS_string_rewriting)
-    import LS_interpreter
-    reload(LS_interpreter)
-    from LS_interpreter import *
-    import gui
-    reload(gui)
-    import globalVar
-    reload(globalVar)
-    globalVar.plantNumber = 0
-    import presets
-    reload(presets)
-    gui.createUI()
-
-except: # If the above fails create an instance of the findPathWindow to try to find the modules
-    import sys
-    load = findPathWindow()
-    cmds.showWindow(load.loadDirWin)
+import maya.cmds as cmds
+import sys
+load = findPathWindow()
+cmds.showWindow(load.loadDirWin)
