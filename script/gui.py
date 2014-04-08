@@ -14,6 +14,7 @@
 """
 
 import maya.cmds as cmds
+import pydoc
 from LS_string_rewriting import *
 from LS_interpreter import *
 

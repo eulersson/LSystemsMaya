@@ -7,6 +7,7 @@
     sites such as Hung-Wen Chen's one (http://www.nbb.cornell.edu/neurobio/land/OldStudentProjects/cs490-94to95/hwchen/), I
     tweaked some of them to get more interesting results, and now it looks better.
 '''
+import pydoc
 
 class preset1:
     def __init__(*args):

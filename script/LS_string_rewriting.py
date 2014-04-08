@@ -6,6 +6,8 @@
     according to certain conventions (because L-System strings on their own they are nothing but a bunch of characters).
 
 '''
+import maya.cmds as cmds
+import pydoc
 import random
 import LS_interpreter
 reload(LS_interpreter)

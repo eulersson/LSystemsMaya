@@ -19,6 +19,7 @@ In order to get it running easily I suggest following these simple steps:
 """
 
 import maya.cmds as cmds
+import pydoc
 class findPathWindow:
     """
     This class is responsible for managing the module-fininding window. This window is run when the script can't find the

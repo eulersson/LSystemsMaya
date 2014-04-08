@@ -30,6 +30,7 @@
     position and rotation will be updated each time a character is read. 
 """
 import maya.cmds as cmds
+import pydoc
 import random
 import math
 import copy
