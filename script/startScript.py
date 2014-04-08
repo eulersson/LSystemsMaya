@@ -118,6 +118,7 @@ try: # Try to import all the modules and then start the UI
     reload(LS_string_rewriting)
     import LS_interpreter
     reload(LS_interpreter)
+    from LS_interpreter import *
     import gui
     reload(gui)
     import globalVar
