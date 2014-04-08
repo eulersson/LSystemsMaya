@@ -33,7 +33,7 @@ def createUI():
     mainLayout = cmds.columnLayout( w=450, h=650 )
     import os
     pathVar = os.path.dirname(__file__) # This stores the current working directory
-    imagePath = pathVar+"icons/banner.png" # I designed a nice header for it
+    imagePath = pathVar+"banner.png" # I designed a nice header for it
     cmds.image( w=450, h=160, image=imagePath )
 
     #--- MAIN FRAME LAYOUT ---#
