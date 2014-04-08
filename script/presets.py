@@ -176,7 +176,7 @@ class preset4:
 
         cmds.intField( "prodRuleProb1", e=True, v=100 )
         cmds.textField( "prodRulePred1", e=True, tx='F' )
-        cmds.textField("prodRuleSucc1", e=True, tx='F++R[&X[>+XL]]++++R--F----FF--R++')
+        cmds.textField("prodRuleSucc1", e=True, tx='F+R++R-F--FF-R+')
 
         cmds.checkBox( "prodRuleCheckBox2", e=True, value=True )
         cmds.intField( "prodRuleProb2", e=True, v=100 )
@@ -186,7 +186,7 @@ class preset4:
         cmds.textField( "prodRulePred2", e=True, tx='R' )
         cmds.text( "prodRule2Text_B", edit=True, en=True )
         cmds.textField("prodRuleSucc2", e=True, en=True)
-        cmds.textField("prodRuleSucc2", e=True, tx='--F++R[&X[&>+X][^<X-XB]XL]R++++R++F----F--R')
+        cmds.textField("prodRuleSucc2", e=True, tx='-F+RR++R+F--F-R')
 
         cmds.checkBox( "prodRuleCheckBox3", e=True, value=False )
         cmds.intField( "prodRuleProb3", e=True, v=0 )
@@ -210,13 +210,13 @@ class preset4:
 
         cmds.textField( "output", e=True, tx='Press Generate String, please.' )
         cmds.textField( "warningsTextField", e=True, tx='Preset loaded, generate the LSystem String, please.' )
-        cmds.floatSliderGrp( "angle", e=True, v=30)
+        cmds.floatSliderGrp( "angle", e=True, v=60)
         cmds.floatSliderGrp( "length", e=True, v=2)
         cmds.floatSliderGrp("radius", e=True, v=0.39)
         cmds.intSliderGrp( "cylSubdivs", e=True, v=8)
         cmds.intSliderGrp( "length_atenuation", e=True, v=77 )
         cmds.intSliderGrp( "radius_atenuation", e=True, v=80 )
         cmds.floatSliderGrp("turtleSpeed", e=True, v=0)
-        cmds.colorSliderGrp( 'rgb_branchField', e=True, rgb=(0.753,0.559,0.300) )
-        cmds.colorSliderGrp( 'rgb_leafField', e=True, rgb=(1.0,0.747,0) )
-        cmds.colorSliderGrp( 'rgb_blossomField', e=True, rgb=(0.730,0,1.0) )
+        cmds.colorSliderGrp( 'rgb_branchField', e=True, rgb=(1.0,1.0,1.0) )
+        cmds.colorSliderGrp( 'rgb_leafField', e=True, rgb=(0,0,0) )
+        cmds.colorSliderGrp( 'rgb_blossomField', e=True, rgb=(0,0,0) )
