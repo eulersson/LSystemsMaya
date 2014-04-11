@@ -355,7 +355,6 @@ def createGeometryButtonAction(*pArgs):
         reload(globalVar)
         globalVar.plantNumber += 1
         cmds.textField('warningsTextField', edit=True, tx='None.')
-        print "CACACACAAAAAAAAAAAAAAAAAAAAAA"
         createBranchShader(rgb_branch)
         createLeafShader(rgb_leaf)
         createBlossomShader(rgb_blossom)
