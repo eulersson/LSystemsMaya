@@ -106,6 +106,6 @@ The Gosper curve is quite famous as well. It's L-System is:
 
 It's normal if you didn't understand exactly what I explained in this readme file, I would recommend you to find a proper explanation of the L-System concept, because it is so interesting! You can even apply L-Systems to music!
 
-Any questions please drop me an email to *ramon@ramonblanquer.com*, thanks for taking your time reading, and apologies for my crappy English. Love.
+Any questions please drop me an email to *hello@ramonblanquer.com*, thanks for taking your time reading, and apologies for my crappy English. Love.
 
 *Ramon Blanquer (NCCA) ©*
