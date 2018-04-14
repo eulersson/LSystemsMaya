@@ -3,7 +3,7 @@ LSystemsMaya
 
 Basic L-System rewriting with geometric interpretation in Maya.
 
-##Installation
+## Installation
 First of all, if you are not familiarized with git and you don't know how the cloning stuff works, just keep it simple:
 Download all this project as a ZIP file (button on right side of the screen). Then, once you have extracted all the contents on your Desktop or wherever you want..
 * Uncompress the ZIP file you just downloaded
@@ -16,7 +16,7 @@ Download all this project as a ZIP file (button on right side of the screen). Th
 
 This method for including the pointed folder as a sys.path for maya to access the files has been adapted from Jared Auty's wonderful scripting project, which you can download here  http://bit.ly/1kDUXhj
 
-##Usage
+## Usage
 I built up the UI considering standard users. **There's a Help Line**, there's an **Instructions Button**, and so on, I recommend paying attention to them. What I could do is talk a little bit about L-Systems for those ones who don't know what
 they are. I will attach a diagram that shows how all the modules are connected:
 ![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/Diagram.png)
@@ -65,7 +65,7 @@ Then we could say that each step or "F" is a segment of *Length* 2, *Radius* 0.5
 
 Furthermore I added some fancy features such as customizing the *colour for the branches, for the leaves, and blossoms*. And this is pretty much all. You can find all the procedures and modules documented in an **HTML file** inside the documentation folder. Follow the help tips, and instructions of my script, you might need to practise in order to understand better!
 
-###Examples
+### Examples
 ![](https://raw.githubusercontent.com/docwhite/LSystemsMaya/master/examples/example.png)
 This is a quick generation using 3 different presets. It's more a general overview. Now I will comment some nice results I got. Major part of them are included in the preset buttons in the UI, try to mess around with them.
 
@@ -106,6 +106,7 @@ The Gosper curve is quite famous as well. It's L-System is:
 
 It's normal if you didn't understand exactly what I explained in this readme file, I would recommend you to find a proper explanation of the L-System concept, because it is so interesting! You can even apply L-Systems to music!
 
-Any questions please drop me an email to *hello@ramonblanquer.com*, thanks for taking your time reading, and apologies for my crappy English. Love.
+Any questions please drop me an email to *blanquer.ramon@gmail.com*, thanks for taking your time reading.
+Love.
 
 *Ramon Blanquer (NCCA) ©*
